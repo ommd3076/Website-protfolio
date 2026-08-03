@@ -1,0 +1,784 @@
+Tabs
+
+
+A component for toggling between related panels on the same page.
+
+Made by imskyleen
+Edit on GitHub
+Copy Markdown
+Open
+Preview
+Code
+demo-components-base-tabs.tsx
+
+import {
+  Tabs,
+  TabsPanel,
+  TabsPanels,
+  TabsList,
+  TabsTab,
+} from '@/components/animate-ui/components/base/tabs';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+
+export function BaseTabsDemo() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-6">
+      <Tabs defaultValue="account">
+        <TabsList>
+          <TabsTab value="account">Account</TabsTab>
+          <TabsTab value="password">Password</TabsTab>
+        </TabsList>
+        <Card className="shadow-none py-0">
+          <TabsPanels className="py-6">
+            <TabsPanel value="account" className="flex flex-col gap-6">
+              <CardHeader>
+                <CardTitle>Account</CardTitle>
+                <CardDescription>
+                  Make changes to your account here. Click save when you&apos;re
+                  done.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="grid gap-6">
+                <div className="grid gap-3">
+                  <Label htmlFor="tabs-demo-name">Name</Label>
+                  <Input id="tabs-demo-name" defaultValue="Pedro Duarte" />
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button>Save changes</Button>
+              </CardFooter>
+            </TabsPanel>
+            <TabsPanel value="password" className="flex flex-col gap-6">
+              <CardHeader>
+                <CardTitle>Password</CardTitle>
+                <CardDescription>
+                  Change your password here. After saving, you&apos;ll be logged
+                  out.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="grid gap-6">
+                <div className="grid gap-3">
+                  <Label htmlFor="tabs-demo-current">Current password</Label>
+                  <Input id="tabs-demo-current" type="password" />
+                </div>
+                <div className="grid gap-3">
+                  <Label htmlFor="tabs-demo-new">New password</Label>
+                  <Input id="tabs-demo-new" type="password" />
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button>Save password</Button>
+              </CardFooter>
+            </TabsPanel>
+          </TabsPanels>
+        </Card>
+      </Tabs>
+    </div>
+  );
+}
+Installation
+CLI
+Manual
+npm
+pnpm
+yarn
+bun
+
+npx shadcn@latest add @animate-ui/components-base-tabs
+Usage
+
+<Tabs>
+  <TabsList>
+    <TabsTab value="account">Account</TabsTab>
+    <TabsTab value="password">Password</TabsTab>
+  </TabsList>
+  <TabsPanels>
+    <TabsPanel value="account">Make changes to your account here.</TabsPanel>
+    <TabsPanel value="password">Change your password here.</TabsPanel>
+  </TabsPanels>
+</Tabs>
+API Reference
+Tabs
+Animate UI API Reference - Tabs Primitive
+Base UI API Reference - Tabs.Root
+TabsList
+Animate UI API Reference - TabsList Primitive
+Base UI API Reference - Tabs.List
+TabsTab
+Animate UI API Reference - TabsTab Primitive
+Base UI API Reference - Tabs.Tab
+TabsPanels
+Animate UI API Reference - TabsPanels Primitive
+Animate UI API Reference - AutoHeight
+Prop	Type	Default
+mode?
+
+"auto-height" | "layout"
+"auto-height"
+transition?
+
+Transition
+{ type: "spring", stiffness: 200, damping: 25 }
+TabsPanel
+Animate UI API Reference - TabsPanel Primitive
+Base UI API Reference - Tabs.Panel
+Prop	Type	Default
+transition?
+
+Transition
+{ duration: 0.5, ease: "easeInOut" }
+...props?
+
+HTMLMotionProps<"div">
+-
+Credits
+Base UI Tabs
+Credit to shadcn/ui for style inspiration.
+Built by Skyleen. The source code is available on GitHub.
+
+
+
+
+
+GitHub Stars Button
+
+
+A clickable button that links to a GitHub repository and displays the number of stars.
+
+Made by imskyleen
+Edit on GitHub
+Copy Markdown
+Open
+Preview
+Code
+Open in
+
+
+
+0123456789
+0123456789
+0123456789
+0123456789
+Installation
+CLI
+Manual
+npm
+pnpm
+yarn
+bun
+
+npx shadcn@latest add @animate-ui/components-buttons-github-stars
+Usage
+
+<GitHubStarsButton username="imskyleen" repo="animate-ui" />
+API Reference
+GitHubStarsButton
+Animate UI API Reference - Button Primitive
+Prop	Type	Default
+content
+
+string
+-
+copied?
+
+boolean
+-
+onCopiedChange?
+
+(copied: boolean, content?: string) => void
+-
+delay?
+
+number
+3000
+variant?
+
+"default" | "accent" | "outline" | "ghost"
+default
+size?
+
+"default" | "sm" | "lg"
+default
+hoverScale?
+
+number
+1.05
+tapScale?
+
+number
+0.95
+...props?
+
+HTMLMotionProps<"button">
+-
+Credits
+Credit to shadcn/ui for style inspiration.
+Built by Skyleen. The source code is available on GitHub.
+
+
+
+
+
+
+Bubble Background
+
+
+An interactive background featuring smoothly animated gradient bubbles, creating a playful, dynamic, and visually engaging backdrop.
+
+Made by imskyleen
+Edit on GitHub
+Copy Markdown
+Open
+Preview
+Code
+Open in
+
+
+Installation
+CLI
+Manual
+npm
+pnpm
+yarn
+bun
+
+npx shadcn@latest add @animate-ui/components-backgrounds-bubble
+Usage
+
+<BubbleBackground />
+API Reference
+BubbleBackground
+Prop	Type	Default
+interactive?
+
+boolean
+false
+transition?
+
+SpringOptions
+{ stiffness: 100, damping: 20 }
+colors?
+
+BubbleColors
+{ first: "18,113,255", second: "221,74,255", third: "0,220,255", fourth: "200,50,50", fifth: "180,180,50", sixth: "140,100,255" }
+...props?
+
+React.ComponentProps<"div">
+-
+Credits
+Credits to GlitchWorker for the inspiration
+Built by Skyleen. The source code is available on GitHub.
+
+
+
+
+# Playful Todolist
+URL: /docs/components/community/playful-todolist
+
+***
+
+title: Playful Todolist
+description: A playful todolist component with animated wavy strikethroughs for each completed task.
+author:
+name: arhamkhnz
+url: [https://github.com/arhamkhnz](https://github.com/arhamkhnz)
+-----------------------------------------------------------------
+
+<ComponentPreview name="demo-components-community-playful-todolist" />
+
+## Installation
+
+<ComponentInstallation name="components-community-playful-todolist" />
+
+## Usage
+
+```tsx
+<PlayfulTodolist />
+```
+
+## Credits
+
+* Credits to [A. Hassan](https://x.com/azhassan_) for [this X post](https://x.com/azhassan_/status/1927027648066207791) as inspiration
+
+
+
+
+
+
+Magnetic Carousel
+
+Base
+
+6,273
+Used by 839
+
+Copy
+
+
+Suggest Improvements
+Magnetic Carousel
+Magnify a row of image bars macOS dock style as the cursor nears, then click any bar to expand it into a large square.
+
+KEY FEATURES
+
+— macOS dock-style proximity magnification of image bars
+— Smoothstep distance falloff so neighbors taper by cursor distance
+— Continuous JS easing loop for smooth cursor tracking
+— Click a bar to expand it into a large adjustable square
+— Backdrop click or re-click to collapse the open bar
+— Blur and dim inactive bars while one is open
+— Adjustable magnify range controlling proximity influence
+— Separate collapsed and hover width and height sizing
+— Configurable gap between bars
+— Framer transition control for open, close, and blur
+API Reference
+All props map directly to the controls panel sliders and color pickers.
+
+LAYOUT
+
+PROP
+TYPE
+DEFAULT
+DESCRIPTION
+images
+array
+List of images whose sources fill each bar in the row.
+collapsedWidth
+number
+100
+Resting width of each bar in pixels before magnifying.
+hoverWidth
+number
+200
+Max width a bar reaches when the cursor is right over it.
+collapsedHeight
+number
+340
+Resting height of each bar in pixels before magnifying.
+hoverHeight
+number
+400
+Max height a bar reaches when the cursor is right over it.
+openSize
+number
+600
+Width and height of a bar once clicked open into a square.
+gap
+number
+16
+Spacing in pixels between adjacent bars in the row.
+influence
+number
+200
+Cursor distance in pixels over which bars magnify; higher widens the effect.
+blur
+number
+2
+Blur in pixels applied to the other bars when one is open.
+transition
+transition
+Timing and easing of the open, close, and blur animations.
+
+Base
+
+
+
+
+
+Content
+
+7 Items
+Bar Width
+(px)
+
+10
+Hover Width
+(px)
+
+200
+Bar Height
+(px)
+
+340
+Hover Height
+(px)
+
+400
+Open Size
+(px)
+
+500
+Gap
+(px)
+
+44
+Magnify Range
+(px)
+
+50
+Blur
+(px)
+
+2
+Transition
+
+Ease · Ease In Out
+
+
+
+Hover Image Reveal
+
+Base
+
+4,652
+Used by 654
+
+Copy
+
+NEW SEASON DROPESSENTIAL COLLECTIONSUMMER EDITIONSTREET ICONSPREMIUM DENIM
+NEW SEASON DROP
+NEW SEASON DROP
+ESSENTIAL COLLECTION
+ESSENTIAL COLLECTION
+SUMMER EDITION
+SUMMER EDITION
+STREET ICONS
+STREET ICONS
+PREMIUM DENIM
+PREMIUM DENIM
+
+Suggest Improvements
+Hover Image Reveal
+A hoverable name list that reveals a cursor-following image for each item as you move through the menu.
+
+KEY FEATURES
+
+— Cursor-following image window with spring-smoothed motion
+— Vertical image reel that slides directionally between rows
+— Up to 6 text+image+link items via a nested Items modal
+— Independent active/dimmed text colors with rollover hover animation
+— Adjustable image size, corner radius, and cursor offset
+— Configurable spring or tween transition for all motion
+API Reference
+All props map directly to the controls panel sliders and color pickers.
+
+LAYOUT
+
+PROP
+TYPE
+DEFAULT
+DESCRIPTION
+items
+object
+Add up to 6 rows, each with its own label, image, and optional link.
+font
+font
+Sets the typeface, size, weight, and spacing for the row labels.
+textColor
+color
+#FFFFFF
+Text color for the row currently being hovered.
+dimColor
+color
+#51565A
+Text color for rows that aren't hovered, once a row is active.
+align
+enum
+center
+Aligns the text rows and image window left, center, or right.
+rowGap
+number
+30
+Vertical spacing between each text row.
+imageWidth
+number
+300
+Width of the floating image window in pixels.
+imageHeight
+number
+400
+Height of the floating image window in pixels.
+rounded
+number
+16
+Corner radius of the floating image window.
+offsetX
+number
+200
+Horizontal distance between the cursor and the image window.
+offsetY
+number
+0
+Vertical distance between the cursor and the image window.
+followStrength
+number
+0
+Controls how snappily the image window follows the cursor; higher is snappier.
+transition
+transition
+Motion curve used for the image fade, reel slide, and text rollover.
+backgroundColor
+color
+#000000
+Background color behind the entire component.
+
+Base
+
+
+
+
+
+Items
+
+5 · Item 1 · Item 2
+Font
+
+Inter · Regular · 61
+Active
+
+#FFFFFF
+Dimmed
+
+#51565A
+Align
+
+Center
+Row Gap
+(px)
+
+30
+Img Width
+(px)
+
+300
+Img Height
+(px)
+
+400
+Radius
+(px)
+
+16
+Offset X
+(px)
+
+200
+Offset Y
+(px)
+
+0
+Follow
+
+0
+Transition
+
+Spring · 400
+Background
+
+#000000
+Reset All Settings
+
+
+
+
+
+
+
+Spotlight Text
+
+Base
+
+2,700
+Used by 334
+
+Copy
+
+
+Suggest Improvements
+Spotlight Text
+Dim a block of text and sweep a soft cursor-following spotlight across it to reveal the bright letters underneath on hover.
+
+KEY FEATURES
+
+— Cursor-following radial spotlight that reveals bright text on hover
+— Adjustable spotlight radius from 20 to 700 px
+— Separate bright and dim colors for the two text layers
+— Intensity control sizes the solid core before the soft edge fade
+— Custom open and close timing via the transition control
+— Editable text with full font styling for family, size, weight, spacing, and alignment
+— Hides the native cursor for an immersive torch-in-the-dark feel
+— Static and reduced-motion fallback shows a centered, always-on spotlight
+API Reference
+All props map directly to the controls panel sliders and color pickers.
+
+LAYOUT
+
+PROP
+TYPE
+DEFAULT
+DESCRIPTION
+text
+string
+Not everything is meant to be seen at once. Hover to reveal.
+The words displayed, shown dim and revealed bright under the hover spotlight.
+font
+font
+Font family, weight, size, line height, letter spacing, and alignment of the text.
+brightColor
+color
+#FFFFFF
+Color of the revealed text shown inside the cursor spotlight.
+dimColor
+color
+rgba(125, 121, 121, 0.22)
+Color of the dimmed text shown everywhere outside the spotlight.
+maskSize
+number
+150
+Diameter of the circular spotlight in pixels; larger reveals more text.
+intensity
+number
+10
+Percent of the spotlight that stays fully solid before fading; higher gives a harder edge.
+transition
+transition
+Timing and easing of the spotlight growing open and shrinking closed on hover.
+
+Base
+
+
+
+
+
+Text
+Not everything is meant to be seen at once. Hover to reveal.
+Font
+
+Inter · Regular · 40px
+Bright
+
+#FFFFFF
+Dim
+
+#7D797938
+Spotlight
+(px)
+
+150
+Intensity
+(%)
+
+10
+Transition
+
+Ease · Ease In Out
+Reset All Settings
+
+
+
+
+
+
+
+
+
+
+
+
+
+Dot Image Reveal
+
+Base
+
+3,729
+Used by 309
+
+Copy
+
+
+Suggest Improvements
+Dot Image Reveal
+A grid of dots that magnetically opens around your cursor, revealing a hidden image exactly where you point.
+
+KEY FEATURES
+
+— Cursor-driven reveal — dots resolve into the image only near the pointer
+— Fully responsive dot grid: column count fixed, rows auto-fill the height
+— Adjustable trigger radius and intensity for a tight spotlight or a broad glow
+— Seamless image sampling — dots align into one continuous picture as they open
+— Touch support for mobile reveal on drag
+— Static-safe rendering for canvas previews and exports
+API Reference
+All props map directly to the controls panel sliders and color pickers.
+
+LAYOUT
+
+PROP
+TYPE
+DEFAULT
+DESCRIPTION
+background
+color
+#000000
+Fill color behind the dot grid, visible in the gaps between dots.
+image
+image
+The image revealed beneath the dots as the cursor passes over them.
+dots
+number
+12
+Number of dot columns across the width; rows fill in automatically to match the height.
+gap
+number
+12
+Space in pixels between resting dots, controlling how tight or airy the grid looks.
+radius
+number
+150
+Size of the trigger area in pixels around the cursor where dots begin to open.
+intensity
+number
+10
+How much of the trigger area fully resolves — low values fade gradually from the center, high values open the whole area evenly.
+
+Base
+
+
+
+
+
+Background
+
+#000000
+Image
+
+
+Paste image URL
+Dots
+
+12
+Gap
+(px)
+
+12
+Trigger Area
+(px)
+
+150
+Intensity
+
+10
+Re
+
+THIS FOR THE LAST PAGE ABOUT OR SOMETHING WHERE ITS ABOUT US. THERE LET OUR LOGO BE LIKE THIS ?
+

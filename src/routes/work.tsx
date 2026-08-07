@@ -4,6 +4,7 @@ import gsap from "gsap";
 import { Section } from "../components/site/Chrome";
 import { MagneticLink } from "../components/site/CTA";
 import { Counters } from "../components/site/Counters";
+import { ProjectCard } from "../components/site/ProjectCard";
 import {
   ensureGsap,
   prefersReduced,
@@ -12,9 +13,9 @@ import {
 } from "../components/site/motion";
 import { concepts } from "../data/concepts";
 
-const title = "Work — Carenetics";
+const title = "Work — Cerenetics";
 const description =
-  "Proof from Carenetics: launched websites, digital systems and AI-assisted delivery across healthcare, finance, consumer design and deeptech.";
+  "Proof from Cerenetics: AI-native digital systems and launch infrastructure across healthcare, finance, consumer design and deeptech.";
 
 export const Route = createFileRoute("/work")({
   head: () => ({
@@ -93,11 +94,60 @@ function WorkPage() {
         </div>
       </section>
 
-      <div className="px-6 md:px-12">
-        <div className="mx-auto max-w-[1360px]">
-          <Counters items={counters} />
+      {/* Statistics - AI Dashboard Style */}
+      <section className="px-6 py-24 md:px-12 md:py-32">
+        <div className="mx-auto max-w-[1360px]" data-reveal-group>
+          <p className="eyebrow reveal">Metrics</p>
+          <h2 className="reveal mt-5 text-[1.75rem] leading-[1.15] tracking-[-0.03em] md:text-[2.5rem]">
+            Delivery measured in outcomes
+          </h2>
+          <div className="reveal mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <article className="rounded-2xl border border-border bg-background p-6 md:p-8 transition-all duration-300 hover:border-accent/30 hover:shadow-[0_12px_40px_-24px_rgba(20,22,26,0.25)]">
+              <div className="flex items-baseline gap-2">
+                <span className="stat-value text-[3.5rem] md:text-[4.5rem]">34</span>
+                <span className="text-accent font-medium">+</span>
+              </div>
+              <p className="mt-3 text-base leading-relaxed text-muted-foreground">
+                Projects delivered
+              </p>
+              <div className="mt-6 h-1.5 rounded-full bg-muted">
+                <div className="h-full w-[85%] rounded-full bg-accent/60 transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]" />
+              </div>
+            </article>
+            <article className="rounded-2xl border border-border bg-background p-6 md:p-8 transition-all duration-300 hover:border-accent/30 hover:shadow-[0_12px_40px_-24px_rgba(20,22,26,0.25)]">
+              <div className="flex items-baseline gap-2">
+                <span className="stat-value text-[3.5rem] md:text-[4.5rem]">21</span>
+                <span className="text-accent font-medium">+</span>
+              </div>
+              <p className="mt-3 text-base leading-relaxed text-muted-foreground">Live systems</p>
+              <div className="mt-6 h-1.5 rounded-full bg-muted">
+                <div className="h-full w-[75%] rounded-full bg-accent/60 transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]" />
+              </div>
+            </article>
+            <article className="rounded-2xl border border-border bg-background p-6 md:p-8 transition-all duration-300 hover:border-accent/30 hover:shadow-[0_12px_40px_-24px_rgba(20,22,26,0.25)]">
+              <div className="flex items-baseline gap-2">
+                <span className="stat-value text-[3.5rem] md:text-[4.5rem]">12</span>
+                <span className="text-accent font-medium">+</span>
+              </div>
+              <p className="mt-3 text-base leading-relaxed text-muted-foreground">AI workflows</p>
+              <div className="mt-6 h-1.5 rounded-full bg-muted">
+                <div className="h-full w-[90%] rounded-full bg-accent/60 transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]" />
+              </div>
+            </article>
+            <article className="rounded-2xl border border-border bg-background p-6 md:p-8 transition-all duration-300 hover:border-accent/30 hover:shadow-[0_12px_40px_-24px_rgba(20,22,26,0.25)]">
+              <div className="flex items-baseline gap-2">
+                <span className="stat-value text-[3.5rem] md:text-[4.5rem]">94%</span>
+              </div>
+              <p className="mt-3 text-base leading-relaxed text-muted-foreground">
+                Client retention
+              </p>
+              <div className="mt-6 h-1.5 rounded-full bg-muted">
+                <div className="h-full w-[94%] rounded-full bg-accent/60 transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]" />
+              </div>
+            </article>
+          </div>
         </div>
-      </div>
+      </section>
 
       <Section className="py-20 md:py-28">
         <p
@@ -109,57 +159,32 @@ function WorkPage() {
         </p>
       </Section>
 
-      <div ref={showcase} className="px-6 pb-8 md:px-12">
-        <div className="mx-auto max-w-[1360px]">
-          {concepts
-            .filter((concept) => concept.shot)
-            .map((c) => (
-              <article
-                key={c.index}
-                data-project
-                className="grid gap-10 border-t border-border py-20 md:grid-cols-12 md:py-28"
-              >
-                <div data-project-copy className="md:col-span-4">
-                  <div className="flex items-baseline gap-4 text-[0.72rem]">
-                    <span className="text-accent">{c.index}</span>
-                    <span className="text-muted-foreground">{c.year}</span>
-                    <span className="text-muted-foreground">{c.sector}</span>
-                  </div>
-                  <h2 className="mt-5 text-[2rem] leading-[1.06] tracking-[-0.03em] md:text-[2.6rem]">
-                    {c.title}
-                  </h2>
-                  <p className="mt-6 max-w-md text-sm leading-relaxed text-muted-foreground">
-                    {c.intent}
-                  </p>
-                  {c.outcome && (
-                    <p className="mt-6 border-l border-accent pl-4 text-sm leading-relaxed">
-                      {c.outcome}
-                    </p>
-                  )}
-                  <p className="mt-6 text-[0.72rem] uppercase tracking-[0.16em] text-muted-foreground">
-                    {c.discipline}
-                  </p>
-                </div>
-
-                <div
-                  data-project-frame
-                  className="overflow-hidden rounded-lg border border-border md:col-span-7 md:col-start-6"
-                  style={{ background: c.slugTone }}
-                >
-                  <img
-                    data-project-img
-                    src={c.shot}
-                    alt={`${c.title} website snapshot`}
-                    loading="lazy"
-                    width={1400}
-                    height={900}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              </article>
-            ))}
+      {/* Project showcase - Bento Grid */}
+      <Section className="py-20 md:py-28">
+        <div className="mx-auto max-w-[1360px]" data-reveal-group>
+          <p className="eyebrow reveal">Selected Work</p>
+          <h2 className="reveal mt-5 text-[1.75rem] leading-[1.15] tracking-[-0.03em] md:text-[2.5rem]">
+            Systems that shipped
+          </h2>
+          <div className="reveal mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {concepts
+              .filter((concept) => concept.shot)
+              .map((c) => (
+                <ProjectCard
+                  key={c.index}
+                  title={c.title}
+                  index={c.index}
+                  year={c.year}
+                  sector={c.sector}
+                  images={[c.shot!]}
+                  outcome={c.outcome}
+                  discipline={c.discipline}
+                  href={`/work/${c.index.toLowerCase()}`}
+                />
+              ))}
+          </div>
         </div>
-      </div>
+      </Section>
 
       <Section className="border-t border-border bg-mineral">
         <div className="grid gap-8 md:grid-cols-12 md:items-end" data-reveal-group>

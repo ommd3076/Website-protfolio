@@ -6,10 +6,9 @@ import { Hero } from "../components/site/Hero";
 import { MediaRibbon } from "../components/site/MediaRibbon";
 import { useReveal } from "../components/site/motion";
 import { concepts } from "../data/concepts";
-
-const title = "Carenetics — AI-native product, launch & experience company";
+const title = "Cerenetics — AI-native company";
 const description =
-  "Carenetics builds websites, digital systems and launch structure with AI inside the delivery — moving toward deeptech, healthcare and medtech.";
+  "Cerenetics builds AI-native digital systems and launch infrastructure — moving toward deeptech, healthcare and medtech.";
 
 export const Route = createFileRoute("/")({
   head: () => ({

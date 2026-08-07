@@ -5,9 +5,9 @@ import { MagneticLink } from "../components/site/CTA";
 import { AmbientGradient } from "../components/site/AmbientGradient";
 import { useReveal } from "../components/site/motion";
 
-const title = "Future — Carenetics";
+const title = "Future — Cerenetics";
 const description =
-  "Carenetics is heading toward deeptech, healthcare and medtech: AI-native systems for organisations where clarity carries real consequence.";
+  "Cerenetics is heading toward deeptech, healthcare and medtech: AI-native systems for organisations where clarity carries real consequence.";
 
 export const Route = createFileRoute("/future")({
   head: () => ({
@@ -75,8 +75,8 @@ function FuturePage() {
             Toward deeptech, healthcare and medtech.
           </h1>
           <p className="reveal mt-10 max-w-[48ch] text-[1rem] leading-[1.7] text-muted-foreground">
-            Carenetics starts where we are strongest — websites, digital systems and launch
-            structure — and moves deliberately toward the sectors where being understood has
+            Cerenetics starts where we are strongest — AI-native digital systems and launch
+            infrastructure — and moves deliberately toward the sectors where being understood has
             consequences.
           </p>
         </div>

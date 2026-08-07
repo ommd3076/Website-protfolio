@@ -1,5 +1,6 @@
+"use client";
+
 import { useEffect, useRef } from "react";
-import gsap from "gsap";
 import { prefersReduced } from "./motion";
 
 type Tone = "cool" | "bright";
@@ -22,6 +23,7 @@ const PATHS = [
 
 /**
  * A restrained ambient field for the Future page's single radiant moment.
+ * Uses CSS @keyframes for animation instead of GSAP.
  */
 export function AmbientGradient({
   tone = "cool",
@@ -35,24 +37,7 @@ export function AmbientGradient({
   const scope = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = scope.current;
-    if (!el || prefersReduced()) return;
-    const compact = window.matchMedia("(max-width: 767px), (pointer: coarse)").matches;
-    const blobs = Array.from(el.querySelectorAll<HTMLElement>("[data-blob]"));
-    const animated = compact ? blobs.slice(0, 1) : blobs;
-    const tweens = animated.map((b, i) => {
-      const path = PATHS[i] ?? PATHS[0];
-      return gsap.to(b, {
-        xPercent: path.x,
-        yPercent: path.y,
-        duration: path.duration,
-        ease: "sine.inOut",
-        repeat: -1,
-        yoyo: true,
-        delay: i * 0.6,
-      });
-    });
-    return () => tweens.forEach((t) => t.kill());
+    if (prefersReduced()) return;
   }, []);
 
   const colors = TONES[tone].slice(0, 3);
@@ -63,6 +48,41 @@ export function AmbientGradient({
       aria-hidden
       className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}
     >
+      <style jsx>{`
+        @keyframes ambient-drift-1 {
+          0% {
+            transform: translate(0, 0);
+          }
+          50% {
+            transform: translate(12%, 8%);
+          }
+          100% {
+            transform: translate(0, 0);
+          }
+        }
+        @keyframes ambient-drift-2 {
+          0% {
+            transform: translate(0, 0);
+          }
+          50% {
+            transform: translate(-10%, 7%);
+          }
+          100% {
+            transform: translate(0, 0);
+          }
+        }
+        @keyframes ambient-drift-3 {
+          0% {
+            transform: translate(0, 0);
+          }
+          50% {
+            transform: translate(8%, -9%);
+          }
+          100% {
+            transform: translate(0, 0);
+          }
+        }
+      `}</style>
       {colors.map((c, i) => (
         <span
           key={c}
@@ -77,6 +97,7 @@ export function AmbientGradient({
             opacity: (0.9 - i * 0.09) * intensity,
             filter: "blur(56px)",
             willChange: "transform",
+            animation: `ambient-drift-${i + 1} ${PATHS[i].duration}s ease-in-out infinite alternate`,
           }}
         />
       ))}

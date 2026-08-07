@@ -1,0 +1,88 @@
+/* Cerenetics states for the official Cuberto Mouse Follower DOM contract. */
+@media (hover: hover) and (pointer: fine) {
+  html.has-custom-cursor,
+  html.has-custom-cursor body,
+  html.has-custom-cursor a,
+  html.has-custom-cursor button,
+  html.has-custom-cursor [role="button"],
+  html.has-custom-cursor summary,
+  html.has-custom-cursor input,
+  html.has-custom-cursor textarea,
+  html.has-custom-cursor select,
+  html.has-custom-cursor iframe,
+  html.has-custom-cursor [contenteditable="true"],
+  html.has-custom-cursor [data-cursor="-hidden"] {
+    cursor: none;
+  }
+}
+
+.mf-cursor {
+  z-index: 250;
+  color: #fff;
+  mix-blend-mode: difference;
+}
+
+.mf-cursor::before {
+  transform: scale(0.312);
+  opacity: 1;
+  transition:
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.16s;
+}
+
+.mf-cursor.pointer::before,
+.mf-cursor.-pointer::before {
+  transform: scale(0.5304);
+}
+
+.mf-cursor.inverse {
+  color: #fff;
+}
+
+.mf-cursor.-cta::before {
+  transform: scale(0.2808);
+  opacity: 1;
+}
+
+.mf-cursor.-hidden::before {
+  transform: scale(0);
+  opacity: 0;
+}
+
+.mf-cursor.-text,
+.mf-cursor.-lg,
+.mf-cursor.media,
+.mf-cursor.-media {
+  color: var(--inverse-foreground);
+  mix-blend-mode: normal;
+}
+
+.mf-cursor.media::before {
+  transform: scale(3.354);
+  background: var(--inverse);
+}
+
+.mf-cursor.-lg.-text::before {
+  transform: scale(3.354);
+  background: var(--inverse);
+  opacity: 1;
+}
+
+.mf-cursor.-lg.-text.-active::before {
+  transform: scale(3.042);
+}
+
+.mf-cursor-text {
+  color: var(--inverse-foreground);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
+  .mf-cursor {
+    display: none;
+  }
+}

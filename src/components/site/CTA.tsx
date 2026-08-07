@@ -2,10 +2,11 @@ import { useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import gsap from "gsap";
 import { useMagnetic, prefersReduced } from "./motion";
+import { spring } from "./motion";
 
 /**
- * Primary / secondary CTA with magnetic pull, a fill sweep and
- * choreographed label + arrow motion. No scale-bounce.
+ * Premium CTA with magnetic pull, refined hover/press states, and iOS-level polish.
+ * Uses Apple-inspired spring animations for fluid, interruptible interactions.
  */
 export function MagneticLink({
   to,
@@ -20,7 +21,7 @@ export function MagneticLink({
   const fill = useRef<HTMLSpanElement>(null);
   const label = useRef<HTMLSpanElement>(null);
   const arrow = useRef<HTMLSpanElement>(null);
-  useMagnetic(ref, 0.34);
+  useMagnetic(ref, 0.28);
 
   useEffect(() => {
     const el = ref.current;
@@ -31,44 +32,43 @@ export function MagneticLink({
     if (!window.matchMedia("(pointer: fine)").matches) return;
 
     const enter = (e: PointerEvent) => {
-      const r = el.getBoundingClientRect();
-      const fromBottom = e.clientY > r.top + r.height / 2;
-      gsap.fromTo(
-        fillEl,
-        { yPercent: fromBottom ? 100 : -100 },
-        { yPercent: 0, duration: 0.55, ease: "power3.out", overwrite: "auto" },
-      );
-      gsap.to(labelEl, { x: -3, duration: 0.5, ease: "power3.out", overwrite: "auto" });
-      gsap.fromTo(
-        arrowEl,
-        { x: 0, opacity: 1 },
-        { x: 5, duration: 0.55, ease: "power3.out", overwrite: "auto" },
-      );
+      if (e.pointerType === "mouse") {
+        // Use spring for fluid, interruptible animations
+        gsap.to(labelEl, { y: -3, ...spring.snappy });
+        gsap.to(arrowEl, { x: 4, ...spring.snappy });
+        gsap.to(fillEl, { scaleY: 1, ...spring.snappy });
+      }
+    };
+    const leave = (e: PointerEvent) => {
+      if (e.pointerType === "mouse") {
+        gsap.to(labelEl, { y: 0, ...spring.default });
+        gsap.to(arrowEl, { x: 0, ...spring.default });
+        gsap.to(fillEl, { scaleY: 0, ...spring.default });
+      }
     };
 
-    const leave = (e: PointerEvent) => {
-      const r = el.getBoundingClientRect();
-      const toBottom = e.clientY > r.top + r.height / 2;
-      gsap.to(fillEl, {
-        yPercent: toBottom ? 100 : -100,
-        duration: 0.45,
-        ease: "power3.in",
-        overwrite: "auto",
-      });
-      gsap.to([labelEl, arrowEl], {
-        x: 0,
-        duration: 0.5,
-        ease: "power3.out",
-        overwrite: "auto",
-      });
+    const press = () => {
+      // Quick press feedback - snappy spring
+      gsap.to(el, { scale: 0.97, ...spring.snappy });
+    };
+    const release = () => {
+      // Elastic release - bounce spring
+      gsap.to(el, { scale: 1, ...spring.bounce });
     };
 
     el.addEventListener("pointerenter", enter);
     el.addEventListener("pointerleave", leave);
+    el.addEventListener("pointerdown", press);
+    el.addEventListener("pointerup", release);
+    el.addEventListener("pointercancel", release);
+
     return () => {
       el.removeEventListener("pointerenter", enter);
       el.removeEventListener("pointerleave", leave);
-      gsap.killTweensOf([fillEl, labelEl, arrowEl]);
+      el.removeEventListener("pointerdown", press);
+      el.removeEventListener("pointerup", release);
+      el.removeEventListener("pointercancel", release);
+      gsap.killTweensOf(el);
     };
   }, []);
 
@@ -80,24 +80,36 @@ export function MagneticLink({
       to={to}
       data-magnetic
       data-cursor="cta"
-      className={`group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full px-7 py-3.5 text-[0.82rem] tracking-[-0.005em] ${
+      className={`group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full px-7 py-3.5 text-[0.85rem] tracking-[-0.01em] font-medium ${
         solid
           ? "bg-foreground text-background"
-          : "border border-border text-foreground transition-colors duration-300 hover:border-foreground/45"
-      }`}
+          : "border border-current/20 text-foreground bg-background/50 backdrop-blur-sm transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-accent/50 hover:bg-accent-soft hover:text-accent-deep"
+      } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2`}
     >
       <span
         ref={fill}
         aria-hidden
-        className={`absolute inset-0 ${solid ? "bg-accent-deep" : "bg-foreground/[0.055]"}`}
+        className={`absolute inset-0 ${solid ? "bg-accent-deep" : "bg-foreground/[0.055]"} transition-transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]`}
         style={{ transform: "translateY(100%)" }}
       />
-      <span ref={label} className="relative inline-block">
+      <span
+        ref={label}
+        className="relative inline-block transition-transform duration-250 ease-[cubic-bezier(0.22,1,0.36,1)]"
+      >
         {children}
       </span>
-      <span ref={arrow} aria-hidden className="relative inline-block text-[0.7rem]">
+      <span
+        ref={arrow}
+        aria-hidden
+        className="relative inline-block text-[0.7rem] transition-transform duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1"
+      >
         →
       </span>
+      {/* Subtle shine sweep on hover */}
+      <span
+        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] pointer-events-none"
+        aria-hidden="true"
+      />
     </Link>
   );
 }

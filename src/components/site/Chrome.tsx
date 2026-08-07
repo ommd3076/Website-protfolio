@@ -14,15 +14,15 @@ export function Footer() {
             className="mt-0.5 h-auto w-6"
           />
           <span>
-            <strong className="block font-medium text-foreground">Carenetics</strong>
-            <span className="mt-1 block">AI-native product, launch and experience company</span>
+            <strong className="block font-medium text-foreground">Cerenetics</strong>
+            <span className="mt-1 block">AI-native company</span>
           </span>
         </div>
         <a
-          href="mailto:studio@carenetics.com"
+          href="mailto:studio@cerenetics.com"
           className="text-foreground transition-colors duration-200 hover:text-accent-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          studio@carenetics.com
+          studio@cerenetics.com
         </a>
         <span>© {new Date().getFullYear()}</span>
       </div>

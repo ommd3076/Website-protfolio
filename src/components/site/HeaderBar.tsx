@@ -53,14 +53,14 @@ export function HeaderBar() {
   }, []);
 
   return (
-    <header ref={wrap} className="sticky top-0 z-[90] px-3 pt-3 md:px-5 md:pt-4">
+    <header ref={wrap} className="sticky top-0 z-[90] px-4 pt-4 md:px-6 md:pt-5">
       <div
         ref={bar}
         onClickCapture={(event) => {
           if ((event.target as HTMLElement).closest("a")) setMenuOpen(false);
         }}
         data-header-bar
-        className="relative mx-auto flex max-w-[1360px] items-center justify-between rounded-lg border border-border bg-background/92 px-4 py-2.5 text-foreground shadow-[0_14px_40px_-34px_rgba(20,22,26,0.55)] backdrop-blur-xl md:px-6 md:py-3"
+        className="relative mx-auto flex max-w-[1360px] items-center justify-between rounded-2xl border border-border bg-background/95 px-5 py-3 text-foreground shadow-[0_8px_32px_-24px_rgba(20,22,26,0.45)] backdrop-blur-xl md:px-8 md:py-3.5"
         style={
           {
             "--brand-mark-accent": "var(--accent-deep)",
@@ -69,24 +69,26 @@ export function HeaderBar() {
       >
         <BrandMarkSlot compact />
 
-        <nav aria-label="Primary navigation" className="hidden items-center gap-1 sm:flex md:gap-2">
+        <nav
+          aria-label="Primary navigation"
+          className="hidden items-center gap-1.5 sm:flex md:gap-2.5"
+        >
           {nav.map((n) => (
             <Link
               key={n.to}
               to={n.to}
               data-cursor="pointer"
               activeProps={{ "data-active": "true" }}
-              className="group relative px-3 py-1.5 text-[0.78rem] tracking-[-0.005em] opacity-65 transition-opacity duration-200 hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current/40 data-[active=true]:opacity-100"
+              className="group relative rounded-full px-5 py-2 text-[0.85rem] tracking-[-0.01em] font-medium opacity-70 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:opacity-100 hover:bg-accent-soft hover:text-accent-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 data-[active=true]:opacity-100 data-[active=true]:bg-accent-soft data-[active=true]:text-accent-deep"
             >
               {n.label}
-              <span className="pointer-events-none absolute inset-x-3 bottom-1 h-px origin-left scale-x-0 bg-current opacity-50 transition-transform duration-500 ease-out group-hover:scale-x-100 group-data-[active=true]:scale-x-100" />
             </Link>
           ))}
           <Link
             to="/contact"
-            data-cursor="pointer"
+            data-cursor="cta"
             activeProps={{ "data-active": "true" }}
-            className="ml-2 rounded-full border border-current/25 px-4 py-1.5 text-[0.78rem] tracking-[-0.005em] transition-colors duration-200 hover:bg-current/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current/40"
+            className="ml-2 rounded-full bg-foreground px-5 py-2 text-[0.85rem] tracking-[-0.01em] font-medium text-background transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-accent hover:text-accent-foreground hover:shadow-[0_4px_20px_-8px_rgba(220,160,60,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 data-[active=true]:bg-accent data-[active=true]:text-accent-foreground"
           >
             Contact
           </Link>
@@ -98,7 +100,7 @@ export function HeaderBar() {
           aria-expanded={menuOpen}
           aria-controls="mobile-navigation"
           onClick={() => setMenuOpen((open) => !open)}
-          className="flex h-9 items-center rounded-full border border-current/25 px-4 text-[0.76rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:hidden"
+          className="flex h-10 items-center rounded-full border border-current/20 px-4 text-[0.82rem] font-medium transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-accent-soft hover:text-accent-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 sm:hidden"
         >
           {menuOpen ? "Close" : "Menu"}
         </button>
@@ -107,7 +109,7 @@ export function HeaderBar() {
           <nav
             id="mobile-navigation"
             aria-label="Mobile navigation"
-            className="absolute inset-x-0 top-[calc(100%+6px)] grid rounded-lg border border-border bg-background p-2 text-foreground shadow-xl sm:hidden"
+            className="absolute inset-x-0 top-[calc(100%+8px)] grid rounded-2xl border border-border bg-background/95 p-3 text-foreground shadow-[0_16px_48px_-32px_rgba(20,22,26,0.55)] backdrop-blur-xl sm:hidden"
           >
             {[...nav, { to: "/contact", label: "Contact" }].map((item) => (
               <Link
@@ -117,7 +119,7 @@ export function HeaderBar() {
                 data-cursor="pointer"
                 activeProps={{ "data-active": "true" }}
                 onClick={() => setMenuOpen(false)}
-                className="px-4 py-3 text-sm opacity-70 transition-colors hover:bg-mineral hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[active=true]:opacity-100"
+                className="rounded-xl px-4 py-3.5 text-sm font-medium opacity-70 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:opacity-100 hover:bg-accent-soft hover:text-accent-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 data-[active=true]:opacity-100 data-[active=true]:bg-accent-soft data-[active=true]:text-accent-deep"
               >
                 {item.label}
               </Link>

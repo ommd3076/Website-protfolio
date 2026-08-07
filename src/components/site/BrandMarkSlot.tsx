@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import logoAsset from "../../../Screenshot 2026-08-03 141135.svg";
 
 export function BrandMarkSlot({
-  label = "Carenetics",
+  label = "Cerenetics",
   compact = false,
 }: {
   label?: string;

@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { MagneticLink } from "./CTA";
 import { useLoadSequence } from "./motion";
 import { Arc } from "./Arc";
-
+import { DynamicText } from "./DynamicText";
 export function Hero() {
   const scope = useRef<HTMLElement>(null);
   useLoadSequence(scope);
@@ -19,7 +19,7 @@ export function Hero() {
 
       <div className="relative mx-auto max-w-[1120px] text-center">
         <p data-load="eyebrow" className="hero-load eyebrow" style={{ letterSpacing: "0.2em" }}>
-          AI-native product, launch & experience company
+          AI-native company
         </p>
 
         <h1 className="mt-8 text-[2.9rem] font-semibold leading-[0.98] tracking-[-0.04em] md:text-[5.4rem]">
@@ -30,7 +30,7 @@ export function Hero() {
           </span>
           <span className="block">
             <span data-load="line" className="hero-load block text-muted-foreground">
-              companies launch
+              <DynamicText staticPrefix="companies " staticSuffix="" />
             </span>
           </span>
           <span className="block">
@@ -44,7 +44,7 @@ export function Hero() {
           data-load="fade"
           className="hero-load mx-auto mt-9 max-w-[38ch] text-[0.95rem] leading-[1.65] text-muted-foreground"
         >
-          Carenetics designs websites, digital systems and launch structure with AI in the workflow
+          Cerenetics designs websites, digital systems and launch structure with AI in the workflow
           rather than on the poster — today for software and services, next for deeptech, healthcare
           and medtech.
         </p>

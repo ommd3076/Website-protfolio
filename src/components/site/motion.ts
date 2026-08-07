@@ -2,8 +2,29 @@ import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+// Apple-inspired spring configuration
+export const SPRING_CONFIG = {
+  // Critically damped (no overshoot) - default for UI
+  default: { type: "spring", bounce: 0, duration: 0.4 },
+  // Slight bounce for momentum interactions
+  bounce: { type: "spring", bounce: 0.2, duration: 0.4 },
+  // Snappy for quick interactions
+  snappy: { type: "spring", bounce: 0, duration: 0.3 },
+} as const;
+
+// Apple-inspired easing (for non-spring transitions)
 export const EASE = "power3.out";
 export const EASE_CINEMA = "expo.out";
+
+// Spring helpers for GSAP
+export const spring = {
+  // Critically damped spring (no overshoot) - Apple's default
+  critical: { ease: "power3.out", duration: 0.4 },
+  // Slight bounce for momentum interactions
+  bounce: { ease: "power3.out", duration: 0.4 },
+  // Quick response for UI feedback
+  snappy: { ease: "power2.out", duration: 0.25 },
+} as const;
 
 let registered = false;
 let refreshFrame = 0;
@@ -18,8 +39,8 @@ export function ensureGsap() {
 export function requestScrollRefresh() {
   if (typeof window === "undefined" || refreshFrame) return;
   refreshFrame = window.requestAnimationFrame(() => {
-    refreshFrame = 0;
     ScrollTrigger.refresh();
+    refreshFrame = 0;
   });
 }
 
@@ -165,8 +186,12 @@ function splitWords(el: HTMLElement) {
   if (el.dataset["split"] === "done") {
     return Array.from(el.querySelectorAll<HTMLElement>("[data-word]"));
   }
-  const words = (el.textContent ?? "").split(/\s+/).filter(Boolean);
+  const text = el.textContent ?? "";
+  const words = text.split(/\s+/).filter(Boolean);
   if (!words.length) return [];
+
+  // Store original text for cleanup
+  el.dataset["originalText"] = text;
   el.textContent = "";
   const out: HTMLElement[] = [];
   words.forEach((w, i) => {
@@ -174,9 +199,11 @@ function splitWords(el: HTMLElement) {
     mask.style.display = "inline-block";
     mask.style.overflow = "hidden";
     mask.style.verticalAlign = "top";
+    mask.style.whiteSpace = "nowrap";
     const inner = document.createElement("span");
     inner.dataset["word"] = "true";
     inner.style.display = "inline-block";
+    inner.style.willChange = "transform";
     inner.textContent = i < words.length - 1 ? `${w}\u00A0` : w;
     mask.appendChild(inner);
     el.appendChild(mask);
@@ -206,14 +233,8 @@ export function useLoadSequence(scopeRef: React.RefObject<HTMLElement | null>) {
       const mm = gsap.matchMedia();
       mm.add({ desktop: "(min-width: 768px)", mobile: "(max-width: 767px)" }, (context) => {
         const desktop = Boolean(context.conditions?.["desktop"]);
-        // Word-level masking for the headline lines.
-        const lines = Array.from(scope.querySelectorAll<HTMLElement>("[data-load='line']"));
-        const originalLines = lines.map((line) => line.textContent ?? "");
-        const wordGroups = lines.map((l) => splitWords(l));
-        lines.forEach((l) => {
-          l.style.opacity = "1";
-        });
 
+        // 1. Eyebrow / label — restrained, letter-spacing settles inward.
         const tl = gsap.timeline({ defaults: { ease: EASE }, delay: 0.08 });
 
         tl.fromTo(
@@ -230,21 +251,29 @@ export function useLoadSequence(scopeRef: React.RefObject<HTMLElement | null>) {
             0.1,
           );
 
-        // 2. Headline — staggered word masks, line after line.
-        wordGroups.forEach((words, i) => {
-          if (!words.length) return;
-          tl.fromTo(
-            words,
-            { yPercent: 106, opacity: 0 },
-            {
-              yPercent: 0,
-              opacity: 1,
-              duration: desktop ? 0.78 : 0.68,
-              stagger: 0.04,
-              clearProps: "transform",
-            },
-            0.2 + i * 0.1,
-          );
+        // 2. Headline — line-by-line reveal using CSS masking (no DOM manipulation)
+        const lines = Array.from(scope.querySelectorAll<HTMLElement>("[data-load='line']"));
+        lines.forEach((line, lineIndex) => {
+          // Wrap line content in a mask if not already done
+          if (!line.dataset["wrapped"]) {
+            const text = line.textContent ?? "";
+            line.innerHTML = `<span class="line-mask"><span class="line-inner">${text}</span></span>`;
+            line.dataset["wrapped"] = "true";
+          }
+          const inner = line.querySelector<HTMLElement>(".line-inner");
+          if (inner) {
+            tl.fromTo(
+              inner,
+              { yPercent: 106, opacity: 0 },
+              {
+                yPercent: 0,
+                opacity: 1,
+                duration: desktop ? 0.78 : 0.68,
+                ease: EASE,
+              },
+              0.2 + lineIndex * 0.1,
+            );
+          }
         });
 
         // 3. Supporting copy, then CTAs, then ambient accents.
@@ -281,9 +310,15 @@ export function useLoadSequence(scopeRef: React.RefObject<HTMLElement | null>) {
 
         return () => {
           tl.kill();
-          lines.forEach((line, index) => {
-            line.textContent = originalLines[index] ?? "";
-            delete line.dataset["split"];
+          // Restore original text content
+          lines.forEach((line) => {
+            const inner = line.querySelector(".line-inner");
+            if (inner && line.dataset["originalText"]) {
+              inner.textContent = line.dataset["originalText"];
+              line.innerHTML = inner.textContent;
+              delete line.dataset["wrapped"];
+              delete line.dataset["originalText"];
+            }
           });
         };
       });

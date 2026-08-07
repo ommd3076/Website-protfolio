@@ -303,10 +303,10 @@ export const CareneticsLogo = forwardRef<CareneticsLogoRef, CareneticsLogoProps>
         {...props}
       >
         {props["aria-hidden"] !== true && props["aria-hidden"] !== "true" && (
-          <title>Carenetics</title>
+          <title>Cerenetics</title>
         )}
         {/* 1. Outer Square Frame */}
-        <g ref={frameRef} data-part="outer-frame" className="carenetics-part-frame">
+        <g ref={frameRef} data-part="outer-frame" className="cerenetics-part-frame">
           <path
             d={CARENETICS_PATHS.outerFrame}
             fill={mainFill}
@@ -318,7 +318,7 @@ export const CareneticsLogo = forwardRef<CareneticsLogoRef, CareneticsLogoProps>
         </g>
 
         {/* 2. Large Crescent Arc Form */}
-        <g ref={crescentRef} data-part="large-crescent" className="carenetics-part-crescent">
+        <g ref={crescentRef} data-part="large-crescent" className="cerenetics-part-crescent">
           <path
             d={CARENETICS_PATHS.largeCrescent}
             fill={secondaryFill}
@@ -330,7 +330,7 @@ export const CareneticsLogo = forwardRef<CareneticsLogoRef, CareneticsLogoProps>
         </g>
 
         {/* 3. Inner Arc Form */}
-        <g ref={innerArcRef} data-part="inner-arc" className="carenetics-part-inner-arc">
+        <g ref={innerArcRef} data-part="inner-arc" className="cerenetics-part-inner-arc">
           <path
             d={CARENETICS_PATHS.innerArc}
             fill={secondaryFill}
@@ -342,7 +342,7 @@ export const CareneticsLogo = forwardRef<CareneticsLogoRef, CareneticsLogoProps>
         </g>
 
         {/* 4. Starburst Accent Form */}
-        <g ref={starburstRef} data-part="starburst-accent" className="carenetics-part-starburst">
+        <g ref={starburstRef} data-part="starburst-accent" className="cerenetics-part-starburst">
           <path
             d={CARENETICS_PATHS.starburstAccent}
             fill={starburstFill}
@@ -356,5 +356,7 @@ export const CareneticsLogo = forwardRef<CareneticsLogoRef, CareneticsLogoProps>
     );
   },
 );
+
+export const CereneticsLogo = CareneticsLogo;
 
 CareneticsLogo.displayName = "CareneticsLogo";

@@ -7,7 +7,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -15,6 +15,7 @@ import { CursorProvider } from "../components/site/cursor/GlobalCursor";
 import { SmoothScroll } from "../components/site/SmoothScroll";
 import { HeaderBar } from "../components/site/HeaderBar";
 import { Footer } from "../components/site/Chrome";
+import { OpeningExperience } from "../components/site/OpeningExperience";
 
 function NotFoundComponent() {
   return (
@@ -79,15 +80,12 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Carenetics — AI-native product, launch & experience company" },
+      { title: "Cerenetics — AI-native company" },
       {
         name: "description",
-        content:
-          "Carenetics builds websites, digital systems and launch structure with AI inside the delivery.",
+        content: "Cerenetics builds AI-native digital systems and launch infrastructure.",
       },
-      { name: "author", content: "Carenetics" },
+      { name: "author", content: "Cerenetics" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -124,9 +122,9 @@ function RootShell({ children }: { children: ReactNode }) {
     </html>
   );
 }
-
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const [showOpening, setShowOpening] = useState(true);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -139,6 +137,7 @@ function RootComponent() {
               <Outlet />
             </main>
             <Footer />
+            {showOpening && <OpeningExperience onComplete={() => setShowOpening(false)} />}
           </div>
         </CursorProvider>
       </SmoothScroll>

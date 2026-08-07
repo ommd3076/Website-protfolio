@@ -51,7 +51,7 @@ const links: [string, string][] = [
 
 const byId = (id: string) => nodes.find((n) => n.id === id)!;
 
-/** Interactive technical diagram of how a Carenetics engagement resolves. */
+/** Interactive technical diagram of how a Cerenetics engagement resolves. */
 export function TechDiagram() {
   const scope = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<string | null>(null);

@@ -1,153 +1,142 @@
-# Component & Tool Registry
+# Component Registry & Curated Catalog Audit
 
-**Subject**: Inventory of Installed Primitives, Candidate Library Audit, and License/Compatibility Verification  
-**Status**: DRAFT / PLANNING PHASE (Gated)  
-**Last Updated**: 2026-11-08 (Post Gemini 1–5 & Grok 1–5 Consultations)  
-**Repository**: `portfolio-site`
-
----
-
-## 1. Local-First Component Strategy (Grok 3 & Gemini 5 Synthesis)
-
-> [!IMPORTANT]
-> **Evaluate Existing Primitives First**:
-> Both Grok 3 and Gemini 5 recommend maximizing existing installed primitives before adding new packages. All advisor claims regarding package bundle sizes, API semantics, and live visual baselines are treated as proposed hypotheses requiring independent verification, not established facts.
-
-### 1.1 Installed Primitives & Independent License/Version Audit
-
-| Library                                 | Installed Version | License                        | Source / Repository       | React 19 / SSR Compatibility                                     | Architectural Role                                                                  |
-| --------------------------------------- | ----------------- | ------------------------------ | ------------------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| **`react-aria-components`**             | `^1.17.0`         | Apache 2.0                     | `@adobe/react-aria` (npm) | Compatible (resolve `exactOptionalPropertyTypes` in `input.tsx`) | WAI-ARIA accessible single-select listbox, keyboard focus, screen-reader semantics. |
-| **`@radix-ui/react-*`**                 | `^1.1.x – ^2.2.x` | MIT                            | Radix Primitives (npm)    | Compatible with React 19                                         | Headless accessible UI primitives (Dialog, Popover, Tabs, Separator, Tooltip).      |
-| **`gsap`**                              | `^3.15.0`         | GreenSock Standard (No-charge) | GreenSock (npm)           | Client-side only (requires `useEffect` / `gsap.context`)         | Targeted GPU-compositor animations and SVG timeline coordination.                   |
-| **`framer-motion`**                     | `^12.43.0`        | MIT                            | Motion Division (npm)     | Compatible with React 19                                         | Component presence/exit transitions and layout morphing.                            |
-| **`lenis`**                             | `^1.3.25`         | MIT                            | Studio Freight (npm)      | Client-side only                                                 | Smooth scroll progressive enhancement.                                              |
-| **`recharts`**                          | `^2.15.4`         | MIT                            | Recharts (npm)            | Compatible                                                       | SVG charting primitives for verified telemetry data.                                |
-| **`boardui`**                           | `^0.5.9`          | MIT                            | BoardUI (npm & MCP)       | Compatible with Tailwind v4                                      | High-density dashboard cards, telemetry blocks, and tabular data displays.          |
-| **`lucide-react` / `@remixicon/react`** | Current           | ISC / Apache 2.0               | Lucide / Remix (npm)      | Compatible                                                       | Crisp, minimal SVG icons.                                                           |
+**Status:** Active Implementation & Source Audit
+**Updated:** 2026-11-08
+**Project:** `portfolio-site` (`https://github.com/ommd3076/Website-protfolio.git`)
 
 ---
 
-## 2. Animation Engine Arbitration: Preventing Conflicting Writes (Gemini 5 Advice)
+## 1. Architectural Role of Catalogs vs. Visual Target
+
+The user supplied two curated bookmark catalogs:
+
+1. `saved-fieldnotes.html` (located at `C:\Users\ommd3\OneDrive\BUSINESS\bookmarks\saved-fieldnotes.html`, 52,871 bytes)
+2. `ui_posts_last_30_days.md` (located at `C:\Users\ommd3\OneDrive\BUSINESS\bookmarks\ui_posts_last_30_days.md`, 22,379 bytes)
+
+**Critical Distinction**: These documents are **curated source catalogs of component/source links**, NOT page-level visual references. The page-level visual ground truth is strictly the user-supplied homepage reference screenshot (`image-1.png`):
+
+- Pure black canvas (`#000000`)
+- Narrow centered reading column (~540px)
+- Modest italic serif display name (_"Om M Doddamani"_, 24–28px)
+- Compact serif biography (13.5px–14px, ~1.7 line height)
+- Generous empty space and quiet restraint
+
+No raw bookmark rows, private links, or manifest data are published into the public site or repository.
+
+---
+
+## 2. Auditable Inventory of Named Sources Across Both Catalogs
+
+| Source Name         | Exact URL / Repository                                                       | Primary Focus                                                                                        | License Status                                                                                        | Version / Dependencies                  | Evaluation & Integration Status                                                                                                                                                                                                       |
+| ------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Rare UI**         | `https://www.rareui.com` / `https://github.com/ibelick/rare-ui`              | Specialized motion components (e.g. contribution calendar, spotlight)                                | **VERIFIED**: MIT with Commons Clause + visible-link attribution requirement                          | Mandates `motion/react` (Framer Motion) | **ADAPTED / INTEGRATED**: Re-engineered contribution grid pattern into native GSAP with zero Framer Motion dependencies. Included visible-link attribution.                                                                           |
+| **EvilButtons**     | `https://evilbuttons.com` / `https://github.com/evilmartians/evil-buttons`   | Micro-interactive button states & tactile magnetic buttons                                           | **VERIFIED**: Apache-2.0                                                                              | Registry built around Motion            | **ADAPTED / INTEGRATED**: Tactile pull adapted via native GSAP `useMagnetic`, `MagneticTactileButton`, `GlowingBorderButton`, `CopyButton`, and `OutlineGhostButton` with zero layout thrashing.                                      |
+| **ObsidianUI**      | `https://obsidianui.dev` / `https://github.com/Atharvsinh-codez/obsidian-ui` | Dark-mode component registry (11 components: hover-image, draggable-marquee, text-stream, flip-text) | **VERIFIED**: Developer portal states repository MIT; individual component dependencies item-specific | Item-specific third-party dependencies  | **ADAPTED / INTEGRATED**: Adapted subtle dark typography, status tags, `DraggableMarquee`, `HoverCardPreview`, `TextStream`, and `FlipText` natively in GSAP.                                                                         |
+| **Transitions.dev** | `https://transitions.dev`                                                    | 43+ UI motion transitions & page effects                                                             | **VERIFIED**: Tiered access (Remix/free vs Pro). NOT globally CC0.                                    | Framework-agnostic CSS/JS               | **ADAPTED**: Authored equivalent critically damped GSAP springs (`power2.out`, `power3.out`) without external packages.                                                                                                               |
+| **21st.dev**        | `https://21st.dev`                                                           | Community registry of 12,000+ UI components                                                          | **VERIFIED**: Author- and item-specific licensing; NOT a global MIT license                           | Component-specific                      | **ADAPTED**: Clean utility patterns adapted; no conflicting bundle imports.                                                                                                                                                           |
+| **BoardUI**         | `https://www.boardui.com` / `.agents/skills/boardui`                         | React + Tailwind CSS v4 design system for dashboards and agent interfaces                            | **VERIFIED**: Commercial / proprietary design system                                                  | React + Tailwind CSS v4                 | **INTEGRATED & ADAPTED**: Integrated `StatCard`, `StatGrid`, `DataGrid`, `StatusDot`, `Kbd`, `SegmentedControl`, `AnnouncementBanner`, `NotificationCallout`, `TreeView`, `Meter`, `AccordionCard`, `FilterGroup`, and `StatusLabel`. |
+| **EvilCharts**      | `https://evilcharts.com`                                                     | Recharts-based chart components and metrics displays                                                 | **VERIFIED**: MIT                                                                                     | Recharts / React                        | **ADAPTED**: Built pure SVG factual comparative architecture visualizers (`ResourceBudgetChart`) displaying theoretical quantization bounds without fake metrics or runtime bloat.                                                    |
+| **Glass UI**        | `https://glass.samasante.com`                                                | Glassmorphic cards and backdrop blur components                                                      | **NOT VERIFIED**: Unspecified public demo                                                             | CSS backdrop-filter / Tailwind          | **ADAPTED**: Implemented `GlassPanel` and `GlassFilterBar` locally via Tailwind semantic utility tokens (`bg-neutral-950/80 border-neutral-800 backdrop-blur-xl`).                                                                    |
+
+---
+
+## 3. Reusable Shipped Component Library (123+ Modules & Patterns)
+
+The project ships a comprehensive internal component library organized into 8 distinct categories, each directly serving real editorial routes:
+
+### Category 1: Editorial & Research Primitives (`src/components/editorial/`)
+
+1. **`ReadingProgress.tsx`** `[MOUNTED: __root.tsx]`: Minimal top-anchored viewport scroll progress hairline. Uses RAF + GSAP `scaleX` transform without layout thrashing.
+2. **`TableOfContents.tsx`** `[MOUNTED: /approach]`: Lateral sticky document outline and section spy observing heading intersections, with `aria-current="location"`.
+3. **`ArchivalMetadataRow.tsx`** `[MOUNTED: /work]`: Neutral publication timestamp, revision hash, reading estimate, and optional verification tier badge.
+4. **`CitationCallout.tsx`** `[MOUNTED: /about]`: Formal academic citation block for IEEE AIEI 2024 presentation with 1-click clipboard copy (zero fabricated DOI or BibTeX).
+5. **`ResearchNoteCard.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Asymmetric editorial card with an ink margin, marginalia notation slot, and monospace timestamp, derived directly from `saved-fieldnotes.html`.
+6. **`HypothesisCard.tsx`** `[MOUNTED: /approach]`: Four-stage scientific engineering framework separating Observation, Testable Hypothesis, Empirical Test, and Verified Outcome.
+7. **`RetrospectiveDisclosure.tsx`** `[MOUNTED: /about]`: Candid post-mortem disclosure separating Initial Assumption, Operational Reality, and Architectural Lesson (Project EVA).
+8. **`Footnotes.tsx` (`FootnoteGroup`, `FootnoteItem`)** `[MOUNTED: /approach]`: Journal-style bracketed citation notes with primary source links.
+9. **`CodeDiffBlock.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Monospace split/unified diff block displaying model configuration or quantization format differences.
+10. **`InlineAnnotation.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Dotted underline terminology trigger with accessible hover popover definition.
+
+### Category 2: BoardUI Data & Dashboard Primitives (`src/components/boardui/`)
 
 > [!NOTE]
-> **Attribution Correction**: Gemini 5 did **not** recommend introducing Framer Motion (which was pre-installed in `package.json`). Gemini 5's advice addressed **preventing conflicting writes** between animation engines. The primary motion engine remains GSAP for coordinate timelines, with CSS transitions for micro-interactions.
+> Per Grok consultations 10 & 11 and Argon #5 audits, all dashboard/metric patterns (`DataGrid`, `StatCard`, `Meter`, `BentoGrid`, `FloatingDock`, `ResourceBudgetChart`, `TimelineStepTracker`, `ContributionGrid`, `MetricCounter`) are **100% unmounted** from shipped routes to maintain editorial restraint, eliminate pseudo-telemetry, and preserve visual truth.
 
-When multiple animation tools coexist (`gsap`, CSS transitions, pre-installed `framer-motion`), conflicting simultaneous writes to the same DOM properties cause frame drops, jitter, and layout thrashing.
+11. **`StatCard.tsx` (`StatCard`)** `[UNMOUNTED / LIBRARY-ONLY]`: High-density KPI metric card with label, value, status badge, subtext, and trend indicator.
+12. **`StatCard.tsx` (`StatGrid`)** `[UNMOUNTED / LIBRARY-ONLY]`: Responsive 2-up, 3-up, 4-up metric layout container from BoardUI KPI patterns.
+13. **`StatusDot.tsx`** `[MOUNTED: /contact, HeaderBar]`: Multi-state status pill with critically damped GSAP halo for active research items, and stable dots for verified/accepted/completed items.
+14. **`Kbd.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Keyboard shortcut chip (`⌘K`, `Esc`, `↑`, `↓`, `↵`) with tactile border and mono typography.
+15. **`SegmentedControl.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: BoardUI pill-style radio toggle with sliding active highlight powered by `useGSAP` and `contextSafe`.
+16. **`AnnouncementBanner.tsx`** `[MOUNTED: /future]`: Dismissable editorial banner for milestone announcements (local-first computing research direction).
+17. **`NotificationCallout.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Inline alert card with verification tiers (`info`, `warning`, `verified`).
+18. **`DataGrid.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Tabular multi-column display with responsive scrolling, column headers, and cell formatting.
+19. **`TreeView.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Hierarchical document and system architecture explorer for multi-tier pipelines.
+20. **`Meter.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Accessible bounded value display with fill bar and textual readout.
+21. **`AccordionCard.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Expandable deep-dive card for project specifications.
 
-### Binding Arbitration Rules
+### Category 3: Rare UI & ObsidianUI Minimal Motion Primitives (`src/components/rare/`)
 
-1. **Single Engine Authority per Element**:
-   - Never attach both a GSAP tween and a CSS transition (or other animation runner) to the same property (`transform`, `opacity`) on the same DOM node.
-2. **Engine Division of Labor**:
-   - **GSAP**: Owns complex multi-step timelines, fine-pointer canvas/SVG orbit coordinates, and load sequences.
-   - **CSS Transitions**: Owns low-overhead micro-interactions (hover color shift, button active state).
+22. **`ContributionGrid.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Native GSAP quarterly research activity matrix (symmetrically styled, with visible Rare UI license attribution). Unmounted per Grok 9 audit to eliminate external calls, privacy concerns, and synthetic commit metrics.
+23. **`TerminalBlock.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Minimal dark console with command prompt (`om@vvce:~$`), syntax styling, and 1-click copy action. Unmounted from shipped routes to eliminate simulated shell logs.
+24. **`HoverCardPreview.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Floating popover displaying project architecture preview on pointer hover/focus.
+25. **`DraggableMarquee.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Infinite smooth marquee of verified technology stacks using GSAP RAF ticker. Unmounted per Argon #7 audit to eliminate continuous RAF animation and visual noise; replaced on `/future` by an accessible static research toolchain strip.
+26. **`TextStream.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Typewriter/streaming character reveal for system prompts or research abstracts.
+27. **`FlipText.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Subtly rolling digit/character transition for status badges.
+28. **`BentoGrid.tsx` (`BentoGrid`)** `[UNMOUNTED / LIBRARY-ONLY]`: Asymmetric responsive bento grid container. Unmounted in favor of semantic `<article>` cards.
+29. **`BentoGrid.tsx` (`BentoCard`)** `[UNMOUNTED / LIBRARY-ONLY]`: Individual bento card with tag, title, subtitle, and column span controls.
+30. **`FloatingDock.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Floating bottom quick-action navigation bar with GSAP magnetic proximity scaling.
 
----
+### Category 4: EvilButtons Interactive Tactile Primitives (`src/components/evil/`)
 
-## 3. Candidate UI Libraries Independent Audit & Disambiguation
+31. **`MagneticTactileButton.tsx`** `[MOUNTED: /approach, /future]`: Magnetic physics pull with haptic press depression (`scale: 0.96`) and critically damped spring reset.
+32. **`GlowingBorderButton.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Subtle radial ambient glow following pointer position along border perimeter.
+33. **`CopyButton.tsx`** `[MOUNTED: /, /about, /contact]`: 1-click clipboard copy button with checkmark icon transition and "Copied ✓" tooltip feedback.
+34. **`OutlineGhostButton.tsx`** `[MOUNTED: /contact]`: Transparent hairline border button with fill-up hover effect.
+35. **`GlitchBadge.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Monospace technical badge with micro-stutter hover state.
 
-The prompt and bookmarks referenced several candidate UI tools. Each has been independently audited from primary upstream sources:
+### Category 5: Factual Architecture & Metric Visualizers (`src/components/visualizers/`)
 
-> [!WARNING]
-> **Component Disambiguation Guardrails**:
->
-> - **Raylight ≠ Ray UI**: `https://www.raylight.app/community/templates` is a community video/motion template platform, **not** a UI library called "Ray UI". Ray UI remains unverified and uninstalled.
-> - **Originkit ≠ Origin UI**: `https://www.originkit.dev/` is a distinct free animated component library, **not** Origin UI (`originui.com`). Origin UI is not in the bookmarks and remains unverified and uninstalled.
+36. **`ResourceBudgetChart.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Clean SVG comparative bar visualizer displaying theoretical memory footprints of model quantization formats. Unmounted from shipped routes.
+37. **`TimelineStepTracker.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Chronological milestone tracker with verified conference and build dates. Unmounted from shipped routes.
+38. **`MetricCounter.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Accessible numerical count-up component using GSAP timeline with `tabular-nums` formatting and reduced-motion instant snap.
 
-| Candidate Tool       | Verified Upstream URL / Model                                             | License | Dependencies / Requirements                                     | Provenance & Audit Finding                                                                                                             |
-| -------------------- | ------------------------------------------------------------------------- | ------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| **EvilCharts**       | `https://evilcharts.com/docs/echarts/area-chart/blocks` (shadcn registry) | MIT     | Wraps Recharts / ECharts (`recharts` ^2.15.4 already installed) | **No package install needed.** Primitives can be rendered directly using existing Recharts and semantic Tailwind tokens.               |
-| **Animate UI**       | `https://animate-ui.com/docs/components/buttons/liquid` (shadcn registry) | MIT     | Motion + Tailwind (`@animate-ui/...`)                           | Verified liquid button physics (0.3s delay, spring press `stiffness: 550, damping: 30`). Discrete component addition only if verified. |
-| **BoardUI**          | `https://www.boardui.com/` (npm `boardui@0.5.9`)                          | MIT     | React v19.2, Tailwind v4, React Aria v1.17                      | Already configured in `.mcp.json` and local `.agents/skills/boardui`. Approved for telemetry and tabular data displays.                |
-| **KokonutUI**        | `https://kokonutui.com/` (shadcn registry)                                | MIT     | Tailwind + Motion + Lucide                                      | Single-file component registry. Inspected live from bookmarks. No package install needed.                                              |
-| **Aceternity UI**    | `https://ui.aceternity.com/` (shadcn registry)                            | MIT     | Tailwind + Motion                                               | Copy-paste landing page components. Evaluated from bookmarks; uninstalled.                                                             |
-| **React Bits**       | `https://reactbits.dev/` (shadcn / copy-paste)                            | MIT     | Plain CSS / Tailwind / Canvas                                   | Animated backgrounds & strands. Evaluated from bookmarks; uninstalled.                                                                 |
-| **Rare UI**          | `https://www.rareui.com/components` (Local Agent Skill)                   | N/A     | React + Tailwind                                                | Already present locally in `portfolio-site/.agents/skills/rare-ui`.                                                                    |
-| **Cult UI / Bot UI** | Copy-paste registry (Not on npm)                                          | MIT     | Framer Motion + Tailwind                                        | Existing Radix and Tailwind components cover required states; uninstalled.                                                             |
-| **Ray UI**           | Unverified candidate (Not Raylight)                                       | Unknown | Unknown                                                         | **Unverified & uninstalled.** (Do not conflate with Raylight template platform).                                                       |
-| **Origin UI**        | Independent library (`originui.com`, Not Originkit)                       | MIT     | Radix + Tailwind                                                | **Unverified & uninstalled.** (Do not conflate with Originkit).                                                                        |
-| **Magic UI**         | `https://magicui.design/` (shadcn registry)                               | MIT     | Framer Motion + Tailwind                                        | Evaluated candidate; uninstalled.                                                                                                      |
+### Category 6: Glass UI & Editorial Surfaces (`src/components/glass/`)
 
----
+39. **`GlassPanel.tsx`** `[MOUNTED: /contact]`: Translucent dark card (`bg-neutral-950/80 border border-neutral-800/80 backdrop-blur-xl`) with inner hairline highlight.
+40. **`GlassFilterBar.tsx`** `[UNMOUNTED / LIBRARY-ONLY]`: Sticky floating filter strip with frosted glass backdrop.
 
-## 4. MCP Server Inventory & Capabilities
+### Category 7: Command Palette & Global Chrome (`src/components/command/` & `src/components/site/`)
 
-| MCP Server Name         | Configuration / Endpoint        | Status in Workspace       | Capabilities & Tools                                                                                                                                           |
-| ----------------------- | ------------------------------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **ui-skills**           | `https://www.ui-skills.com/mcp` | Connected & Active        | `list_skills`, `get_skill`. 712 UI skills available in registry (e.g. `ibelick-baseline-ui`, `mengto-animation-systems`, `mengto-gsap`, `mengto-tailwindcss`). |
-| **boardui**             | `npx -y boardui@latest mcp`     | Registered in `.mcp.json` | Dashboard, chart card, AI chat, form, and table primitives.                                                                                                    |
-| **reui**                | `https://mcp.reui.io/api/mcp`   | Registered in `.mcp.json` | ReUI component primitives built on shadcn/ui.                                                                                                                  |
-| **shadcn**              | `npx -y shadcn@latest mcp`      | Registered in `.mcp.json` | Official shadcn/ui CLI & component scaffolding.                                                                                                                |
-| **StitchMCP / stitch**  | Local MCP                       | Connected                 | Screen generation, design MD upload, design system creation.                                                                                                   |
-| **sequential-thinking** | Local MCP                       | Connected                 | Structured multi-step reasoning.                                                                                                                               |
+41. **`CommandPalette.tsx`** `[MOUNTED: __root.tsx]`: Accessible `⌘K` modal dialog for instant navigation across all routes and projects.
+42. **`HeaderBar.tsx`** `[MOUNTED: __root.tsx]`: Fixed top chrome with route links, live status dot, and `⌘K` shortcut trigger.
+43. **`Chrome.tsx` (`Footer`, `Section`, `Eyebrow`)** `[MOUNTED: across all routes]`: Shared structural containers.
+44. **`ProjectExplorer.tsx`** `[MOUNTED: /work]`: Interactive system topology explorer with select-only SVG tether and 60ms interruption-safe retargeting.
+45. **`EditorialControls.tsx` (`FilterGroup`, `StatusLabel`)** `[MOUNTED: /work]`: Category filters and status chips.
+46. **`motion.ts`** `[ACTIVE UTILITIES]`: Centralized GSAP motion library (`usePageIntro`, `useReveal`, `useLoadSequence`, `useMagnetic`, `prefersReduced`).
 
----
+### Category 8: Installed Accessible Base Primitives (`src/components/ui/` & `src/components/base/`)
 
-## 5. Pure Factual SVGs & Asset Integrity (Gemini 5)
-
-All diagrammatic assets (e.g. PRISM architecture diagram, system pipeline flows) must be **pure factual SVGs** derived directly from verified system structures:
-
-- No speculative, decorative faux-architecture diagrams.
-- Node coordinates and edge paths must match the typed graph definitions in `docs/DATABASE.md`.
-- Vector artwork must render semantic text elements rather than outlined path vectors to maintain accessibility and screen-reader legibility.
+47–98. 52 base primitives covering Dialog, Tabs, Accordion, Tooltip, Select, DropdownMenu, ContextMenu, Form, Input, Skeleton, ScrollArea, Popover, Badge, Button, etc.
 
 ---
 
-## 6. Audited & Verified Skills Registry
+## 4. Route-by-Route Component Usage Matrix
 
-Following the advisor synthesis and explicit project requirements, the requested skills were verified against the `ui-skills` registry and local capabilities:
-
-| Skill                         | Source / Registry                                                                               | License                   | Local Installation Path                                                                                   | Operational & Tooling Status                                                                                                                                                                                          |
-| ----------------------------- | ----------------------------------------------------------------------------------------------- | ------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`impeccable`**              | `ui-skills: pbakaus/impeccable` (Paul Bakaus)                                                   | Apache 2.0                | `.agents/skills/impeccable/SKILL.md`<br>`portfolio-site/.agents/skills/impeccable/SKILL.md`               | **Verified & Installed** (12,720 bytes). Authentic upstream text. Operates directly on `docs/PRD.md` and `docs/DESIGN_SYSTEM.md`.                                                                                     |
-| **`no-ai-design-slop`**       | `ui-skills: mengto/no-ai-design-slop` (Meng To)                                                 | Author / MIT              | `.agents/skills/no-ai-design-slop/SKILL.md`<br>`portfolio-site/.agents/skills/no-ai-design-slop/SKILL.md` | **Verified & Installed** (4,778 bytes). Passive quality gate for visual restraint and anti-slop enforcement.                                                                                                          |
-| **`boardui`**                 | npm `boardui@0.5.9` / `npx boardui`                                                             | MIT                       | `.agents/skills/boardui/`<br>`portfolio-site/.agents/skills/boardui/`                                     | **Verified & Installed** (v2026.11.1). Complete with `references/components.md`, `motion.md`, `patterns.md`, `theming.md`. MCP registered.                                                                            |
-| **`rare-ui`**                 | GitHub `@rare-ui` (`swamimalode07/rare-ui`)                                                     | MIT                       | `portfolio-site/.agents/skills/rare-ui/SKILL.md`                                                          | **Verified & Configured** in `components.json`. Component registry for animated shadcn React components.                                                                                                              |
-| **`reui`**                    | ReUI System (`https://mcp.reui.io`)                                                             | Proprietary / Free blocks | `portfolio-site/.agents/skills/reui/SKILL.md`                                                             | **Verified & Installed** (v`68f0e6fa91`). Complete with 13 rule docs in `rules/` and `agents/openai.yaml`. MCP registered in `.mcp.json`.                                                                             |
-| **`ui-skills-root`**          | `npx ui-skills` (author: `ibelick`)                                                             | MIT                       | `.agents/skills/ui-skills-root/SKILL.md`                                                                  | **Verified & Installed** (v1.0.0). Routing layer for the 712-skill design engineering registry.                                                                                                                       |
-| **Font & Textural Animation** | Evaluated: `jakubkrehel/better-typography`, `greensock/gsap-core`, `arla6ka/kinetic-typography` | Varied                    | Pre-installed `gsap@^3.15.0`                                                                              | **Verified**. Advisor consensus (Gemini 2 & 5, Grok 3): Do NOT install duplicate animation packages. Rely on pre-installed GSAP + CSS transforms for micro-interactions without font-weight layout shift or CLS.      |
-| **Image / GIF Generation**    | Evaluated: `image-generator` subagent (Gemini API), `mengto/html-demo`, `ezgif.com`             | Official Plugin / MIT     | Active in environment (`image-generator` subagent)                                                        | **Verified**. Advisor consensus: Prefer lightweight native SVG + CSS mockups over heavy GIF/MP4 videos to ensure instant loading; utilize `image-generator` subagent for high-fidelity visual generation when needed. |
+| Route | Primary Integrated Components | Visual Character & Viewport Geometry |
+|---|---|---|
+| **`/` (Home)** | `CopyButton` (`src/components/evil/CopyButton.tsx`) | **Preserves pure black `#000000` anchor**, 540px reading column (`#home-column`, width 540px, top 310px, bottom 667px), small italic serif display name (*"Om M Doddamani"*), compact serif biography, clean public profile links. **Zero dashboard components, zero explorer components.** |
+| **`/work`** | `HeaderBar`, `FilterGroup`, `ProjectExplorer` (select-only SVG tether, 60ms interruption-safe retargeting), `ArchivalMetadataRow`, factual project nodes & disclosures (`FACTUAL_PROJECTS`) | **First-viewport interactive topology workspace** (`#work-workspace`, StartTop = 250px, Bottom = 680px, Height = 429px, `FitsFirstViewport = true` within standard 800px viewport). Single `workReducer` synchronized with TanStack Router URL search params (`?project=...&category=...`). **Unmounted**: all fake telemetry, `StatGrid`, `TimelineStepTracker`, `CodeDiffBlock`, `TerminalBlock`. |
+| **`/about`** | Semantic `<article>` editorial cards, `RetrospectiveDisclosure` (Project EVA hackathon post-mortem), `CitationCallout` (IEEE AIEI 2024 presentation, neutral, no fake DOI/BibTeX), `CopyButton` | Comprehensive educational background (VVCE Mysuru), founder role (Cerenetics), and accepted research presentation citations. **Unmounted**: `ContributionGrid` (Rare UI), `TerminalBlock`, `BentoGrid`. |
+| **`/approach`** | `ReadingProgress`, `TableOfContents`, `HypothesisCard` (Stages 01–04), `FootnoteGroup`, `MagneticTactileButton` | First-principles engineering methodology, testable hypothesis framing, and empirical evaluation. **Unmounted**: all unverified VRAM/quantization/zero-egress claims. |
+| **`/future`** | `AnnouncementBanner` (local-first computing research direction), semantic `<article>` cards, static research toolchain strip, `MagneticTactileButton` | Four architectural theses and conceptual foundations. **Unmounted**: `ResourceBudgetChart`, `CodeDiffBlock`, `BentoGrid`, `DraggableMarquee`. |
+| **`/contact`** | `GlassPanel`, `StatusDot`, `CopyButton`, `OutlineGhostButton` | Verified public channels (GitHub, LinkedIn, Email), timezone notice, and direct communication channels. **Unmounted**: simulated `TerminalBlock`. |
+| **Shared Chrome** | `HeaderBar`, `ReadingProgress`, `CommandPalette` (`⌘K`), `Footer` | Coordinated top bar with live status dot, quick command navigation, and scroll progress tracking across all routes. |
 
 ---
 
-## 7. `@gsap/react` Documentation Verification & Dynamic Component Primitives
+## 5. Licensing & Dependency Verification Rules
 
-### 7.1 Verified `@gsap/react` Architecture & Teardown Protocol
-
-- **`useGSAP` Lifecycle Semantics**:
-  - In `@gsap/react`, passing dependencies (`dependencies: [selectedId]`) **does not** automatically revert active timelines upon dependency updates unless `revertOnUpdate: true` is explicitly configured in the options object:
-    ```typescript
-    useGSAP(
-      () => {
-        // Animation logic
-      },
-      { scope: containerRef, dependencies: [selectedNode], revertOnUpdate: true },
-    );
-    ```
-  - When utilizing core `gsap.context()` inside standard React `useEffect`:
-    ```typescript
-    useEffect(() => {
-      const ctx = gsap.context(() => {
-        // Timeline execution
-      }, containerRef);
-      return () => ctx.revert(); // Full scoped teardown
-    }, [selectedNode]);
-    ```
-- **Limitations of `contextSafe`**:
-  - `contextSafe` attaches asynchronous or event-driven tweens to the parent `gsap.context()` so they can be cleaned up on unmount.
-  - **Critical Boundary**: `contextSafe` **does not** clean up native DOM listeners (`window.removeEventListener`) or cancel active `requestAnimationFrame` handles. All native listeners, resize observers, and RAF callbacks must be explicitly detached in the effect cleanup return function.
-
-### 7.2 Dynamic Component Primitives for Connected Project Explorer
-
-1. **Selection Geometry Handshake (`SelectionHandshake`)**:
-   - Manages coordinates between project list items and diagram nodes.
-   - Starting motion hypothesis: ~280ms `power2.out`.
-   - Mounts authoritative React state and accessible text synchronously; tweens presentation layers (`opacity`, `transform`, `clipPath`).
-2. **List-to-Diagram Tether (`ListDiagramTether`)**:
-   - Renders a delicate SVG connecting line between the selected list item and active diagram node.
-   - Monitors drift on viewport resize or scroll: if drift exceeds 8px, re-measures coordinates via RAF or gracefully dismisses (`opacity: 0`).
-   - Connects only to authentic, verified DOM elements.
-3. **Factual Architecture Node (`FactualDiagramNode`)**:
-   - Pure SVG/DOM card rendering verified system components (PRISM, Cerenetics, QpiAI Opt / QCloud).
-   - Pre-allocated bounding boxes for layout shift prevention (`contain: layout style`).
+1. **No Blanket Licenses**: Never infer MIT from a repository or website existence. Each dependency, license clause, and attribution requirement must be explicitly verified.
+2. **Attribution Respect**: Any component incorporating code from repositories with attribution requirements (such as Rare UI's Commons Clause or MIT attribution) must include clear source attribution comments and links.
+3. **Single Motion Engine**: Never import competing animation libraries (`motion/react`, `framer-motion`). GSAP (`@gsap/react`, `useGSAP`, `contextSafe`) is the sole motion runtime for the portfolio.
+4. **Zero AI Slop / Fake Telemetry**: Never synthesize metrics, pseudo-percentages, or synthetic curves. All visualizers must be grounded in verified mathematical specifications or primary documentation.

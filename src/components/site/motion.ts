@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 
 // Apple-inspired spring configuration
 export const SPRING_CONFIG = {
@@ -53,13 +54,13 @@ export function prefersReduced() {
 
 /** Stronger route-opening choreography, kept separate from ordinary section reveals. */
 export function usePageIntro(scopeRef: React.RefObject<HTMLElement | null>) {
-  useEffect(() => {
-    const scope = scopeRef.current;
-    if (!scope) return;
-    const targets = Array.from(scope.querySelectorAll<HTMLElement>("[data-page-intro]"));
-    if (!targets.length || prefersReduced()) return;
-    ensureGsap();
-    const ctx = gsap.context(() => {
+  useGSAP(
+    () => {
+      const scope = scopeRef.current;
+      if (!scope) return;
+      const targets = Array.from(scope.querySelectorAll<HTMLElement>("[data-page-intro]"));
+      if (!targets.length || prefersReduced()) return;
+      ensureGsap();
       gsap.fromTo(
         targets,
         { opacity: 0, y: 26 },
@@ -73,28 +74,28 @@ export function usePageIntro(scopeRef: React.RefObject<HTMLElement | null>) {
           delay: 0.08,
         },
       );
-    }, scope);
-    return () => ctx.revert();
-  }, [scopeRef]);
+    },
+    { scope: scopeRef, dependencies: [scopeRef] },
+  );
 }
 
 /** Scroll-triggered section reveals, grouped and staggered. */
 export function useReveal(scopeRef: React.RefObject<HTMLElement | null>) {
-  useEffect(() => {
-    const scope = scopeRef.current;
-    if (!scope) return;
-    document.documentElement.classList.add("motion-ready");
-    if (prefersReduced()) {
-      scope.querySelectorAll<HTMLElement>(".reveal").forEach((el) => {
-        el.style.opacity = "1";
-      });
-      return;
-    }
-    ensureGsap();
-    const ctx = gsap.context(() => {
+  useGSAP(
+    () => {
+      const scope = scopeRef.current;
+      if (!scope) return;
+      document.documentElement.classList.add("motion-ready");
+      if (prefersReduced()) {
+        scope.querySelectorAll<HTMLElement>(".reveal, [data-reveal]").forEach((el) => {
+          el.style.opacity = "1";
+        });
+        return;
+      }
+      ensureGsap();
       const groups = new Map<Element, HTMLElement[]>();
-      scope.querySelectorAll<HTMLElement>(".reveal").forEach((el) => {
-        const parent = el.closest("[data-reveal-group]") ?? el.parentElement ?? scope;
+      scope.querySelectorAll<HTMLElement>(".reveal, [data-reveal]").forEach((el) => {
+        const parent = el.closest("[data-reveal-group], section") ?? el.parentElement ?? scope;
         const list = groups.get(parent) ?? [];
         list.push(el);
         groups.set(parent, list);
@@ -102,15 +103,15 @@ export function useReveal(scopeRef: React.RefObject<HTMLElement | null>) {
       groups.forEach((els, parent) => {
         gsap.fromTo(
           els,
-          { opacity: 0, y: 12 },
+          { opacity: 0, y: 14 },
           {
             opacity: 1,
             y: 0,
             duration: 0.58,
             ease: EASE,
-            stagger: 0.045,
+            stagger: 0.06,
             clearProps: "transform",
-            scrollTrigger: { trigger: parent, start: "top 84%", once: true },
+            scrollTrigger: { trigger: parent, start: "top 88%", once: true },
           },
         );
       });
@@ -177,9 +178,9 @@ export function useReveal(scopeRef: React.RefObject<HTMLElement | null>) {
           },
         );
       });
-    }, scope);
-    return () => ctx.revert();
-  }, [scopeRef]);
+    },
+    { scope: scopeRef, dependencies: [scopeRef] },
+  );
 }
 
 /** Splits an element's text into per-word spans wrapped in an overflow mask. */
@@ -216,21 +217,21 @@ function splitWords(el: HTMLElement) {
 
 /** Cinematic first-paint sequence for the top of a page. */
 export function useLoadSequence(scopeRef: React.RefObject<HTMLElement | null>) {
-  useEffect(() => {
-    const scope = scopeRef.current;
-    if (!scope) return;
-    document.documentElement.classList.add("motion-ready");
-    const targets = scope.querySelectorAll<HTMLElement>("[data-load]");
-    if (!targets.length) return;
-    if (prefersReduced()) {
-      targets.forEach((el) => {
-        el.style.opacity = "1";
-        el.style.transform = "none";
-      });
-      return;
-    }
-    ensureGsap();
-    const ctx = gsap.context(() => {
+  useGSAP(
+    () => {
+      const scope = scopeRef.current;
+      if (!scope) return;
+      document.documentElement.classList.add("motion-ready");
+      const targets = scope.querySelectorAll<HTMLElement>("[data-load]");
+      if (!targets.length) return;
+      if (prefersReduced()) {
+        targets.forEach((el) => {
+          el.style.opacity = "1";
+          el.style.transform = "none";
+        });
+        return;
+      }
+      ensureGsap();
       const mm = gsap.matchMedia();
       mm.add({ desktop: "(min-width: 768px)", mobile: "(max-width: 767px)" }, (context) => {
         const desktop = Boolean(context.conditions?.["desktop"]);
@@ -243,14 +244,12 @@ export function useLoadSequence(scopeRef: React.RefObject<HTMLElement | null>) {
           { scaleY: 1 },
           { scaleY: 0, transformOrigin: "top", duration: 1.1 },
           0,
-        )
-          // 1. Eyebrow / label — restrained, letter-spacing settles inward.
-          .fromTo(
-            scope.querySelectorAll("[data-load='eyebrow']"),
-            { opacity: 0, y: 10, letterSpacing: "0.3em" },
-            { opacity: 1, y: 0, letterSpacing: "0.2em", duration: 0.62 },
-            0.1,
-          );
+        ).fromTo(
+          scope.querySelectorAll("[data-load='eyebrow']"),
+          { opacity: 0, y: 10, letterSpacing: "0.3em" },
+          { opacity: 1, y: 0, letterSpacing: "0.2em", duration: 0.62 },
+          0.1,
+        );
 
         // 2. Headline — line-by-line reveal using CSS masking (no DOM manipulation)
         const lines = Array.from(scope.querySelectorAll<HTMLElement>("[data-load='line']"));
@@ -324,39 +323,49 @@ export function useLoadSequence(scopeRef: React.RefObject<HTMLElement | null>) {
         };
       });
       return () => mm.revert();
-    }, scope);
-    return () => ctx.revert();
-  }, [scopeRef]);
+    },
+    { scope: scopeRef, dependencies: [scopeRef] },
+  );
 }
 
-/** Magnetic pull on primary CTAs. */
+/** Magnetic pull on primary CTAs using @gsap/react useGSAP and contextSafe. */
 export function useMagnetic(ref: React.RefObject<HTMLElement | null>, strength = 0.3) {
+  const { contextSafe } = useGSAP({ scope: ref });
+
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (!window.matchMedia("(pointer: fine)").matches) return;
+    if (typeof window === "undefined" || !window.matchMedia("(pointer: fine)").matches) return;
     if (prefersReduced()) return;
+
     const xTo = gsap.quickTo(el, "x", { duration: 0.5, ease: EASE });
     const yTo = gsap.quickTo(el, "y", { duration: 0.5, ease: EASE });
-    const move = (e: PointerEvent) => {
+
+    const move = contextSafe((e: PointerEvent) => {
       const r = el.getBoundingClientRect();
       xTo((e.clientX - (r.left + r.width / 2)) * strength);
       yTo((e.clientY - (r.top + r.height / 2)) * strength);
-    };
-    const enter = () => gsap.to(el, { scale: 1.03, duration: 0.4, ease: EASE });
-    const reset = () => {
+    });
+
+    const enter = contextSafe(() => {
+      gsap.to(el, { scale: 1.03, duration: 0.4, ease: EASE });
+    });
+
+    const reset = contextSafe(() => {
       xTo(0);
       yTo(0);
       gsap.to(el, { scale: 1, duration: 0.5, ease: EASE });
-    };
+    });
+
     el.addEventListener("pointerenter", enter);
     el.addEventListener("pointermove", move);
     el.addEventListener("pointerleave", reset);
+
     return () => {
       el.removeEventListener("pointerenter", enter);
       el.removeEventListener("pointermove", move);
       el.removeEventListener("pointerleave", reset);
       gsap.killTweensOf(el);
     };
-  }, [ref, strength]);
+  }, [ref, strength, contextSafe]);
 }

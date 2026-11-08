@@ -281,7 +281,8 @@
   color: var(--foreground);
 }
 
-html.motion-ready .reveal {
+html.motion-ready .reveal,
+html.motion-ready [data-reveal] {
   opacity: 0;
 }
 
@@ -290,7 +291,8 @@ html.motion-ready .hero-load {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
+  .reveal,
+  [data-reveal] {
     opacity: 1 !important;
     transform: none !important;
   }

@@ -1,17 +1,15 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { z } from "zod";
-import { ProjectExplorer, type ProjectId } from "../components/site/ProjectExplorer";
+import { createFileRoute } from "@tanstack/react-router";
+import { useRef } from "react";
+import { CopyButton } from "../components/evil/CopyButton";
+import { StatusDot } from "../components/boardui/StatusDot";
+import { StatusLabel } from "../components/site/EditorialControls";
+import { useReveal, usePageIntro } from "../components/site/motion";
 
-const title = "Om M. Doddamani — Engineer, researcher, builder";
-const description = "Notes on engineering, research, and learning systems by building them.";
-
-const searchSchema = z.object({
-  project: z.enum(["prism", "drl", "cerenetics", "eva"]).optional(),
-  node: z.string().optional(),
-});
+const title = "Om M. Doddamani — Engineer, Researcher, Founder";
+const description =
+  "Om M Doddamani — Computer Science student at VVCE Mysuru, founder of Cerenetics, researching offline AI and reliable software systems.";
 
 export const Route = createFileRoute("/")({
-  validateSearch: (search) => searchSchema.parse(search),
   head: () => ({
     meta: [
       { title },
@@ -20,199 +18,417 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: description },
     ],
   }),
-  component: Index,
+  component: SinglePagePortfolio,
 });
 
-function Index() {
-  const navigate = useNavigate({ from: "/" });
-  const search = Route.useSearch();
-  const selectedProject: ProjectId = search.project ?? "prism";
-  const activeNode = search.node ?? "focus";
+interface FactualProject {
+  id: string;
+  category: string;
+  status: string;
+  title: string;
+  summary: string;
+  detail: string;
+  tags: readonly string[];
+  href: string;
+}
 
-  const handleSelectProject = (id: ProjectId) => {
-    navigate({
-      search: (prev) => ({ ...prev, project: id, node: undefined }),
-    });
-  };
+const FACTUAL_PROJECTS: readonly FactualProject[] = [
+  {
+    id: "prism",
+    category: "01 · RESEARCH / LOCAL-FIRST AI",
+    status: "Active research study",
+    title: "PRISM",
+    summary: "Exploring local-first model inference on resource-constrained consumer hardware.",
+    detail:
+      "Investigates memory bounds, execution efficiency, and standalone system design without external cloud dependencies. Focuses on private, on-device evaluation across constrained execution targets.",
+    tags: ["Offline Execution", "Memory Constraints", "Local Benchmarking", "Standalone Systems"],
+    href: "https://github.com/ommd3076",
+  },
+  {
+    id: "drl",
+    category: "02 · RESEARCH / GAME DYNAMICS",
+    status: "Presented at IEEE AIEI",
+    title: "Deep Reinforcement Learning",
+    summary:
+      "Investigating policy optimization and learning dynamics in complex game environments.",
+    detail:
+      "Research into state exploration and policy convergence in structured multi-agent and game environments. Presented at the IEEE International Conference on Artificial Intelligence and Extended Intelligence (AIEI).",
+    tags: ["State Exploration", "Policy Optimization", "IEEE AIEI Conference", "Learning Dynamics"],
+    href: "https://github.com/ommd3076",
+  },
+  {
+    id: "cerenetics",
+    category: "03 · FOUNDER / APPLIED SYSTEMS",
+    status: "Early-stage development",
+    title: "Cerenetics",
+    summary:
+      "Building and testing intelligent, practical software systems for real-world problems.",
+    detail:
+      "Founder engineering work focused on designing software systems where models interface with operational workflows through clear boundaries, observable data flow, and deterministic state handling.",
+    tags: [
+      "Operational Boundaries",
+      "Deterministic State",
+      "System Architecture",
+      "Applied Engineering",
+    ],
+    href: "https://github.com/ommd3076",
+  },
+  {
+    id: "eva",
+    category: "04 · RETROSPECTIVE / CASE STUDY",
+    status: "Completed retrospective",
+    title: "Project EVA",
+    summary: "An early hackathon attempt to automate office workflows through software.",
+    detail:
+      "A first hackathon project exploring office document automation. The initial prototype encountered real-world scoping and document format latency limits, retained openly as an essential case study in engineering trade-offs.",
+    tags: [
+      "Document Parsing",
+      "Latency Limitations",
+      "Heuristic Constraints",
+      "First-Principles Scoping",
+    ],
+    href: "https://github.com/ommd3076",
+  },
+];
 
-  const handleSelectNode = (nodeId: string) => {
-    navigate({
-      search: (prev) => ({ ...prev, node: nodeId }),
-    });
-  };
+function SinglePagePortfolio() {
+  const scope = useRef<HTMLDivElement>(null);
+  useReveal(scope);
+  usePageIntro(scope);
 
   return (
-    <div className="min-h-screen bg-black text-neutral-200 antialiased selection:bg-white/20 selection:text-white px-6 pb-24 pt-16 md:px-12 md:pt-24">
+    <div
+      ref={scope}
+      className="min-h-screen bg-black text-neutral-200 antialiased selection:bg-white/20 selection:text-white"
+    >
       {/* 
-        PRIMARY VISUAL REFERENCE ANCHOR 
-        C:/Users/ommd3/AppData/Local/Temp/codex-clipboard-8bc00f75-f36a-4cea-8da9-85e4159a597a.png
-        Pure black background, narrow centered column (~540px), modest italic serif display name,
-        compact serif body text (13.5px-14px), ample whitespace.
+        ONE FOCUSED PUBLIC ROUTE (/)
+        Approved design references: contentarchitecture.dev, datacurve.ai, ellipsus.com.
+        - Atmospheric dark editorial canvas (ellipsus.com)
+        - Confident serif typography & understated announcement pill (datacurve.ai)
+        - Monospace structural metadata & hairline architectural cards (contentarchitecture.dev)
       */}
-      <header id="top" className="mx-auto max-w-[540px] pt-12 md:pt-16 pb-16">
-        <h1 className="font-serif italic text-2xl md:text-[28px] font-normal text-white tracking-tight">
-          Om M Doddamani
-        </h1>
 
-        <div className="mt-8 space-y-4 font-serif text-[13.5px] md:text-[14px] leading-[1.7] text-neutral-300">
-          <p>
-            I'm Om M Doddamani, a third-year Computer Science and Engineering student at
-            Vidyavardhaka College of Engineering, Mysuru. I'm also the founder of Cerenetics, a
-            startup focused on building intelligent, practical software solutions for real-world
-            problems.
-          </p>
-          <p>
-            My interests lie at the intersection of Artificial Intelligence, software engineering,
-            entrepreneurship, and emerging technologies. I'm particularly fascinated by how we can
-            make AI systems more reliable, efficient, and capable of reasoning beyond conventional
-            approaches. I've been exploring hybrid AI architectures, quantum machine learning,
-            optimization, and intelligent software systems.
-          </p>
-        </div>
-
-        <div className="mt-6 flex items-center gap-5 text-xs text-neutral-400 font-mono">
-          <a
-            href="https://github.com/ommd3076"
-            target="_blank"
-            rel="noreferrer"
-            className="underline underline-offset-4 decoration-neutral-700 hover:text-white hover:decoration-white transition-colors"
+      {/* Hero Section */}
+      <section
+        id="top"
+        className="px-6 pt-24 pb-20 md:pt-36 md:pb-28 border-b border-neutral-800/60 scroll-mt-28"
+      >
+        <div className="mx-auto max-w-[960px] space-y-8">
+          {/* Datacurve-style announcement pill */}
+          <div
+            data-page-intro
+            className="inline-flex items-center gap-2.5 rounded-full border border-neutral-800 bg-neutral-900/60 px-3.5 py-1.5 text-xs text-neutral-300"
           >
-            GitHub ↗
-          </a>
-          <a
-            href="https://www.linkedin.com/in/om-m-doddamani/"
-            target="_blank"
-            rel="noreferrer"
-            className="underline underline-offset-4 decoration-neutral-700 hover:text-white hover:decoration-white transition-colors"
-          >
-            LinkedIn ↗
-          </a>
-        </div>
-      </header>
-
-      {/* Main Content Area */}
-      <main className="mx-auto max-w-[840px]">
-        {/* 
-          CONNECTED FACTUAL PROJECT EXPLORER (Advisor Synthesis)
-          Immediate authoritative state, ~280ms power2.out presentation handshake,
-          deterministic URL-pinned state, pure factual SVG/DOM pipeline, zero invented metrics.
-        */}
-        <section id="work" className="border-t border-neutral-800/80 py-14 md:py-16">
-          <div className="mb-6 flex items-baseline justify-between gap-4">
-            <h2 className="text-xs font-mono uppercase tracking-wider text-neutral-400">
-              01 · Building
-            </h2>
-            <p className="text-[11px] font-mono text-neutral-500">
-              Selected systems · URL-pinned state
-            </p>
-          </div>
-
-          <ProjectExplorer
-            selectedId={selectedProject}
-            activeNodeId={activeNode}
-            onSelectProject={handleSelectProject}
-            onSelectNode={handleSelectNode}
-          />
-
-          <p className="mt-6 text-[11px] font-mono leading-relaxed text-neutral-500">
-            Selected systems represent verified implementations and research submissions. Notes are
-            updated as publication proceedings and code repositories reach formal release.
-          </p>
-        </section>
-
-        {/* 
-          NOTES / THE INSTRUMENT NARRATIVE (Calculus / Tools Essay)
-        */}
-        <section id="ideas" className="border-t border-neutral-800/80 py-14 md:py-16">
-          <div className="flex items-baseline justify-between gap-4">
-            <h2 className="text-xs font-mono uppercase tracking-wider text-neutral-400">
-              02 · Notes
-            </h2>
-            <span className="text-[11px] font-mono text-neutral-500">
-              On instruments and what they make possible
+            <StatusDot status="active" showLabel={false} />
+            <span className="font-mono text-[10.5px] sm:text-[11px] tracking-wide text-neutral-300">
+              Computer Science @ VVCE · Founder at Cerenetics
             </span>
           </div>
 
-          <article className="mt-8 max-w-[620px]">
-            <p className="font-serif text-lg md:text-[1.35rem] leading-[1.35] tracking-[-0.02em] text-white">
-              Sometimes the tool a problem forces us to invent outlasts the problem that called for
-              it.
-            </p>
-            <div className="mt-5 space-y-4 font-serif text-[13.5px] md:text-[14px] leading-[1.75] text-neutral-300">
-              <p>
-                Newton’s questions about motion helped drive his work on fluxions, one of the
-                developments that formed calculus. Leibniz developed calculus independently and gave
-                it much of the notation we still use. A question in one field had pushed mathematics
-                toward a new way to describe change.
-              </p>
-              <p>
-                I keep coming back to that pattern. Better instruments can extend what people are
-                able to do: a more precise tool can give a surgeon greater control; better tools for
-                research can make new questions tractable. One advance can create room for the next.
-              </p>
-              <p>
-                That is the kind of engineering I care about—building the right instrument for a
-                real task, with the context and care needed for someone to use it well.
-              </p>
-            </div>
-            <p className="mt-4 text-[11px] font-mono text-neutral-500">
-              A working perspective, grounded in implementation.
-            </p>
-          </article>
-        </section>
+          <div data-page-intro className="space-y-6 max-w-[820px]">
+            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-normal text-white tracking-tight leading-[1.15]">
+              Engineering reliable software systems and local-first AI.
+            </h1>
 
-        {/* 
-          NOW / ABOUT SECTION
-        */}
-        <section id="about" className="border-t border-neutral-800/80 py-14 md:py-16">
-          <div className="grid gap-6 md:grid-cols-[180px_1fr]">
-            <h2 className="text-xs font-mono uppercase tracking-wider text-neutral-400">
-              03 · Now
+            <p className="font-serif text-base md:text-lg text-neutral-300 leading-relaxed max-w-[700px]">
+              I'm Om M Doddamani, a third-year Computer Science student at Vidyavardhaka College of
+              Engineering, Mysuru, and founder of Cerenetics. My work focuses on making model
+              execution reliable, local, and grounded in deterministic state boundaries rather than
+              cloud dependence.
+            </p>
+          </div>
+
+          {/* Dual Action Group (datacurve.ai pattern) */}
+          <div data-page-intro className="flex flex-wrap items-center gap-4 pt-2">
+            <a
+              href="#work"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-mono font-medium text-black transition-colors hover:bg-neutral-200"
+            >
+              Selected Work ↓
+            </a>
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-neutral-900/70 px-5 py-2.5 text-xs font-mono text-neutral-200 transition-colors hover:border-neutral-400 hover:text-white"
+            >
+              Get in touch →
+            </a>
+            <div className="flex items-center gap-2 pl-1">
+              <span className="text-xs font-mono text-neutral-500 hidden sm:inline">Direct:</span>
+              <a
+                href="mailto:ommd3076@gmail.com"
+                className="text-xs font-mono text-neutral-300 hover:text-white underline underline-offset-4 decoration-neutral-700 hover:decoration-white transition-colors"
+              >
+                ommd3076@gmail.com
+              </a>
+              <CopyButton textToCopy="ommd3076@gmail.com" label="Copy" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Selected Work Section */}
+      <section
+        id="work"
+        className="px-6 py-20 md:py-28 border-b border-neutral-800/60 scroll-mt-28"
+      >
+        <div className="mx-auto max-w-[960px] space-y-12">
+          {/* Section Heading */}
+          <div data-reveal className="space-y-3">
+            <div className="text-[11px] font-mono uppercase tracking-wider text-neutral-500">
+              01 · Selected Research & Systems
+            </div>
+            <h2 className="font-serif text-2xl md:text-3xl font-medium text-white tracking-tight">
+              Projects & Engineering Retrospectives
             </h2>
-            <div className="space-y-4 font-serif text-[13.5px] md:text-[14px] leading-[1.75] text-neutral-300">
-              <p>
-                I’m a founder at Cerenetics, and a computer science student at Vidyavardhaka College
-                of Engineering, Mysuru. The work I’m most drawn to sits close to implementation,
-                experiments, and architecture: learning a system by tracing it, forming a model,
-                then testing that model in code.
-              </p>
-              <p>
-                I care about the decisions around the build as much as the build itself—what to keep
-                simple, where precision matters, and when the next useful step is to change
-                direction.
-              </p>
+            <p className="font-sans text-xs md:text-sm text-neutral-400 max-w-[680px] leading-relaxed">
+              Four verified efforts across local-first machine learning, game dynamics, practical
+              system design, and early hackathon trade-offs. Strictly factual, verifiable
+              primary-source milestones only.
+            </p>
+          </div>
+
+          {/* Architectural Project Cards (contentarchitecture.dev pattern) */}
+          <div className="grid gap-6 md:grid-cols-2">
+            {FACTUAL_PROJECTS.map((project) => (
+              <article
+                key={project.id}
+                data-reveal
+                data-project-card-id={project.id}
+                className="group relative flex flex-col justify-between rounded-xl border border-neutral-800/80 bg-neutral-950/60 p-6 md:p-7 backdrop-blur-sm transition-all duration-300 hover:border-neutral-700 hover:bg-neutral-900/40"
+              >
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between gap-2 border-b border-neutral-800/70 pb-3">
+                    <span className="font-mono text-[10px] tracking-wider text-neutral-500 whitespace-nowrap">
+                      {project.category}
+                    </span>
+                    <StatusLabel>{project.status}</StatusLabel>
+                  </div>
+
+                  <div>
+                    <h3 className="font-serif text-xl font-normal text-white tracking-tight group-hover:text-neutral-100">
+                      {project.title}
+                    </h3>
+                    <p className="mt-2 text-xs md:text-[13px] font-serif leading-relaxed text-neutral-300">
+                      {project.summary}
+                    </p>
+                  </div>
+
+                  <p className="text-xs font-sans leading-relaxed text-neutral-400 pt-1">
+                    {project.detail}
+                  </p>
+                </div>
+
+                <div className="pt-6 space-y-4">
+                  {/* Factual Node Tags */}
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded border border-neutral-800 bg-black/60 px-2 py-0.5 text-[10px] font-mono text-neutral-400"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="border-t border-neutral-800/60 pt-3 flex items-center justify-between text-xs font-mono">
+                    <a
+                      href={project.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-neutral-400 hover:text-white transition-colors inline-flex items-center gap-1"
+                    >
+                      Repository & Artifacts <span aria-hidden="true">↗</span>
+                    </a>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Background & Methodology Section */}
+      <section
+        id="about"
+        className="px-6 py-20 md:py-28 border-b border-neutral-800/60 scroll-mt-28"
+      >
+        <div className="mx-auto max-w-[960px] space-y-12">
+          {/* Section Heading */}
+          <div data-reveal className="space-y-3">
+            <div className="text-[11px] font-mono uppercase tracking-wider text-neutral-500">
+              02 · Background & Methodology
+            </div>
+            <h2 className="font-serif text-2xl md:text-3xl font-medium text-white tracking-tight">
+              First principles, academic foundation, and engineering discipline.
+            </h2>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2">
+            {/* Academic Foundation Card */}
+            <div
+              data-reveal
+              className="rounded-xl border border-neutral-800/80 bg-neutral-950/60 p-6 md:p-8 space-y-5"
+            >
+              <div className="border-b border-neutral-800/70 pb-3">
+                <span className="font-mono text-[10px] uppercase tracking-wider text-neutral-500">
+                  Academic Focus · 2022–2026
+                </span>
+                <h3 className="font-serif text-lg text-white font-normal mt-1">
+                  Computer Science & Engineering
+                </h3>
+                <p className="text-xs font-mono text-neutral-400 mt-0.5">
+                  Vidyavardhaka College of Engineering, Mysuru
+                </p>
+              </div>
+
+              <div className="space-y-3 text-xs md:text-[13px] font-serif leading-relaxed text-neutral-300">
+                <p>
+                  Pursuing foundational studies in algorithms, operating systems, and computer
+                  architecture. Independent research centers on making machine learning systems
+                  operate reliably under resource constraints rather than assuming unlimited scale.
+                </p>
+                <p>
+                  Active research interests include local-first model inference architectures,
+                  learning dynamics in reinforcement learning, and emerging hybrid approaches that
+                  bridge classical optimization with modern neural pipelines.
+                </p>
+              </div>
+
+              <div className="pt-2 flex flex-wrap gap-2 text-[10px] font-mono text-neutral-400">
+                <span className="rounded border border-neutral-800 bg-black/60 px-2 py-0.5">
+                  Algorithms
+                </span>
+                <span className="rounded border border-neutral-800 bg-black/60 px-2 py-0.5">
+                  Systems Engineering
+                </span>
+                <span className="rounded border border-neutral-800 bg-black/60 px-2 py-0.5">
+                  Optimization
+                </span>
+                <span className="rounded border border-neutral-800 bg-black/60 px-2 py-0.5">
+                  Offline AI
+                </span>
+              </div>
+            </div>
+
+            {/* Engineering Principles Card */}
+            <div
+              data-reveal
+              className="rounded-xl border border-neutral-800/80 bg-neutral-950/60 p-6 md:p-8 space-y-5"
+            >
+              <div className="border-b border-neutral-800/70 pb-3">
+                <span className="font-mono text-[10px] uppercase tracking-wider text-neutral-500">
+                  Design Standards
+                </span>
+                <h3 className="font-serif text-lg text-white font-normal mt-1">
+                  Operational Principles
+                </h3>
+                <p className="text-xs font-mono text-neutral-400 mt-0.5">
+                  Disciplined engineering over synthetic claims
+                </p>
+              </div>
+
+              <div className="space-y-3 text-xs md:text-[13px] font-serif leading-relaxed text-neutral-300">
+                <p>
+                  <strong className="text-white font-medium">
+                    Deterministic state boundaries:
+                  </strong>{" "}
+                  Software systems should handle errors through explicit reducers, predictable state
+                  machines, and fail-closed defaults rather than silent side-effects.
+                </p>
+                <p>
+                  <strong className="text-white font-medium">Verifiable evidence only:</strong>{" "}
+                  Engineering documentation reports verified outcomes, primary sources, and real
+                  constraints. Theoretical or unverified conference claims are withheld until formal
+                  release.
+                </p>
+                <p>
+                  <strong className="text-white font-medium">First-principles scoping:</strong>{" "}
+                  Early failure modes (like Project EVA) are documented candidly as learning case
+                  studies to inform cleaner architecture.
+                </p>
+              </div>
+
+              <div className="pt-2 flex flex-wrap gap-2 text-[10px] font-mono text-neutral-400">
+                <span className="rounded border border-neutral-800 bg-black/60 px-2 py-0.5">
+                  Fail-Closed State
+                </span>
+                <span className="rounded border border-neutral-800 bg-black/60 px-2 py-0.5">
+                  Primary Source Verification
+                </span>
+                <span className="rounded border border-neutral-800 bg-black/60 px-2 py-0.5">
+                  Honest Postmortems
+                </span>
+              </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* 
-          FOOTER / OUTBOUND PROFILES
-        */}
-        <footer
-          id="contact"
-          className="flex flex-wrap items-center justify-between gap-4 border-t border-neutral-800/80 pt-8 text-xs font-mono text-neutral-500"
-        >
-          <p>Interested in thoughtful engineering and difficult problems.</p>
-          <div className="flex gap-4">
-            <a
-              href="https://github.com/ommd3076"
-              target="_blank"
-              rel="noreferrer"
-              className="text-neutral-400 underline underline-offset-4 decoration-neutral-800 hover:text-white hover:decoration-white transition-colors"
-            >
-              GitHub ↗
-            </a>
-            <a
-              href="https://www.linkedin.com/in/om-m-doddamani/"
-              target="_blank"
-              rel="noreferrer"
-              className="text-neutral-400 underline underline-offset-4 decoration-neutral-800 hover:text-white hover:decoration-white transition-colors"
-            >
-              LinkedIn ↗
-            </a>
+      {/* Direct Contact Section */}
+      <section id="contact" className="px-6 py-20 md:py-28 scroll-mt-28">
+        <div className="mx-auto max-w-[960px] space-y-8">
+          <div data-reveal className="space-y-3">
+            <div className="text-[11px] font-mono uppercase tracking-wider text-neutral-500">
+              03 · Direct Contact
+            </div>
+            <h2 className="font-serif text-2xl md:text-3xl font-medium text-white tracking-tight">
+              Let's discuss research, systems, or collaborations.
+            </h2>
+            <p className="font-sans text-xs md:text-sm text-neutral-400 max-w-[640px] leading-relaxed">
+              Based in Mysuru, India (IST / UTC+5:30). Open to technical dialogue with researchers,
+              engineers, and builders working on machine learning systems and reliable software.
+            </p>
           </div>
-        </footer>
-      </main>
+
+          <div
+            data-reveal
+            className="rounded-xl border border-neutral-800/80 bg-neutral-950/60 p-6 md:p-8 space-y-6"
+          >
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-neutral-800/70 pb-6">
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-500">
+                  Direct Email
+                </span>
+                <div className="mt-1 flex items-center gap-3">
+                  <a
+                    href="mailto:ommd3076@gmail.com"
+                    className="font-serif text-lg md:text-xl text-white hover:text-neutral-200 underline underline-offset-4 decoration-neutral-700 hover:decoration-white transition-colors"
+                  >
+                    ommd3076@gmail.com
+                  </a>
+                  <CopyButton textToCopy="ommd3076@gmail.com" label="Copy" />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <StatusDot status="active" showLabel={false} />
+                <span className="text-xs font-mono text-neutral-400">Available for dialogue</span>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-4 text-xs font-mono pt-1">
+              <a
+                href="https://github.com/ommd3076"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-full border border-neutral-800 bg-black/60 px-4 py-2 text-neutral-300 transition-colors hover:border-neutral-600 hover:text-white"
+              >
+                GitHub: @ommd3076 ↗
+              </a>
+              <a
+                href="https://www.linkedin.com/in/om-m-doddamani/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-full border border-neutral-800 bg-black/60 px-4 py-2 text-neutral-300 transition-colors hover:border-neutral-600 hover:text-white"
+              >
+                LinkedIn: Om M. Doddamani ↗
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

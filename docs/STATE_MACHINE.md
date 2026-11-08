@@ -1,160 +1,123 @@
-# Global Interlinked State Machine & Decision Trees
+# State Machine Specification
 
-**Subject**: State Machine Architecture, URL-Pinned State, Hover/Focus Precedence, and Accessible Listbox Contracts  
-**Status**: DRAFT / PLANNING PHASE (Gated)  
-**Last Updated**: 2026-11-08 (Post Gemini 1–4 & Grok 1–5 Consultations)  
-**Repository**: `portfolio-site`
+**Status:** Active Implementation Specification
+**Updated:** 2026-11-08
+**Project:** `portfolio-site` (`https://github.com/ommd3076/Website-protfolio.git`)
 
 ---
 
-## 1. Architectural Philosophy: The Connected Explorer
+## 1. State Architecture Overview
 
-The portfolio operates as a unified systems-engineering instrument:
+State management across the portfolio is strictly deterministic, predictable, and decoupled from presentation animation:
 
-- A user interacting with the **Project List** simultaneously coordinates the **System Diagram**, the **Telemetry Monitor**, and the **Context Panel**.
-- State is deterministic, backed by a central reducer, synchronized with URL search params for deep linking, and strictly separates transient hover previews from pinned selections.
-
-```mermaid
-stateDiagram-v2
-    [*] --> Idle
-
-    Idle --> HoverPreview: HOVER_ITEM (debounced 40ms)
-    HoverPreview --> Idle: LEAVE_ITEM
-
-    Idle --> Pinned: PIN_SELECTION (click / Enter)
-    HoverPreview --> Pinned: PIN_SELECTION (click / Enter)
-
-    state Pinned {
-        [*] --> ProjectPinned
-        ProjectPinned --> NodePinned: PIN_NODE (nodeId)
-        NodePinned --> ProjectPinned: UNPIN_NODE
-    }
-
-    Pinned --> Pinned: HOVER_OTHER (cosmetic hint only; does NOT overwrite pinned display)
-    Pinned --> Idle: UNPIN_ALL (Escape / click-outside)
-    Pinned --> Pinned: PIN_NEW_PROJECT (explicit selection)
+```
+[User Interaction / URL Param]
+              │
+              ▼
+   [Deterministic Reducer / Route State] ──(Synchronous Commit)──► [DOM & ARIA Update]
+              │                                                            │
+              ▼                                                            ▼
+   [GSAP Presentation Handshake] (200-280ms)                      [Assistive Tech & Screen Readers]
+   (power3.out, scoped to context, revertable)
 ```
 
----
-
-## 2. Global State Store Specification
-
-Driven by a centralized reducer, synchronized with URL search parameters (`?project=<slug>&node=<nodeId>`):
-
-```typescript
-export interface GlobalPortfolioState {
-  // Pinned State (Canonical / URL-Synchronized)
-  pinnedProjectId: string | null;
-  pinnedNodeId: string | null;
-
-  // Transient Hover State (Local, Debounced, Secondary Precedence)
-  hoveredProjectId: string | null;
-  hoveredNodeId: string | null;
-
-  // Telemetry Metrics (Derived / Live)
-  telemetry: {
-    activeNodesCount: number;
-    streamHealth: "nominal" | "calibrating" | "focused";
-    computeMode: string;
-  };
-
-  // Accessibility & Preferences
-  prefersReducedMotion: boolean;
-  activeDescendantId: string | null;
-}
-
-export type PortfolioAction =
-  | { type: "PIN_PROJECT"; projectId: string; updateUrl?: boolean }
-  | { type: "UNPIN_PROJECT" }
-  | { type: "PIN_NODE"; nodeId: string; updateUrl?: boolean }
-  | { type: "UNPIN_NODE" }
-  | { type: "HOVER_PROJECT"; projectId: string }
-  | { type: "LEAVE_PROJECT" }
-  | { type: "HOVER_NODE"; nodeId: string }
-  | { type: "LEAVE_NODE" }
-  | { type: "SYNC_FROM_URL"; queryParams: { project?: string; node?: string } }
-  | { type: "SET_REDUCED_MOTION"; enabled: boolean };
-```
+1. **State Ownership**: Routes manage their own interactive state without global mutable state stores.
+2. **Synchronous React Commit**: ARIA attributes (`aria-selected`, `aria-activedescendant`, `aria-pressed`) and DOM text nodes update synchronously without waiting for motion timelines.
+3. **Fail-Closed Validation**: Selection requests for non-existent projects or invalid nodes fallback safely to default valid states.
 
 ---
 
-## 3. Precedence Rules & Conflict Resolution (Gemini 2 Synthesis)
+## 2. Route-Level State Machines
 
-To eliminate erratic UI jumping during interaction, the reducer enforces strict precedence:
+### A. Homepage (`/`) — Quiet Editorial Anchor (Zero Interactive State)
 
-1. **Pinned Selection Strictly Overrides Hover**:
-   - When `pinnedProjectId` is active, hovering over another project card does **not** replace the active diagram, telemetry, or details view.
-   - The hovered item receives a subtle, local border/cursor highlight only (cosmetic feedback), but the system view remains locked to the pinned project.
-2. **Explicit Pinning**:
-   - Pinning requires an explicit user intent: mouse click or keyboard activation (`Enter` / `Space`).
-3. **Explicit Unpinning**:
-   - Pressing `Escape`, clicking a clear button, or clicking outside the explorer unpins the current selection and returns to `Idle`.
-4. **URL Synchronization & Validation**:
-   - When a project or node is pinned, the router replaces or pushes the search params: `?project=prism&node=input`.
-   - On page load or `popstate` (browser Back/Forward), incoming query parameters are validated against known project slugs and node IDs via Zod. Invalid or unapproved slugs fall back safely to `null` (Idle).
+- **Visual Role**: Strict visual ground truth matching `image-1.png`.
+- **State Model**: Zero runtime state. No URL search parameters, no reducer, no client-side interactive state machines.
+- **Rendering**: Pure static SSR HTML delivering a quiet, serene introduction (540px centered column, italic serif name, compact serif biography, verified public profile links with copy interaction).
 
----
+### B. Work Explorer (`/work`) — URL-Pinned State Machine & Deterministic Reducer
 
-## 4. Accessible Single-Select Listbox Pattern (Grok 4 Correction)
-
-> [!IMPORTANT]
-> **Accessibility Architecture (Rejection of Invalid ARIA)**:
-> Grok 4 identified critical ARIA violations common in AI-generated code: putting `aria-selected` on non-option elements (like generic buttons or divs) and nesting interactive `<a href="...">` links inside listbox options.
-
-The Explorer component implements the official **WAI-ARIA Single-Select Listbox** pattern:
-
-1. **Container Semantics**:
-   - The list container has `role="listbox"`, `aria-label="Selected Engineering Work"`, and `aria-activedescendant="option-<id>"`.
-   - Keyboard navigation supports `ArrowUp` / `ArrowDown` for moving active descendant, `Home` / `End`, `Enter` / `Space` to pin, and `Escape` to unpin.
-2. **Item Semantics**:
-   - Each project item has `role="option"`, `id="option-<slug>"`, and `aria-selected="true|false"` (reflecting whether it is pinned).
-3. **External Link Decoupling (Strict Rule)**:
-   - **Zero Nested Links in Options**: Never place `<a href="...">` (such as GitHub or paper links) inside the `role="option"` elements.
-   - External action links belong strictly in the **Context / Details Panel** outside the listbox, accessible via standard Tab focus order.
-
----
-
-## 5. Cross-Module Reaction Matrix
-
-| Trigger                                        | Initiating Module | Diagram Display                 | Telemetry Readout                   | Context / Detail Panel                                     |
-| ---------------------------------------------- | ----------------- | ------------------------------- | ----------------------------------- | ---------------------------------------------------------- |
-| `HOVER_PROJECT(prism)` _(when unpinned)_       | Project Listbox   | Previews PRISM 4-node pipeline  | Displays "Offline AI / Local 4-bit" | Previews problem statement                                 |
-| `PIN_PROJECT(prism)`                           | Project Listbox   | Locks PRISM pipeline in view    | Locks telemetry metrics stream      | Focuses full verified case study                           |
-| `HOVER_PROJECT(drl)` _(while PRISM is pinned)_ | Project Listbox   | **Remains PRISM** (no jump)     | **Remains PRISM**                   | **Remains PRISM** (hovered row shows local highlight only) |
-| `PIN_NODE(input)`                              | System Diagram    | Highlights input ingestion node | Displays node tensor shapes         | Displays input schema specification                        |
-| `UNPIN_ALL` (Escape)                           | Keyboard / Shell  | Returns to baseline overview    | Returns to ambient idle state       | Returns to default workbench notes                         |
-
----
-
-## 6. Synchronous Accessible State Commit & Interruption Safety (Gemini 6 Synthesis)
-
-### 6.1 Authoritative React State & Immediate Accessible Mounting
-
-- **Rejection of Delayed Midpoint Content**:
-  - The authoritative React state (`pinnedProjectId`, `selectedNodeId`) updates synchronously upon selection.
-  - Accessible text and ARIA properties (`aria-selected="true"`, `aria-activedescendant`) mount in the DOM immediately on the same render tick.
-  - Motion is purely presentational: GSAP tweens visual properties (`opacity`, `transform`, `clipPath`), guaranteeing that screen readers and automated test harnesses perceive state updates without waiting for motion completion.
-
-### 6.2 Interruption-Safe & Kill-Safe Timelines
-
-- When a user rapidly cycles through selections (via keyboard arrow keys, rapid clicks, or scrubbed touch events), lingering animations from previous transitions must not queue or corrupt the display.
-- Every state transition executes an explicit kill routine:
+- **State Source**: TanStack Router Search Parameters (`project`, `category`, `node`).
+- **Validation**: Schema-validated via Zod:
   ```typescript
-  gsap.killTweensOf([diagramRef.current, detailRef.current, tetherRef.current]);
+  const workSearchSchema = z.object({
+    category: z.enum(["all", "research", "systems", "retrospectives"]).optional(),
+    project: z.enum(["prism", "drl", "cerenetics", "eva"]).optional(),
+    node: z.string().optional(),
+  });
   ```
-  This immediately halts active tweens, clears transform caches, and executes the new transition from the current visual position.
+- **State Model**:
+  ```typescript
+  type FilterCategory = "all" | "research" | "systems" | "retrospectives";
 
-### 6.3 Focus Retention & Keyboard Navigation
+  interface WorkState {
+    category: FilterCategory;
+    projectId: ProjectId;
+    nodeId: string;
+  }
+  ```
+- **Action Set**:
+  - `set-category`: Computes filtered subset. If currently selected project remains visible within the category, its selection is preserved; otherwise, switches to the first project of the new category. Synchronizes `category` search param in URL.
+  - `select-project`: Validates `projectId` against `FACTUAL_PROJECTS`. Sets active node to the project's primary node. Synchronizes `project` search param in URL.
+  - `select-node`: Validates that `nodeId` belongs to the currently active project. Synchronizes `node` search param in URL.
+- **Fail-Closed Invariants**:
+  - Category filters are exhaustive; each current category maps to at least one valid project.
+  - Active node is guaranteed to belong to the active project.
+  - Invalid URL parameters fail closed safely to defaults (`project: "prism"`, `category: "all"`).
+- **Browser History Integration**:
+  - Pushed to browser history stack via TanStack Router `navigate({ search: ... })`; supports standard browser Back and Forward navigation without state desynchronization.
+  - Tested and verified isolated deterministic sequence: Initial P1 (`prism`, `search=""`, `histLen=2`) → Click P2 (`drl`, `search="?project=drl"`, `histLen=3`) → Click P3 (`cerenetics`, `search="?project=cerenetics"`, `histLen=4`) → Back P2 (`drl`, `search="?project=drl"`, `histLen=4`) → Back P1 (`prism`, `search=""`, `histLen=4`) → Forward P2 (`drl`, `search="?project=drl"`, `histLen=4`).
+  - Explicit changed selections push new history entries; default URL normalization uses replace (`{ replace: true }`); popstate URL synchronization updates local reducer state only and never invokes push/navigate.
 
-- When navigating the listbox via `ArrowUp` / `ArrowDown`, focus remains on the listbox container while `aria-activedescendant` updates to the current option's ID.
-- Activating `Enter` or `Space` pins the project and transfers focus logically to the Context/Detail panel action bar or preserves position for subsequent `Tab` navigation.
-- Activating `Escape` unpins the project and restores focus to the previously active listbox item.
+### C. About Route (`/about`) — Accessible Tab Machine
 
-### 6.4 Touch Handling & URL Navigation Synchronization
+- **State Model**: Single active tab identifier (`education`, `founder`, `research`, `philosophy`, `elsewhere`).
+- **Keyboard Contract**:
+  - `ArrowLeft` / `ArrowRight`: Moves focus and activates adjacent tab with cyclic wrap.
+  - `Home` / `End`: Activates first or last tab.
+- **Motion Decoupling**: Tab panel reveal uses a lightweight GSAP opacity/translate fade with reduced-motion bypass.
 
-- **Touch Devices**:
-  - Touch taps act as explicit select/pin actions; hover preview logic is bypassed on touch-primary viewports (`pointer: coarse`).
-- **URL Search Params Synchronization**:
-  - Pinned states sync to URL query parameters (`?project=prism&node=input`).
-  - During rapid cycling, query updates use `replace: true` to avoid cluttering the browser history stack.
-  - Direct deep linking and browser Back/Forward (`popstate`) events hydrate the state machine deterministically through Zod schema validation.
+### D. Global Command Palette (`⌘K`) State Machine
+
+- **State Model**: `isOpen: boolean`, `query: string`, `selectedIndex: number`.
+- **Trigger**: Global `⌘K` or `Ctrl+K` keydown listener; mobile header icon button.
+- **Keyboard Contract**:
+  - `Escape`: Closes modal and returns focus to previous active element.
+  - `ArrowDown` / `ArrowUp`: Navigates through filtered commands with cyclic modulo index wrapping.
+  - `Enter`: Executes selected command handler (`navigate(...)`) and immediately closes modal.
+- **Accessibility**: Standard WAI-ARIA modal dialog (`role="dialog"`, `aria-modal="true"`, `aria-label="Command Palette"`), auto-focus on input, background backdrop blur with click-outside dismissal.
+
+---
+
+## 3. Keyboard Navigation Specification (WAI-ARIA Single-Select Listbox)
+
+The `ProjectExplorer` implements standard WAI-ARIA Listbox semantics:
+
+- `role="listbox"` on container with `aria-label="Selected projects"`.
+- `aria-activedescendant="option-{selectedId}"` dynamically updated.
+- Each item: `role="option"`, `aria-selected={isSelected}`.
+- Key bindings:
+  - `ArrowDown`: Selects next project in list (wraps around).
+  - `ArrowUp`: Selects previous project in list (wraps around).
+  - `Home`: Selects first project (`01 PRISM`).
+  - `End`: Selects last project (`04 EVA`).
+
+---
+
+## 4. GSAP Presentation Handshake & Lifecycle Safety
+
+1. **Context Scoping & Teardown-Only Reversion via `@gsap/react` (`useGSAP`, `contextSafe`)**:
+   - The animation lifecycle is managed directly by `@gsap/react`'s official `useGSAP` hook, providing automatic SSR-safe cleanup without manual isomorphic layout effects.
+   - **Teardown-Only Reversion**: Configured with `{ revertOnUpdate: false }`. Reversion occurs **strictly on component teardown (unmount)**. Mid-selection dependency updates do NOT trigger context reversion, preventing mid-flight snaps to CSS initial state.
+   - **Event Safety via `contextSafe`**: Interactive selection handlers (`handleProjectSelect`, `handleNodeSelect`, `handleTabSelect`) and retargeting tweens are wrapped with `contextSafe` to guarantee that all spawned animations belong to the scoped context.
+2. **Rapid Retargeting & Interruption Safety (60ms Cycling)**:
+   - When `selectedId` or `activeNodeId` changes rapidly, the component calls `gsap.killTweensOf([diagram, ...nodes])` to kill only the active target tweens while **preserving current inline transforms and opacity**.
+   - The new animation glides smoothly from the preserved mid-flight position to the new target using `timeline.to(diagram, ...)` and a subtle relative node reveal, avoiding visual snapping or transform stacking.
+   - Verified via automated 60ms click cycling across `["drl", "cerenetics", "eva", "prism"]`, settling cleanly without transform collisions.
+3. **Select-Only SVG Tether Contract**:
+   - Connects the actively selected listbox item to the active node in the detail panel.
+   - **Hidden at narrow widths**: When viewport width is <768px (or elements stack vertically where `endX <= startX + 16`), the tether is completely hidden (`opacity: 0` in JS and CSS `hidden md:block`).
+   - **Hidden during active scroll**: On `scroll` events, tether opacity is immediately set to `0` to prevent visual drift or jitter while the page is in motion.
+   - **Settled re-display**: Once scrolling stops and coordinates stabilize (debounced at 120ms), the tether measures container-relative coordinates and smoothly fades back in (`opacity: 0.45`).
+   - **Window resize**: Handled via throttled `requestAnimationFrame` recalculating the cubic bezier curve `M ${startX} ${startY} C ${midX} ${startY}, ${midX} ${endY}, ${endX} ${endY}`.
+   - **Reduced motion**: Completely hidden when `prefersReduced()` is active.

@@ -64,19 +64,28 @@ portfolio-site/
 ├── src/
 │   ├── assets/                 # SVGs, verified diagrams, artwork
 │   ├── components/
-│   │   ├── base/               # Low-level primitives (buttons, inputs)
-│   │   ├── brand/              # Brand SVG lockups (Screenshot 2026-08-03 141135.svg)
-│   │   ├── site/               # Structural chrome (HeaderBar, Chrome, Nav, GlobalCursor)
-│   │   └── ui/                 # Installed UI primitives (shadcn, ReUI, Radix)
-│   ├── data/                   # Typed static data & content schemas (Public DTOs)
+│   │   ├── base/               # Low-level accessible primitives (buttons, inputs)
+│   │   ├── boardui/            # BoardUI status dots, banners, data primitives
+│   │   ├── brand/              # Brand SVG lockups
+│   │   ├── command/            # Global Command Palette (⌘K) modal
+│   │   ├── editorial/          # Academic and research primitives (TOC, footnotes, citations)
+│   │   ├── evil/               # Tactile buttons, magnetic links, copy interactions
+│   │   ├── glass/              # High-contrast glass panels and editorial surfaces
+│   │   ├── rare/               # Subtle tickers and marquees via GSAP
+│   │   ├── site/               # Structural chrome (HeaderBar, Chrome, ProjectExplorer, motion)
+│   │   ├── ui/                 # Installed headless UI primitives (Radix, React Aria)
+│   │   └── visualizers/        # Unmounted candidate visualizers (retained in library)
+│   ├── data/                   # Typed static data & factual schemas
 │   ├── hooks/                  # Custom React hooks (usePrefersReducedMotion, useURLState)
-│   ├── lib/                    # Core utilities & helpers (cx, public-dto-filter)
+│   ├── lib/                    # Core utilities & helpers (cx, utils)
 │   ├── routes/                 # TanStack file-based routing
-│   │   ├── __root.tsx          # Root shell layout (<Outlet />, scroll restoration)
-│   │   ├── index.tsx           # Home entrypoint & Connected Explorer
-│   │   ├── work.tsx            # Selected work & verified deep dives
-│   │   ├── about.tsx           # Engineering philosophy & now
-│   │   └── contact.tsx         # Quiet, functional contact route
+│   │   ├── __root.tsx          # Root shell layout (<Outlet />, scroll restoration, ⌘K)
+│   │   ├── index.tsx           # Quiet editorial visual anchor (image-1.png match, 540px column)
+│   │   ├── work.tsx            # First-viewport interactive topology workspace & workReducer
+│   │   ├── about.tsx           # Engineering background, founder journey, IEEE citation
+│   │   ├── approach.tsx        # First-principles methodology & 4 hypothesis stages
+│   │   ├── future.tsx          # Architectural theses & conceptual foundations
+│   │   └── contact.tsx         # Quiet, functional contact channels
 │   ├── styles/                 # Theme tokens, globals, typography
 │   │   ├── globals.css
 │   │   ├── theme.css
@@ -97,12 +106,13 @@ portfolio-site/
 
 ## 3. URL-Pinned State Architecture (Gemini 1 & 2 Synthesis)
 
-Rather than maintaining disconnected ephemeral state, the interlinked explorer links URL search parameters with a centralized reducer:
+The primary interactive state machine resides on the Work route (`/work`), linking URL search parameters with a centralized deterministic reducer (`workReducer`):
 
 1. **URL as Ground Truth for Pinned Elements**:
-   - The query string (`?project=<slug>&node=<nodeId>`) represents the canonical pinned selection.
+   - The query string (`/work?project=<slug>&category=<cat>&node=<nodeId>`) represents the canonical selection.
    - Deep linking is supported: visitors landing with query params immediately hydrate into the pinned view.
    - Browser back/forward navigation (`popstate`) restores pinned state predictably without page reloads.
+   - Home (`/`) is strictly a quiet editorial anchor with zero URL search parameters or interactive reducer state.
 2. **Transient vs. Pinned State**:
    - `hoveredId` is strictly transient, unpinned, and debounced (40ms). It does **not** update URL parameters.
    - `focusedId` / `pinnedId` requires an explicit user action (click or keyboard Enter/Space), updating the URL and pinning the connected modules.
@@ -112,15 +122,15 @@ Rather than maintaining disconnected ephemeral state, the interlinked explorer l
 
 ## 4. Defensive Layout Bounding & Motion Isolation
 
-> [!NOTE]
-> **Withdrawal of Unsupported "Guaranteed Zero CLS" Claims**:
-> Per Gemini 2 corrections, claiming a "guaranteed 0.00 CLS" as a magic fact is withdrawn. Layout stability is not achieved by fiat; it requires **defensive layout bounding**:
->
-> - Reserving explicit aspect ratios (`aspect-video`, `aspect-[1.55]`) or min-heights on image/diagram containers before assets load.
-> - Using stable CSS Grid layouts where columns and rows do not shift dimensions when content expands or switches states.
-> - Preventing text clipping: containers must not use aggressive `overflow: hidden` that truncates dynamic text at varied font zoom levels.
+### 4.1 First-Viewport Interactive Topology on `/work`
 
-### Motion Rules & Animation Engine Arbitration (Gemini 5 Conflict Prevention)
+To eliminate vertical gaps and ensure immediate interactive affordance upon landing on `/work`:
+- **Viewport Coordinates**: Interactive workspace (`#work-workspace`) starts at $Y = 250\text{px}$ and terminates at $Y = 680\text{px}$ (total height $429\text{px}$), fitting completely within the standard $1280 \times 800$ first viewport (`FitsFirstViewport = true`).
+- **Header Geometry**: Compact vertical rhythm (`pt-16 md:pt-20 pb-12`) with an inline category `FilterGroup` placed directly adjacent to the section title.
+- **Defensive Sizing**: Asymmetric CSS Grid layout (`1fr + 260px` or full width on mobile) reserving explicit layout bounds to prevent Cumulative Layout Shift (CLS = 0.00).
+- **Text Stability**: No aggressive `overflow: hidden` on text containers; dynamic text scales cleanly up to 200% browser zoom without truncation.
+
+### 4.2 Motion Rules & Animation Engine Arbitration (Gemini 5 Conflict Prevention)
 
 > [!NOTE]
 > **Attribution Correction**: Gemini 5 did **not** recommend introducing Framer Motion (which was pre-installed in `package.json` ^12.43.0). Gemini 5's advice strictly addressed **preventing conflicting writes** between animation engines. The primary motion engine remains GSAP for timelines and SVG transforms, with CSS transitions for micro-interactions.
@@ -130,8 +140,15 @@ Rather than maintaining disconnected ephemeral state, the interlinked explorer l
    - **GSAP**: Primary authority for multi-step timelines, load sequences, and SVG coordinate transformations.
    - **CSS Transitions**: Primary authority for low-overhead interactive micro-interactions (hover, focus color shift, button active states).
 3. **Pure Factual SVGs**: All architectural diagrams (e.g. PRISM system shape) must be authored as factual SVGs matching typed graph contracts, with real text nodes rather than outlined path vectors.
-4. **Lifecycle Cleanup**: Every GSAP context or animation subscription must revert cleanly on unmount (`ctx.revert()`).
-5. **Reduced-Motion Fallback**: When `prefers-reduced-motion: reduce` is detected, animations bypass timeline execution and resolve immediately to final rest states.
+4. **Lifecycle & Interruption Safety via `@gsap/react` (`useGSAP`, `contextSafe`)**:
+   - All component animations use `@gsap/react` with `useGSAP` and `contextSafe` for SSR safety and scoped context cleanup.
+   - Configured with `revertOnUpdate: false` to guarantee reversion occurs **strictly on component teardown (unmount)**, preventing mid-selection snaps.
+   - For rapid retargeting (60ms stress cycling), active tweens are killed (`gsap.killTweensOf`) while **preserving current inline transforms**, animating smoothly to the new target.
+5. **Select-Only SVG Tether Specification**:
+   - Presentation-only curve linking active listbox selection to detail nodes.
+   - Hidden at mobile widths (<768px).
+   - Hidden immediately during active page scroll (`opacity: 0`), debounced at 120ms to re-measure and smoothly fade back in (`opacity: 0.45`) upon settling.
+6. **Reduced-Motion Fallback**: When `prefers-reduced-motion: reduce` is detected, animations bypass timeline execution and resolve immediately to final rest states.
 
 ---
 

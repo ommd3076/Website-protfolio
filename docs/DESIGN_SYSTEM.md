@@ -1,273 +1,168 @@
-# Design System & Token Specifications
+# Design System & Typographic Specification
 
-**Subject**: Design Tokens, Typography, Observed Motion Curves, and Reference Evidence  
-**Status**: DRAFT / PLANNING PHASE (Gated)  
-**Last Updated**: 2026-11-08  
-**Repository**: `portfolio-site`
-
----
-
-## 1. Aesthetic Vision: "Credible Engineering"
-
-The aesthetic direction unites the high-density technical clarity of **Paco Coursey (`paco.me`)** and **Lee Robinson (`leerob.com`)** with the systems storytelling of **`contentarchitecture.dev`**, the quiet topographic texture of **`datacurve.ai`**, and the organic literary warmth of **`ellipsus.com`**.
-
-### Core Tenets
-
-- **Compact Hero & Intimate Proportions**: Directly calibrated to the confirmed primary homepage visual reference (`codex-clipboard-8bc00f75-f36a-4cea-8da9-85e4159a597a.png` / `image-1.png`). Pure black background (`#000000`), narrow centered text column (~480px–540px), modest italic serif display name (_"Om M Doddamani"_), compact serif body copy (13px–14px, tight line-height 1.6), and generous, confident whitespace. Completely avoids oversized 40px–64px generic landing page hero banners, decorative blobs, or unearned card containers.
-- **Restrained Typography**: 13px–14px compact serif body text with tight leading (1.6), small section headers (14px–18px), and 10px–11px monospace telemetry.
-- **Editorial Contrast**: Instrument Serif ("Intel Serif") italic display cut for name and essay headers, juxtaposed against crisp neo-grotesque sans-serif and tabular monospace metadata.
-- **Tactile, Localized Motion**: Motion is progressive enhancement and instrument-like (tactile toggle states, subtle hover scale, quiet staggered reveals). Zero decorative scroll-jacking or floating neon blobs.
+**Status:** Active Design System Specification
+**Updated:** 2026-11-08
+**Project:** `portfolio-site` (`https://github.com/ommd3076/Website-protfolio.git`)
 
 ---
 
-## 2. Primary Visual References: Observed vs. Inferred Evidence
+## 1. Visual Reference Anchor
 
-To eliminate confirmation bias and unsupported claims, external references are documented with clear separation between **directly observed evidence** and **inferred design patterns**:
+The primary visual ground truth for the portfolio is the user-supplied reference screenshot (`image-1.png`):
 
-| Reference                                  | Directly Observed Evidence                                                                                                                                                                                                          | Inferred Design Pattern                                                                                                                                                                           |
-| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`https://leerob.com/`**                  | Centered single-column spine (~640px max width); plainspoken sans-serif body; high-contrast monochrome palette; immediate SSR render; zero decorative scroll animations.                                                            | Extreme restraint; content and writing are prioritized over decorative theatre; zero layout shift.                                                                                                |
-| **`https://paco.me/`**                     | Narrow centered spine; compact type hierarchy (13px–15px body, 10px–12px metadata); modular sections (_Building_, _Projects_, _Writing_, _Now_, _Connect_); localized micro-interactions on discrete widgets (cmdk, audio players). | Motion is tactile, localized, and physics-driven on components rather than page-scale scroll hijacks. _(Exact motion curves on live site require headless DevTools measurement before claiming)._ |
-| **`https://www.contentarchitecture.dev/`** | High-density modular cards; monospace badges; step-by-step engineering timelines (_"Day 01... Day 02..."_); concrete architectural contrast over abstract marketing.                                                                | Direct, credible systems-engineering narrative that demonstrates mastery by showing real technical decisions and boundaries.                                                                      |
-| **`https://datacurve.ai/`**                | Dark contemplative tone; subtle abstract topographic line-field background texture; editorial copy exploring instruments, models, and intelligence.                                                                                 | Ambient background texture that conveys depth without visual clutter or GPU overhead.                                                                                                             |
-| **`https://ellipsus.com/`**                | Expressive serif typography; literary essay voice; thoughtful spacing; emphasis on craft and human perspective.                                                                                                                     | Used specifically for the workbench essay / calculus instrument section to provide warmth and intellectual depth.                                                                                 |
+- **Canvas**: Pure black background (`#000000`).
+- **Reading Spine**: Narrow centered reading column (max width ~540px) on the homepage.
+- **Header Display**: Modest, elegant italic serif display name (_"Om M Doddamani"_), sized at 24px–28px, tracking tight.
+- **Body Typography**: High-contrast, compact serif body text (13.5px–14px, ~1.7 line height) delivering a serene, literary atmosphere.
+- **Whitespace**: Generous vertical rhythm and quiet negative space.
+- **No AI Slop**: Absolutely no decorative gradients, floating purple blobs, bouncing cards, pseudo-telemetry bars, or simulated percentage meters.
 
----
-
-## 3. Typography Hierarchy & Scales
-
-Calibrated strictly to `image-1.png` and restrained engineering portfolio standards:
-
-| Level                      | Font Family                        | Size (Desktop / Mobile)    | Line Height  | Tracking  | Weight / Style           | Notes / Source Evidence                                                        |
-| -------------------------- | ---------------------------------- | -------------------------- | ------------ | --------- | ------------------------ | ------------------------------------------------------------------------------ |
-| **Hero Name Display**      | Instrument Serif / Editorial Serif | `clamp(22px, 2.5vw, 28px)` | `1.15 – 1.2` | `-0.02em` | Italic / Regular         | **Compact screenshot scale** (`image-1.png`). Replaces oversized 40–64px hero. |
-| **Section Headings (H2)**  | SF Pro / Inter Sans                | `clamp(16px, 2vw, 20px)`   | `1.2`        | `-0.03em` | Medium (500)             | Restrained section anchors (_Building_, _Notes_, _Now_).                       |
-| **Project / Sub Headings** | SF Pro / Inter Sans                | `14px – 16px`              | `1.3`        | `-0.02em` | Medium (500)             | Compact card titles and project labels.                                        |
-| **Body Copy**              | SF Pro / Inter Sans                | `12px – 14px`              | `1.6 – 1.7`  | `-0.01em` | Regular (400)            | Tight, high-density bio and descriptive copy.                                  |
-| **Essay Prose**            | Georgia / Iowan Old Style Serif    | `13px – 15px`              | `1.75 – 1.8` | `0`       | Regular (400)            | Used in the calculus/instrument idea section.                                  |
-| **Eyebrows & Metadata**    | SF Mono / Consolas                 | `10px – 11px`              | `1.5`        | `+0.08em` | Regular (400), Uppercase | Section kickers, project tags, and timestamps.                                 |
-| **Telemetry / Counts**     | SF Mono / Consolas                 | `10px – 11px`              | `1.0`        | `0`       | Tabular-nums, Regular    | Metrics, node IDs, and status codes.                                           |
+The curated bookmark catalogs (`saved-fieldnotes.html` and `ui_posts_last_30_days.md`) serve strictly as source link indexes for evaluating component patterns; their page-level styling (e.g. ink/paper, red accents) is NOT the visual reference.
 
 ---
 
-## 4. Color Token Architecture (OKLCH)
+## 2. Typography & Role Assignments
 
-Managed semantically via CSS custom properties and Tailwind v4 `@theme inline`:
+The typography system uses standard semantic tokens and clean CSS variables:
 
-### 4.1 Dark Palette (Primary Interface / Screenshot Alignment)
-
-```css
-:root.dark,
-.dark {
-  --bg: #171716; /* Dark base background (or #000000 per image-1.png) */
-  --panel: #20201f; /* Card & panel surface */
-  --ink: #f0eee9; /* Primary text (high contrast white/cream) */
-  --muted: #a4a19b; /* Secondary copy & captions */
-  --dim: #6d6a65; /* Tertiary metadata & inactive links */
-  --rule: #383735; /* Subtle borders & separators */
-  --rust: #c18b64; /* Primary brand accent / telemetry highlight */
-  --accent-soft: rgba(193, 139, 100, 0.12);
-}
-```
-
-### 4.2 Warm Paper Palette (Light Mode / Fieldnotes Reference)
-
-```css
-:root {
-  --paper: #fbfaf8; /* Warm paper background */
-  --surface: #f4f1eb; /* Panel surface */
-  --ink: #20201e; /* Near-black ink */
-  --muted: #74736e; /* Muted text */
-  --rule: #e6e3de; /* Thin dividers */
-  --accent: #8f6044; /* Warm earth accent */
-  --accent-deep: #5e3c27;
-}
-```
+| Role                     | Font Family                               | Size / Leading        | Target Elements & Context                                     |
+| ------------------------ | ----------------------------------------- | --------------------- | ------------------------------------------------------------- |
+| **Display Name**         | Serif Italic (`font-serif italic`)        | 24px–28px / 1.2       | Homepage name header (_"Om M Doddamani"_).                    |
+| **Section Headings**     | Serif Regular (`font-serif`)              | 28px–48px / 1.1       | Route headers on `/work`, `/about`, `/approach`, `/future`.   |
+| **Subheadings & Titles** | Serif Medium (`font-serif font-medium`)   | 16px–20px / 1.3       | Project titles, card headers, tab titles.                     |
+| **Primary Body**         | Serif (`font-serif`) / Sans (`font-sans`) | 13.5px–15px / 1.6–1.7 | Biographical paragraphs, project descriptions, notes.         |
+| **Metadata & Labels**    | Monospace (`font-mono`)                   | 10px–11px / 1.4       | Numbers (`01`), status labels, breadcrumbs, tags, timestamps. |
+| **UI Controls**          | Sans (`font-sans`) / Mono (`font-mono`)   | 12px–13px / 1.2       | Buttons, filter chips, navigation pills, external links.      |
 
 ---
 
-## 5. Spacing Grid & Layout Proportions
+## 3. Color Palette & Surface Tokens
 
-- **Base Rhythm**: 4px atomic step (`4px`, `8px`, `12px`, `16px`, `24px`, `32px`, `48px`, `64px`).
-- **Hero & Bio Spine**: `width: min(100% - 32px, 580px); margin: 0 auto;` (Matches compact layout in `image-1.png`).
-- **Standard Reading Spine**: `width: min(100% - 48px, 720px); margin: 0 auto;` (Case studies and notes).
-- **Expanded Shell**: `width: min(100% - 48px, 920px); margin: 0 auto;` (Topbar navigation and multi-column telemetry).
-- **Border Radii**:
-  - Panels / Cards: `rounded-md` (6px) or `rounded-lg` (8px). Zero bulbous pill cards.
-  - Badges / Status: `rounded-full` (restrained small pill badges).
+All surfaces and text values use high-contrast, accessible neutral tones:
 
----
-
-## 6. Animation Physics & Transition Timings
-
-### 6.1 Directly Measured Local Mockup Timings (Verified from Source Files)
-
-The following transition values are extracted directly from verified local codebase files:
-
-| Target Element              | Selector / File                                 | Duration        | Timing Function                                                           | CSS / JS Source                                                          |
-| --------------------------- | ----------------------------------------------- | --------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| **Work Image Hover**        | `.work-image img`<br>(`mockup/styles.css:8`)    | `550ms` (0.55s) | `cubic-bezier(0.2, 0.7, 0.2, 1)` (transform)<br>`ease-out` (filter 350ms) | Scale `1.025` and brightness `1.08` on hover.                            |
-| **Section Entrance Reveal** | `.reveal.is-visible`<br>(`mockup/styles.css:2`) | `550ms` (0.55s) | **`ease-out`** _(corrected: NOT cubic-bezier)_                            | Fades from `opacity: 0, translateY(8px)` to `opacity: 1, translateY(0)`. |
-| **Reveal Stagger Delay**    | `[data-reveal]`<br>(`mockup/script.js:15`)      | `0ms – 180ms`   | Stagger step                                                              | `Math.min(index % 4, 3) * 60ms`.                                         |
-| **Accordion Plus Rotation** | `details .plus`<br>(`portfolio-mockup.html:92`) | `160ms`         | `ease-out`                                                                | Rotates `45deg` on `details[open]`.                                      |
-| **Nav Link Hover**          | `.nav a`<br>(`mockup/styles.css:2`)             | `160ms`         | `ease-out`                                                                | Color transition on hover.                                               |
-| **Link Arrow Translation**  | `.link-arrow .arrow`<br>(`mockup/styles.css:2`) | `200ms`         | `ease-out`                                                                | `translate(3px, -2px)` on hover.                                         |
-
-> [!IMPORTANT]
-> **Correction Note**: The previous design system draft misattributed `550ms cubic-bezier(0.2, 0.7, 0.2, 1)` to the general section reveal. That cubic curve belongs strictly to the `.work-image img` hover scale transition. Section reveals in the mockup utilize `550ms ease-out`.
-
-### 6.2 External Reference Curves Disclaimer
-
-Exact cubic-bezier parameters or spring tensions for external references (`paco.me`, `leerob.com`) are **not claimed as exact measurements** here, as live computed styles have not been measured via headless DevTools. Any external physics adoption during implementation must be directly measured and verified before logging.
-
-### 6.3 Reduced-Motion Enforcement
-
-```css
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-  .reveal {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}
-```
+- **Background Canvas**: `bg-black` (`#000000`).
+- **Surface Elevation 1**: `bg-neutral-950/80` with `backdrop-blur-sm` and `border border-neutral-800`.
+- **Surface Elevation 2**: `bg-neutral-900` with `border border-neutral-700` (for active/selected states).
+- **Text Primary**: `text-white` (`#ffffff`) for display titles and active selections.
+- **Text Secondary**: `text-neutral-300` / `text-neutral-400` for body copy, notes, and descriptions.
+- **Text Muted**: `text-neutral-500` for monospace metadata, numbering, and timestamps.
+- **Dividers & Rules**: `border-neutral-800` / `border-neutral-900` (subtle hairline rules).
+- **Interactive Focus**: `focus-visible:ring-1 focus-visible:ring-white/40` with `outline-none`.
 
 ---
 
-## 7. Event Archives 106 Bookmarks Audit & Reference Provenance
+## 4. Motion Contract (GSAP Exclusivity)
 
-All 106 bookmarks extracted from the Brave Browser profile (`Default/Bookmarks` -> `Event Archives/CODING`) have been systematically audited via Playwright (Edge channel), compiled into 7 high-resolution contact sheets (`screenshots/contact_sheets/sheet_1.png` to `sheet_7.png`), and visually examined by the agent. Full per-site observations are recorded in [`docs/EVENT_ARCHIVES_MANIFEST.md`](./EVENT_ARCHIVES_MANIFEST.md).
+Animation is governed strictly by the project's single motion engine: **GSAP** (`gsap`, `@gsap/react`). Competing animation libraries (such as `framer-motion` or `motion/react`) are prohibited in the runtime bundle.
 
-### 7.1 Authentic Visual Inspection Breakdown
+### Core Motion Rules:
 
-- **72 Visually Examined & Verified UI Sites**: Each thumbnail on the contact sheets was visually inspected. Authentic typography, navigation systems, card grids, and layouts were confirmed. Key visual findings:
-  - Dark telemetry & high-density layout: **`threeui.com`** (#14), **`rareui.com`** (#83), **`forgeui.in`** (#22).
-  - Atmospheric split-tone noise & typography: **`scrolltide.co`** (#80).
-  - Clean modular portfolio structures: **`wallofportfolios.in`** (#8–#12).
-  - Component docs & code previews: **`animate-ui.com`** (#23), **`evilcharts.com`** (#82), **`boardui.com`** (#49).
-- **19 Blocked Sites (Anti-Bot / Challenge / Cookie Walls)**: Visually confirmed that the captures represent blocks rather than UI content:
-  - 12 Dribbble shots (#6, #7, #45, #46, #63, #65, #66, #68, #69, #74, #90, #92) returned blank white screens due to Cloudflare Bot Management.
-  - 6 Cloudflare security verification screens (#20 YouWare, #33 Saaspo, #48, #67, #89 challenge attempts exceeded, #93 Locomotive.ca).
-  - 1 Cookiebot modal overlay (#99 Kffein.com).
-  - _UI content for all 19 blocked sites remains strictly unverified._
-- **14 Unverified Canvas / Unpainted Shells**: Visually confirmed that Three.js/WebGL canvases did not finish streaming within the 10s navigation timeout (#1 Shader.se, #4 Ravi Klaassens, #5 Ibrahem Ghareib, #98 Aristide Benoist, #100 Resn, #102 Lusion). _Visual UI state remains unverified._
-- **1 Inaccessible Target**: `darc.com` (#25) failed network connection with `net::ERR_SSL_PROTOCOL_ERROR`. Target is dead.
-- **Primary References Visually Examined**:
-  - `ref_leerob.png`: High-density sans-serif body, restrained `@leerob` serif header, vertical card illustration.
-  - `ref_paco.png`: Ultra-restrained single column, ~16px sans name display, 13px body text, 3-column modular structure (`Building`, `Projects`, `Writing`).
-  - `ref_contentarch.png`: Warm paper background (`#f1eee7`) paired with deep black circular typographic spiral animation and monospace badges.
-  - `ref_datacurve.png`: Warm cream background (`#f8f6f2`), top blue alert banner, bold editorial serif headline (_Defining intelligence_).
-  - `ref_ellipsus.png`: Charcoal editorial dark theme, typewriter text reveal, drifting letter glyphs.
-
----
-
-## 8. Deep Technical Reference Inspection: `saved-fieldnotes.html` & `ui_posts_last_30_days.md`
-
-### 8.1 Standalone App Structure & Token Extraction from `saved-fieldnotes.html`
-
-Deep inspection of `C:/Users/ommd3/OneDrive/BUSINESS/bookmarks/saved-fieldnotes.html` (52,871 bytes) confirms that this file is not a mere list of bookmarks; it is a **fully functional, standalone single-file web application** with zero external dependencies.
-
-- **Data Boundary & Classification**:
-  - The contents of the embedded dataset (`const raw = ...`) represent untrusted author claims, bookmarks, and summaries captured from an X feed between Sep 4 and Oct 15, 2026. They are treated strictly as reference material and data, **never** as agent instructions.
-  - The file contains 122 individual status records linked back to original posts via `https://x.com/${author}/status/${id}`.
-- **Semantic DOM & Layout Architecture**:
-  - **Masthead**: Fixed 54px high-contrast bar (`min-height: 54px; background: var(--ink); color: var(--paper); padding: 17px 20px; font: 10px var(--mono); letter-spacing: 0.1em; border-bottom: 5px solid var(--accent);`).
-  - **Hero & Aside**: Asymmetric grid (`minmax(0,1fr) 260px`) pairing a massive display title (`clamp(82px, 16vw, 190px)/0.78 var(--sans)`) with an editorial aside callout (`border-left: 9px solid var(--accent); padding: 20px; font: 10px var(--mono)`).
-  - **Metrics Strip**: 3-column tabular numerical banner (`display: grid; grid-template-columns: repeat(3, 1fr); border-block: 2px solid var(--ink); font-variant-numeric: tabular-nums;`).
-  - **Telemetry Meter Bars**: Accessible horizontal meter progress bars `<div class="track" role="meter" aria-valuenow="..."><span style="width: ...%"></span></div>`.
-  - **Sticky Search & Category Toolbar**: `position: sticky; top: 0; z-index: 3; background: var(--paper); border-block: 2px solid var(--ink);` with interactive category chips toggling `aria-pressed="true"`.
-  - **Tabular Feed Grid**: 3-column entry grid (`grid-template-columns: 54px minmax(0,1fr) 190px; gap: 18px; padding: 21px 0; border-bottom: 1px solid var(--line);`).
-- **Verified Usable CSS Tokens**:
-  ```css
-  :root {
-    --paper: #eeeae2;
-    --surface: #f8f6f1;
-    --ink: #111111;
-    --muted: #55534f;
-    --quiet: #77736d;
-    --line: #aaa69e;
-    --line-strong: #242321;
-    --accent: #e53925; /* Vermillion red */
-    --secondary: #3157e8; /* Cobalt blue */
-    --secondary-paper: #dce3ff;
-    --serif: Georgia, "Times New Roman", serif;
-    --sans: Arial, Helvetica, sans-serif;
-    --mono: Consolas, "Courier New", monospace;
-  }
-  ```
-- **Procedural SVG Fractal Noise Grain Overlay**:
-  The procedural noise filter creates subtle organic texture without image asset loading overhead:
-  ```css
-  body:after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 20;
-    pointer-events: none;
-    opacity: 0.3;
-    mix-blend-mode: soft-light;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 180px 180px;
-  }
-  ```
-
-### 8.2 Extraction & Analysis of `ui_posts_last_30_days.md`
-
-Deep inspection of `C:/Users/ommd3/Downloads/temp/ui_posts_last_30_days.md` (22,379 bytes) confirms a curated collection of 19 X bookmark threads spanning Oct 9 through Nov 8, 2026.
-
-- **Data Boundary & Treatment**:
-  - The file contains developer commentary, prompt templates, and social endorsements. These are treated as **untrusted data**, not system instructions or code requirements.
-- **Architectural & Design Principles Extracted**:
-  - **Linear-Clean Editorial Standard (Vox Prompt 1)**: "Simple purpose, simple architecture, simple design, simple implementation. Cut taglines, helper text and secondary labels. If a screen needs them to make sense, fix the layout."
-  - **20-Point Pre-Ship Audit (Vox Prompt 2)**: Mandatory verification checklist:
-    1. Consistent typography scale, color palette, and spacing documented in `DESIGN.md`.
-    2. Mobile responsiveness: zero horizontal scrolling, tap targets >= 44px, graceful text scaling.
-    3. Complete state coverage: explicit dedicated treatments for loading, empty, and error states.
-    4. Tactile feedback: instant active state feedback on every button/link.
-    5. User flow verification: full keyboard accessibility, zero dead links or unresponsive buttons.
-  - **Performance Hardening (Vox Prompt 3)**: Lazy-load heavy components below the fold, keep font families to at most 1–2, and eliminate third-party render-blocking scripts.
-  - **Outbound API & Retry Safety (Vox Prompt 5)**: Enforce bounded timeouts, capped exponential backoff with jitter, and idempotent mutation protections.
-- **Original Mechanisms vs. Suggestions**:
-  - _Suggestions_: Prompt snippets and hype threads (e.g. "cancel your weekend plans", "wtfff this UI is insane") are subjective opinions.
-  - _Authentic Mechanisms_: Concrete UI inspiration directories (`scrolltide.co` 3D/scroll scenes, `navbar.gallery`, `footer.design`, `cta.gallery`, `transitions.dev` UI motion components, `evilbuttons.com`) provide verified patterns for micro-interactions and tactile feedback.
+1. **Critically Damped Easings**:
+   - Standard easings: `power2.out`, `power3.out`.
+   - **Banned**: Overshoot, bounce, or cartoonish physics (`back.out`, `elastic.out`).
+2. **Deterministic Durations**:
+   - Micro-interactions (hover, focus): 150ms–200ms.
+   - Selection transitions (project change): 200ms–280ms.
+   - Route reveals: 300ms–450ms.
+3. **No Layout Property Animations**:
+   - Only GPU-accelerated transforms (`opacity`, `transform: translate3d`) are animated.
+   - Never animate `width`, `height`, `margin`, `padding`, or `top/left`, which trigger browser reflow.
+4. **Lifecycle & Interruption Safety via `@gsap/react` (`useGSAP`, `contextSafe`)**:
+   - All component animations across the portfolio and shared motion utilities (`usePageIntro`, `useReveal`, `useLoadSequence`, `useMagnetic`, `CTA`, `ProjectExplorer`, `AboutPage`) use the official `@gsap/react` package with `useGSAP` and `contextSafe`.
+   - Native listeners in `useEffect` (such as pointer events in `useMagnetic` and `MagneticLink`) are kept strictly for DOM event binding and dispatch tweens exclusively through `contextSafe`.
+   - `useGSAP` provides automatic SSR-safe cleanup (falling back cleanly during server rendering and scoping to refs on the client).
+   - `revertOnUpdate: false` ensures teardown-only context reversion; mid-selection dependency updates do NOT trigger context reversion, preventing mid-flight snaps to CSS initial state.
+   - Interactive events (click, keyboard selection) are wrapped in `contextSafe(...)` for execution safety.
+   - For rapid selection retargeting (60ms cycling), `gsap.killTweensOf(targets)` halts active tweens while **preserving current transforms/opacity**, animating smoothly to the new target.
+5. **Select-Only SVG Tether Specification**:
+   - Presentation-only curve linking active listbox selection to detail nodes.
+   - **Narrow widths (<768px)**: Hidden (`opacity: 0` / CSS `hidden md:block`).
+   - **During active scroll**: Hidden immediately (`opacity: 0`). Re-evaluates and smoothly fades in (120ms debounce) once scrolling settles.
+   - **On window resize**: Recalculated via throttled RAF.
+6. **Reduced Motion Compliance**:
+   - All animations query `prefersReduced()` (evaluating `@media (prefers-reduced-motion: reduce)`).
+   - Under reduced motion, state updates and DOM presentations occur instantly (duration: 0, zero transforms, tether hidden).
 
 ---
 
-## 9. Grok 6 & Gemini 6 Synthesis: Motion Hypotheses, Geometry Handshake & Grain Cost
+## 5. Expanded Component Library Categories & Roles
 
-### 9.1 Selection-Driven Diagram Geometry Handshake
+The design system incorporates 97 distinct component patterns organized into 8 categories. In accordance with Grok consultations 9–11 and Argon #5 audits, **all 9 dashboard/metric patterns (`DataGrid`, `StatCard`, `Meter`, `BentoGrid`, `FloatingDock`, `ResourceBudgetChart`, `TimelineStepTracker`, `ContributionGrid`, `MetricCounter`) are 100% unmounted** from shipped routes to maintain editorial calm and eliminate fake telemetry:
 
-- **Motion Hypothesis**: Transitions between list selection and architectural diagram expansion are governed by a **~280ms `power2.out`** timing curve. This is an empirical starting hypothesis to be tested against 60fps frame rate monitors, not an unmeasured law.
-- **Immediate Accessible Commit**: In accordance with Gemini 6's challenge against delayed midpoint content, the authoritative React state and accessible DOM text mount immediately upon user selection. Animation is applied purely to presentation layers (`opacity`, `transform`, `clipPath`), guaranteeing that screen readers and assistive tech perceive state updates synchronously without waiting for motion completion.
-- **Interruption-Safe Timelines**: When a user rapidly clicks between project nodes, any active GSAP timeline must be immediately killed (`gsap.killTweensOf(...)`) before the new transition begins, avoiding stale transforms or conflicting coordinate updates.
+1. **Editorial & Research Primitives (`src/components/editorial/`)**:
+   - `ReadingProgress` `[Mounted: __root.tsx]`: Non-layout-shifting top hairline scroll indicator with RAF and GSAP `scaleX`.
+   - `TableOfContents` `[Mounted: /approach]`: Lateral document outline observing heading intersection with `aria-current="location"`.
+   - `ArchivalMetadataRow` `[Mounted: /work]`: Neutral revision timestamp, reading estimate, and optional verification tier badge.
+   - `CitationCallout` `[Mounted: /about]`: Formal academic citation with 1-click clipboard copy (zero fabricated DOI/BibTeX).
+   - `ResearchNoteCard` `[Library-Only]`: Asymmetric editorial card with ink margin and marginalia notation slot.
+   - `HypothesisCard` `[Mounted: /approach]`: 4-stage empirical methodology card (Observation, Hypothesis, Empirical Test, Verified Outcome).
+   - `RetrospectiveDisclosure` `[Mounted: /about]`: Candid failure analysis and scope post-mortem (Initial Assumption, Operational Reality, Architectural Lesson).
+   - `Footnotes` (`FootnoteGroup`, `FootnoteItem`) `[Mounted: /approach]`: Journal-style bracketed citation notes with primary source links.
+   - `CodeDiffBlock` `[Library-Only]`: Monospace split/unified diff block. Unmounted from shipped routes.
+   - `InlineAnnotation` `[Library-Only]`: Dotted underline terminology trigger with accessible definition popover.
 
-### 9.2 Optional List-to-Diagram Tether
+2. **BoardUI Data & Dashboard Primitives (`src/components/boardui/`)**:
+   - `StatCard` & `StatGrid` `[Library-Only]`: High-density KPI metric cards. Unmounted from shipped routes.
+   - `StatusDot` `[Mounted: /contact, HeaderBar]`: Multi-state status pill with critically damped GSAP halo.
+   - `Kbd` `[Library-Only]`: Tactile mono keyboard shortcut chip (`⌘K`, `Esc`).
+   - `SegmentedControl` `[Library-Only]`: Pill-style radio toggle with sliding active highlight.
+   - `AnnouncementBanner` `[Mounted: /future]`: Dismissable editorial banner for milestone announcements.
+   - `NotificationCallout` `[Library-Only]`: Inline alert card with verification tiers.
+   - `DataGrid` `[Library-Only]`: Tabular multi-column display. Unmounted from shipped routes.
+   - `TreeView` `[Library-Only]`: Hierarchical system architecture explorer.
+   - `Meter` `[Library-Only]`: Bounded value display. Unmounted from shipped routes.
+   - `AccordionCard` `[Library-Only]`: Expandable deep-dive card for project specifications.
 
-- **Purpose**: A subtle visual connecting line (SVG path or absolute line element) bridging the active list item to its corresponding architectural node in the diagram.
-- **Drift Handling on Scroll / Resize**:
-  - The tether relies on measured coordinates from `getBoundingClientRect()`.
-  - When the viewport scrolls or resizes, the tether must either recalculate positions via a debounced/RAF listener or gracefully fade out (`opacity: 0`) if drift exceeds 8px.
-  - No synthetic or invented nodes may be generated to anchor the tether; it connects only to authentic, verified DOM nodes.
+3. **Rare UI & ObsidianUI Minimal Motion Primitives (`src/components/rare/`)**:
+   - `ContributionGrid` `[Library-Only]`: Native GSAP quarterly research activity matrix. Unmounted per Grok 9 audit to eliminate external calls and synthetic metrics.
+   - `TerminalBlock` `[Library-Only]`: Minimal dark console with command prompt. Unmounted from shipped routes.
+   - `HoverCardPreview` `[Library-Only]`: Floating popover displaying architecture preview on hover/focus.
+   - `DraggableMarquee` `[Library-Only]`: Infinite smooth marquee of verified technology stacks using GSAP RAF ticker. Unmounted per Argon 7 audit to eliminate continuous RAF animation and visual noise; replaced on `/future` with an accessible static research toolchain strip.
+   - `TextStream` `[Library-Only]`: Character reveal for prompts or abstracts.
+   - `FlipText` `[Library-Only]`: Rolling digit/character transition.
+   - `BentoGrid` & `BentoCard` `[Library-Only]`: Asymmetric bento grid. Unmounted in favor of semantic `<article>` cards.
+   - `FloatingDock` `[Library-Only]`: Floating quick-action dock. Unmounted from shipped routes.
 
-### 9.3 Procedural SVG Noise Grain Cost Measurement Protocol
+4. **EvilButtons Interactive Tactile Primitives (`src/components/evil/`)**:
+   - `MagneticTactileButton` `[Mounted: /approach, /future]`: Magnetic physics pull with haptic press depression and spring reset.
+   - `GlowingBorderButton` `[Library-Only]`: Subtle radial ambient glow following pointer position along border perimeter.
+   - `CopyButton` `[Mounted: /, /about, /contact]`: 1-click clipboard copy button with checkmark icon transition.
+   - `OutlineGhostButton` `[Mounted: /contact]`: Transparent hairline border button with fill-up hover effect.
+   - `GlitchBadge` `[Library-Only]`: Monospace technical badge with micro-stutter hover state.
 
-- **Performance Tradeoff**: The `feTurbulence` procedural noise overlay (`mix-blend-mode: soft-light; opacity: 0.30`) adds tactile analog warmth but can incur significant compositing overhead on low-power devices.
-- **Measurement Protocol**:
-  - Frame rendering times must be measured using `PerformanceObserver` tracking `longtask` entries and frame drops over 10-second scrolling sessions, comparing baseline (grain disabled) vs active grain.
-  - If frame duration exceeds 16.6ms (>60fps drop) on standard test configurations, the noise overlay must fall back to a static pre-rendered tiny 180x180 PNG or CSS grain pattern.
+5. **Factual Architecture & Metric Visualizers (`src/components/visualizers/`)**:
+   - `ResourceBudgetChart` `[Library-Only]`: Clean SVG comparative bar visualizer. Unmounted from shipped routes.
+   - `TimelineStepTracker` `[Library-Only]`: Chronological milestone tracker. Unmounted from shipped routes.
+   - `MetricCounter` `[Library-Only]`: Numerical count-up component. Unmounted from shipped routes.
 
-### 9.4 Factual Integrity & Reduced-Motion Guarantee
+6. **Glass UI & Editorial Surfaces (`src/components/glass/`)**:
+   - `GlassPanel` `[Mounted: /contact]`: Translucent dark card (`bg-neutral-950/80 border border-neutral-800/80 backdrop-blur-xl`) with inner hairline highlight.
+   - `GlassFilterBar` `[Library-Only]`: Sticky floating filter strip with frosted glass backdrop.
 
-- **No Fabricated Meters**: Telemetry bars must strictly represent real, verified project metrics (e.g., node count, verified benchmark throughput, exact package dependencies). No decorative random progress bars or mock metrics are permitted.
-- **Reduced-Motion Fallback**: When `prefers-reduced-motion: reduce` is detected:
-  - All transitions resolve with duration 0ms.
-  - Diagrams render immediately in their final resting geometry.
-  - Tethers render as static lines or are hidden.
-- **Performance Assertions as Hypotheses**: All frame time targets (e.g. 60fps) and layout shift targets (e.g. `CLS <= 0.05`) are classified as verifiable hypotheses requiring measurement via Lighthouse or automated Playwright performance tests.
+7. **Command Palette & Global Chrome (`src/components/command/` & `src/components/site/`)**:
+   - `CommandPalette` `[Mounted: __root.tsx]`: Accessible `⌘K` modal dialog for instant navigation across all routes and projects.
+   - `HeaderBar` `[Mounted: __root.tsx]`: Fixed top chrome with route links, live status dot, and `⌘K` shortcut trigger.
+   - `Chrome` (`Footer`, `Section`, `Eyebrow`) `[Mounted: across all routes]`: Shared structural containers.
+   - `ProjectExplorer` `[Mounted: /work]`: Interactive system topology explorer with select-only SVG tether and 60ms interruption-safe retargeting.
+   - `EditorialControls` (`FilterGroup`, `StatusLabel`) `[Mounted: /work]`: Category filters and status chips.
+
+8. **Installed Accessible Base Primitives (`src/components/ui/` & `src/components/base/`)**:
+   - 52 base primitives covering Dialog, Tabs, Accordion, Tooltip, Select, DropdownMenu, ContextMenu, Form, Input, Skeleton, ScrollArea, Popover, Badge, Button, etc.
+
+---
+
+## 6. Honest Data States & Telemetry Defense
+
+In accordance with strict portfolio integrity guidelines and consensus across reviews:
+
+1. **Zero Hallucinated Metrics**: No fake CPU/memory numbers, synthetic benchmark curves, or fictional percentages (e.g. theoretical quantization compression presented as live system measurements).
+2. **Zero Synthetic GitHub Telemetry / Faux Charts**: Recharts or SVG plots are omitted where no primary empirical dataset exists.
+3. **First-Viewport Work Topology Layout**: The `/work` interactive workspace begins immediately below the compact header at $Y = 250\text{px}$ and terminates at $Y = 680\text{px}$ (height $429\text{px}$), fitting completely within the standard $1280 \times 800$ first viewport (`FitsFirstViewport = true`).
+4. **Quiet Visual Anchor on Home**: The `/` homepage strictly preserves the reference anchor (`image-1.png`): pure black `#000000`, 540px centered column (`#home-column`), small italic serif display name (*"Om M Doddamani"*), compact serif biography, clean public profile links, and zero dashboard/explorer elements.
+5. **Traceability to PRD**: Every claim regarding projects (PRISM, Deep Reinforcement Learning, Cerenetics, EVA) traces directly to approved documentation in `docs/PRD.md`.
+6. **Publication Protocols & Disclosures**:
+   - Conference-accepted research (PRISM) clearly states that full citations, proceedings venue, author ordering, and code benchmarks are withheld pending formal conference proceedings release.
+   - Peer-reviewed conference presentations (IEEE AIEI) and experimental records are clearly indexed.
+   - Hackathon exploratory projects (EVA) are candidly presented with retrospective analysis of failure modes and engineering boundaries.
+7. **Architecture Schemas Over Synthetic Gauges**: Where system structure is communicated, use clear, labeled SVG/DOM topologies rather than quantitative charts lacking a primary dataset.
+8. **Model Review Attribution**: Grok and Gemini evaluations were conducted strictly in text-only mode and did not view rendered screenshots; visual review was performed locally by Antigravity via headless Chromium CDP screenshots and DOM layout geometry verification.

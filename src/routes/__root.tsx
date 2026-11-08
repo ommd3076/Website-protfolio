@@ -15,6 +15,7 @@ import { CursorProvider } from "../components/site/cursor/GlobalCursor";
 import { SmoothScroll } from "../components/site/SmoothScroll";
 import { HeaderBar } from "../components/site/HeaderBar";
 import { Footer } from "../components/site/Chrome";
+import { ReadingProgress } from "../components/editorial/ReadingProgress";
 
 function NotFoundComponent() {
   return (
@@ -129,6 +130,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <SmoothScroll>
         <CursorProvider>
+          <ReadingProgress />
           <div className="flex min-h-screen flex-col">
             <HeaderBar />
             <main id="main-content" tabIndex={-1} className="flex-1">

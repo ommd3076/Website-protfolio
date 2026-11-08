@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { useMagnetic, prefersReduced } from "./motion";
 import { spring } from "./motion";
 
@@ -23,38 +24,39 @@ export function MagneticLink({
   const arrow = useRef<HTMLSpanElement>(null);
   useMagnetic(ref, 0.28);
 
+  const { contextSafe } = useGSAP({ scope: ref });
+
   useEffect(() => {
     const el = ref.current;
     const fillEl = fill.current;
     const labelEl = label.current;
     const arrowEl = arrow.current;
     if (!el || prefersReduced()) return;
-    if (!window.matchMedia("(pointer: fine)").matches) return;
+    if (typeof window === "undefined" || !window.matchMedia("(pointer: fine)").matches) return;
 
-    const enter = (e: PointerEvent) => {
+    const enter = contextSafe((e: PointerEvent) => {
       if (e.pointerType === "mouse") {
-        // Use spring for fluid, interruptible animations
         gsap.to(labelEl, { y: -3, ...spring.snappy });
         gsap.to(arrowEl, { x: 4, ...spring.snappy });
         gsap.to(fillEl, { scaleY: 1, ...spring.snappy });
       }
-    };
-    const leave = (e: PointerEvent) => {
+    });
+
+    const leave = contextSafe((e: PointerEvent) => {
       if (e.pointerType === "mouse") {
         gsap.to(labelEl, { y: 0, ...spring.default });
         gsap.to(arrowEl, { x: 0, ...spring.default });
         gsap.to(fillEl, { scaleY: 0, ...spring.default });
       }
-    };
+    });
 
-    const press = () => {
-      // Quick press feedback - snappy spring
+    const press = contextSafe(() => {
       gsap.to(el, { scale: 0.97, ...spring.snappy });
-    };
-    const release = () => {
-      // Elastic release - bounce spring
+    });
+
+    const release = contextSafe(() => {
       gsap.to(el, { scale: 1, ...spring.bounce });
-    };
+    });
 
     el.addEventListener("pointerenter", enter);
     el.addEventListener("pointerleave", leave);
@@ -70,7 +72,7 @@ export function MagneticLink({
       el.removeEventListener("pointercancel", release);
       gsap.killTweensOf(el);
     };
-  }, []);
+  }, [contextSafe]);
 
   const solid = variant === "solid";
 

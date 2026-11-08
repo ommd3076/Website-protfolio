@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { Link } from "@tanstack/react-router";
 import gsap from "gsap";
 import { ensureGsap, prefersReduced } from "./motion";
 
@@ -40,9 +39,9 @@ export function MediaRibbon({ items }: { items: RibbonItem[] }) {
     <div ref={scope} className="overflow-x-auto py-4 [scrollbar-width:none] md:overflow-hidden">
       <div ref={track} className="flex w-max snap-x snap-mandatory gap-4 pl-6 pr-16 md:pl-12">
         {items.map((it) => (
-          <Link
+          <a
             key={it.label}
-            to="/work"
+            href="#work"
             data-ribbon-card
             data-cursor="media"
             data-cursor-label="SEE WORK"
@@ -63,7 +62,7 @@ export function MediaRibbon({ items }: { items: RibbonItem[] }) {
               <span className="text-[0.85rem] tracking-[-0.01em] text-white">{it.label}</span>
               <span className="text-[0.7rem] text-white/65">{it.caption}</span>
             </span>
-          </Link>
+          </a>
         ))}
       </div>
     </div>

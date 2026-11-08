@@ -51,7 +51,7 @@ export function Hero() {
 
         <div className="mt-10 flex items-center justify-center">
           <span data-load="cta" className="hero-load">
-            <MagneticLink to="/work">See the work</MagneticLink>
+            <MagneticLink to="#work">See the work</MagneticLink>
           </span>
         </div>
       </div>

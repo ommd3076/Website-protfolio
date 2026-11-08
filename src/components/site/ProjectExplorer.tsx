@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState, useId, useCallback } from "react";
+import { useEffect, useRef, useId, useCallback } from "react";
 import gsap from "gsap";
-import { prefersReduced } from "./motion";
+import { useGSAP } from "@gsap/react";
+import { ensureGsap, prefersReduced } from "./motion";
+import { StatusLabel } from "./EditorialControls";
 
 export type ProjectId = "prism" | "drl" | "cerenetics" | "eva";
 
@@ -12,11 +14,6 @@ export interface ProjectNode {
   subtext: string;
 }
 
-export interface ProjectEdge {
-  from: string;
-  to: string;
-}
-
 export interface FactualProject {
   id: ProjectId;
   title: string;
@@ -24,11 +21,8 @@ export interface FactualProject {
   status: string;
   summary: string;
   detail: string;
-  telemetry: string;
-  evidence: string;
   href: string;
   nodes: ProjectNode[];
-  edges: ProjectEdge[];
 }
 
 export const FACTUAL_PROJECTS: FactualProject[] = [
@@ -36,24 +30,16 @@ export const FACTUAL_PROJECTS: FactualProject[] = [
     id: "prism",
     title: "PRISM",
     context: "Research · Offline AI",
-    status: "Accepted for conference presentation",
-    summary: "Exploring private, offline AI systems on resource-constrained hardware.",
+    status: "Active research study",
+    summary: "Exploring local-first model inference on resource-constrained hardware.",
     detail:
-      "Investigates private, offline AI execution on resource-constrained devices. Formally accepted for conference presentation. In accordance with publication protocols, complete formal citation, proceedings venue, author ordering, and repository benchmarks are withheld pending scheduled release.",
-    telemetry: "Offline AI research · Formal conference acceptance · Proceedings release pending",
-    evidence:
-      "Conference acceptance confirmed; citation details published upon formal proceedings release.",
+      "Explores local-first inference architectures on consumer hardware. Investigates memory bounds, execution efficiency, and standalone system design without external cloud dependencies.",
     href: "https://github.com/ommd3076",
     nodes: [
-      { id: "focus", label: "Research Focus", subtext: "Offline device execution" },
-      { id: "peer-review", label: "Peer Review", subtext: "Conference acceptance" },
-      { id: "proceedings", label: "Proceedings Schedule", subtext: "Formal publication pending" },
-      { id: "artifacts", label: "Code & Citation", subtext: "Release upon presentation" },
-    ],
-    edges: [
-      { from: "focus", to: "peer-review" },
-      { from: "peer-review", to: "proceedings" },
-      { from: "proceedings", to: "artifacts" },
+      { id: "focus", label: "Research Focus", subtext: "Offline execution" },
+      { id: "methods", label: "Core Methods", subtext: "Resource constraints" },
+      { id: "evaluation", label: "Evaluation", subtext: "Local benchmarking" },
+      { id: "artifacts", label: "Code & Analysis", subtext: "Technical artifacts" },
     ],
   },
   {
@@ -64,74 +50,52 @@ export const FACTUAL_PROJECTS: FactualProject[] = [
     summary:
       "Investigating policy optimization and learning dynamics in complex game environments.",
     detail:
-      "Applied reinforcement learning and policy optimization to complex game environments. Formally presented at the IEEE AIEI conference. Experimental records, proceedings indexing, and code references are maintained for verification.",
-    telemetry: "IEEE AIEI Conference · Policy optimization research · Formal proceedings",
-    evidence: "Formally presented at IEEE AIEI conference; experimental documentation archived.",
+      "Investigates policy optimization and learning dynamics in complex game environments. Presented at the IEEE AIEI conference.",
     href: "https://github.com/ommd3076",
     nodes: [
       { id: "problem", label: "State Exploration", subtext: "Complex game environments" },
       { id: "optimization", label: "Policy Optimization", subtext: "Reinforcement learning" },
       { id: "conference", label: "IEEE AIEI Conference", subtext: "Research presentation" },
-      { id: "archive", label: "Proceedings Index", subtext: "Citation & verification" },
-    ],
-    edges: [
-      { from: "problem", to: "optimization" },
-      { from: "optimization", to: "conference" },
-      { from: "conference", to: "archive" },
+      { id: "next-questions", label: "Further Questions", subtext: "Research directions" },
     ],
   },
   {
     id: "cerenetics",
     title: "Cerenetics",
     context: "Founder · Applied AI",
-    status: "Founder work in progress",
+    status: "Early-stage development",
     summary:
       "Building and testing intelligent, practical software systems for real-world problems.",
     detail:
-      "Founder engineering work focused on designing software systems where AI models integrate with practical operational workflows. Personal contribution centers on systems framing, architecture design, and deterministic execution logic.",
-    telemetry: "Early-stage founder engineering · System architecture & model integration",
-    evidence:
-      "Active startup development; personal contributions focused on system framing, core architecture, and delivery logic.",
+      "Founder engineering work focused on designing software systems where models interface with operational workflows through clear boundaries and deterministic state handling.",
     href: "https://github.com/ommd3076",
     nodes: [
-      { id: "problem", label: "Problem Framing", subtext: "First-principles requirements" },
+      { id: "problem", label: "Problem Framing", subtext: "Workflow requirements" },
       { id: "architecture", label: "System Architecture", subtext: "Deterministic state logic" },
-      { id: "implementation", label: "Implementation", subtext: "Tested in code" },
-      { id: "evaluation", label: "Real Constraints", subtext: "Operational validation" },
-    ],
-    edges: [
-      { from: "problem", to: "architecture" },
-      { from: "architecture", to: "implementation" },
-      { from: "implementation", to: "evaluation" },
+      { id: "implementation", label: "Implementation", subtext: "Hands-on engineering" },
+      { id: "evaluation", label: "Practical Constraints", subtext: "Operational boundaries" },
     ],
   },
   {
     id: "eva",
     title: "EVA",
-    context: "First hackathon · Office automation",
-    status: "Honest retrospective learning",
+    context: "First hackathon · Retrospective",
+    status: "Completed retrospective",
     summary: "An early hackathon attempt to automate office workflows through software.",
     detail:
-      "A first hackathon project exploring office document automation. The initial prototype did not function as intended due to mismatched assumptions and unrealistic scope during a rapid event. Retained openly in the portfolio as an essential lesson on engineering boundaries and responsible scoping.",
-    telemetry: "Hackathon learning attempt · Retrospective case note · Scope lessons",
-    evidence:
-      "First hackathon attempt; kept as an honest record of engineering boundaries and practical lessons learned.",
+      "A first hackathon project exploring office document automation. The initial prototype faced real-world scoping and latency limitations, retained openly as an essential case study in engineering trade-offs.",
     href: "https://github.com/ommd3076",
     nodes: [
       { id: "concept", label: "Initial Concept", subtext: "Workflow automation idea" },
-      { id: "constraint", label: "Real Constraints", subtext: "Complex document formats" },
+      { id: "constraint", label: "Real Constraints", subtext: "Document format complexity" },
       { id: "mismatch", label: "Failure Mode", subtext: "Scope and heuristic limits" },
       { id: "takeaway", label: "Core Takeaway", subtext: "First-principles scoping" },
-    ],
-    edges: [
-      { from: "concept", to: "constraint" },
-      { from: "constraint", to: "mismatch" },
-      { from: "mismatch", to: "takeaway" },
     ],
   },
 ];
 
 interface ProjectExplorerProps {
+  projects?: readonly FactualProject[];
   selectedId: ProjectId;
   activeNodeId?: string;
   onSelectProject: (id: ProjectId) => void;
@@ -139,6 +103,7 @@ interface ProjectExplorerProps {
 }
 
 export function ProjectExplorer({
+  projects = FACTUAL_PROJECTS,
   selectedId,
   activeNodeId,
   onSelectProject,
@@ -149,17 +114,25 @@ export function ProjectExplorer({
   const diagramRef = useRef<HTMLDivElement>(null);
   const tetherPathRef = useRef<SVGPathElement>(null);
   const listboxId = useId();
+  const scrollTimeoutRef = useRef<number | null>(null);
 
-  const currentProject = FACTUAL_PROJECTS.find((p) => p.id === selectedId) ?? FACTUAL_PROJECTS[0]!;
+  const currentProject = projects.find((p) => p.id === selectedId) ?? projects[0]!;
 
   const currentNode =
     currentProject.nodes.find((n) => n.id === activeNodeId) ?? currentProject.nodes[0]!;
 
-  // Synchronous tether update with drift handling
+  // Select-only tether measurement & update
+  // Hidden at narrow widths (<768px or stacked elements)
   const updateTether = useCallback(() => {
     if (prefersReduced()) return;
     const pathEl = tetherPathRef.current;
     if (!pathEl) return;
+
+    // Hide if viewport is narrow
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
+      pathEl.style.opacity = "0";
+      return;
+    }
 
     const activeOption = listboxRef.current?.querySelector(
       `[data-project-id="${selectedId}"]`,
@@ -183,9 +156,8 @@ export function ProjectExplorer({
     const endX = nodeRect.left - containerRect.left;
     const endY = nodeRect.top + nodeRect.height / 2 - containerRect.top;
 
-    // Check drift or wrap
+    // Check drift, stacking, or narrow wrapping
     if (endX <= startX + 16 || Math.abs(endY - startY) > 400) {
-      // Elements are stacked (mobile) or excessively drifted: dismiss gracefully
       pathEl.style.opacity = "0";
       return;
     }
@@ -196,70 +168,124 @@ export function ProjectExplorer({
     pathEl.style.opacity = "0.45";
   }, [selectedId, currentNode.id]);
 
-  // Interruption-safe GSAP presentation transition
-  useEffect(() => {
+  // Lifecycle-scoped GSAP context using official @gsap/react useGSAP
+  const { contextSafe } = useGSAP({
+    scope: containerRef,
+    revertOnUpdate: false, // Preserves teardown-only reversion contract, preventing mid-flight snaps
+  });
+
+  // Event-safe retargeting tween using @gsap/react contextSafe
+  const animateRetarget = contextSafe(() => {
     const diagram = diagramRef.current;
     if (!diagram || prefersReduced()) {
       updateTether();
       return;
     }
 
-    // Kill any in-flight transitions on diagram
+    ensureGsap();
+    const nodes = diagram.querySelectorAll<HTMLElement>("[data-node-id]");
+
+    // Rapid retargeting: kill active target tweens while preserving current transforms
+    // Eliminates mid-selection snapping to CSS initial state
     gsap.killTweensOf(diagram);
+    gsap.killTweensOf(nodes);
 
-    // Presentation-only tween: immediate authoritative DOM commit, animate visual presentation
-    gsap.fromTo(
-      diagram,
-      { opacity: 0.7, scale: 0.995 },
-      {
-        opacity: 1,
-        scale: 1,
-        duration: 0.28,
-        ease: "power2.out",
-        onUpdate: updateTether,
-        onComplete: updateTether,
-      },
-    );
+    const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
+    timeline
+      .to(diagram, { opacity: 1, y: 0, duration: 0.22 }, 0)
+      .fromTo(
+        nodes,
+        { opacity: 0.65, y: 3 },
+        { opacity: 1, y: 0, duration: 0.2, stagger: 0.03, clearProps: "transform" },
+        0.02,
+      );
 
-    // Scroll & resize drift listener
+    updateTether();
+  });
+
+  // Re-run retargeting animation whenever selected project or active node changes
+  useGSAP(
+    () => {
+      animateRetarget();
+    },
+    {
+      scope: containerRef,
+      dependencies: [selectedId, currentNode.id],
+      revertOnUpdate: false,
+    },
+  );
+
+  const handleProjectSelect = contextSafe((id: ProjectId) => {
+    if (id === selectedId) return;
+    onSelectProject(id);
+  });
+
+  const handleNodeSelect = contextSafe((nodeId: string) => {
+    onSelectNode(nodeId);
+  });
+
+  // Scroll and resize listener:
+  // - Tether is hidden immediately during active scroll
+  // - Re-measures and re-displays tether 120ms after scrolling stops
+  // - Re-measures on window resize via RAF
+  useEffect(() => {
     let rafId: number | null = null;
-    const onScrollOrResize = () => {
+
+    const onScroll = () => {
+      // Immediately hide tether while scrolling is active
+      if (tetherPathRef.current) {
+        tetherPathRef.current.style.opacity = "0";
+      }
+      if (scrollTimeoutRef.current) {
+        window.clearTimeout(scrollTimeoutRef.current);
+      }
+      // Re-measure and show tether once scrolling has settled
+      scrollTimeoutRef.current = window.setTimeout(() => {
+        updateTether();
+      }, 120);
+    };
+
+    const onResize = () => {
       if (rafId) cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(updateTether);
     };
 
-    window.addEventListener("scroll", onScrollOrResize, { passive: true });
-    window.addEventListener("resize", onScrollOrResize, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true, capture: true });
+    window.addEventListener("resize", onResize, { passive: true });
 
     return () => {
-      if (rafId) cancelAnimationFrame(rafId);
-      window.removeEventListener("scroll", onScrollOrResize);
-      window.removeEventListener("resize", onScrollOrResize);
-      gsap.killTweensOf(diagram);
+      window.removeEventListener("scroll", onScroll, { capture: true });
+      window.removeEventListener("resize", onResize);
+      if (scrollTimeoutRef.current) {
+        window.clearTimeout(scrollTimeoutRef.current);
+      }
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
     };
-  }, [selectedId, currentNode.id, updateTether]);
+  }, [updateTether]);
 
   // Keyboard navigation within listbox (WAI-ARIA Single-Select Listbox)
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    const currentIndex = FACTUAL_PROJECTS.findIndex((p) => p.id === selectedId);
+    const currentIndex = projects.findIndex((p) => p.id === selectedId);
     let nextIndex = currentIndex;
 
     if (e.key === "ArrowDown") {
-      nextIndex = (currentIndex + 1) % FACTUAL_PROJECTS.length;
+      nextIndex = (currentIndex + 1) % projects.length;
       e.preventDefault();
     } else if (e.key === "ArrowUp") {
-      nextIndex = (currentIndex - 1 + FACTUAL_PROJECTS.length) % FACTUAL_PROJECTS.length;
+      nextIndex = (currentIndex - 1 + projects.length) % projects.length;
       e.preventDefault();
     } else if (e.key === "Home") {
       nextIndex = 0;
       e.preventDefault();
     } else if (e.key === "End") {
-      nextIndex = FACTUAL_PROJECTS.length - 1;
+      nextIndex = projects.length - 1;
       e.preventDefault();
     }
 
     if (nextIndex !== currentIndex) {
-      const nextProject = FACTUAL_PROJECTS[nextIndex]!;
+      const nextProject = projects[nextIndex]!;
       onSelectProject(nextProject.id);
       onSelectNode(nextProject.nodes[0]!.id);
     }
@@ -290,20 +316,20 @@ export function ProjectExplorer({
       {/* Accessible Listbox Column */}
       <div className="space-y-2">
         <div className="text-[11px] font-mono uppercase tracking-wider text-neutral-500 mb-3">
-          Projects ({FACTUAL_PROJECTS.length})
+          Projects ({projects.length})
         </div>
 
         <div
           ref={listboxRef}
           id={listboxId}
           role="listbox"
-          aria-label="Selected Engineering Systems"
+          aria-label="Selected projects"
           aria-activedescendant={`option-${selectedId}`}
           tabIndex={0}
           onKeyDown={handleKeyDown}
           className="space-y-1.5 outline-none focus-visible:ring-1 focus-visible:ring-white/40 rounded-lg"
         >
-          {FACTUAL_PROJECTS.map((project, idx) => {
+          {projects.map((project, idx) => {
             const isSelected = project.id === selectedId;
             return (
               <div
@@ -312,10 +338,7 @@ export function ProjectExplorer({
                 role="option"
                 aria-selected={isSelected}
                 data-project-id={project.id}
-                onClick={() => {
-                  onSelectProject(project.id);
-                  onSelectNode(project.nodes[0]!.id);
-                }}
+                onClick={() => handleProjectSelect(project.id)}
                 className={`group relative flex cursor-pointer items-start justify-between rounded-md p-3 transition-colors ${
                   isSelected
                     ? "bg-neutral-900 border border-neutral-700 text-white"
@@ -344,9 +367,10 @@ export function ProjectExplorer({
         </div>
       </div>
 
-      {/* Connected Architecture & Telemetry Surface */}
+      {/* Selection driven project notes */}
       <div
         ref={diagramRef}
+        data-project-detail-id={currentProject.id}
         className="rounded-lg border border-neutral-800 bg-neutral-950/80 p-5 md:p-6 backdrop-blur-sm space-y-6"
       >
         {/* Project Header & Metadata */}
@@ -360,9 +384,7 @@ export function ProjectExplorer({
                 {currentProject.title}
               </h3>
             </div>
-            <span className="inline-flex items-center rounded border border-neutral-700 bg-neutral-900 px-2 py-0.5 text-[10px] font-mono text-neutral-300">
-              {currentProject.status}
-            </span>
+            <StatusLabel>{currentProject.status}</StatusLabel>
           </div>
 
           <p className="mt-3 text-xs leading-relaxed text-neutral-400">{currentProject.summary}</p>
@@ -372,7 +394,7 @@ export function ProjectExplorer({
         <div>
           <div className="flex items-center justify-between mb-2">
             <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-500">
-              Architecture Pipeline (Verified Nodes)
+              Research and delivery context
             </span>
             <span className="text-[10px] font-mono text-neutral-500">
               Active: {currentNode.label}
@@ -387,7 +409,7 @@ export function ProjectExplorer({
                   key={node.id}
                   type="button"
                   data-node-id={node.id}
-                  onClick={() => onSelectNode(node.id)}
+                  onClick={() => handleNodeSelect(node.id)}
                   className={`group relative flex flex-col justify-between rounded border p-2.5 text-left transition-all ${
                     isActive
                       ? "border-neutral-500 bg-neutral-900 shadow-sm"
@@ -418,26 +440,23 @@ export function ProjectExplorer({
           </div>
         </div>
 
-        {/* Context & Contribution Notes */}
+        {/* Project notes */}
         <div className="border-t border-neutral-800/80 pt-4 space-y-3">
           <div className="text-[10px] font-mono uppercase tracking-wider text-neutral-500">
-            Verified Details & Contribution
+            Project notes
           </div>
           <p className="text-xs leading-relaxed text-neutral-300 font-serif">
             {currentProject.detail}
           </p>
 
           <div className="flex flex-wrap items-center justify-between gap-3 pt-2 text-[11px] font-mono">
-            <span className="text-neutral-400">
-              <strong className="text-neutral-500">Telemetry:</strong> {currentProject.telemetry}
-            </span>
             <a
               href={currentProject.href}
               target="_blank"
               rel="noreferrer"
               className="text-neutral-300 underline underline-offset-4 decoration-neutral-700 hover:text-white hover:decoration-white transition-colors"
             >
-              Verified Codebase ↗
+              GitHub profile ↗
             </a>
           </div>
         </div>

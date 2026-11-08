@@ -1,16 +1,18 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { prefersReduced } from "./motion";
-import { StatusDot } from "../boardui/StatusDot";
 import { Kbd } from "../boardui/Kbd";
 import { CommandPalette } from "../command/CommandPalette";
 
-const inPageNav = [
-  { href: "#work", label: "Work" },
-  { href: "#about", label: "About" },
-  { href: "#contact", label: "Contact" },
-];
+const siteRoutes = [
+  { to: "/", label: "Home" },
+  { to: "/work", label: "Work" },
+  { to: "/about", label: "About" },
+  { to: "/notes", label: "Notes" },
+  { to: "/contact", label: "Contact" },
+] as const;
 
 export function HeaderBar() {
   const bar = useRef<HTMLDivElement>(null);
@@ -81,11 +83,7 @@ export function HeaderBar() {
           className="relative mx-auto flex max-w-[1120px] items-center justify-between rounded-2xl border border-neutral-800/80 bg-neutral-950/85 px-5 py-3 text-white shadow-[0_8px_32px_-24px_rgba(0,0,0,0.8)] backdrop-blur-xl md:px-7 md:py-3.5"
         >
           <div className="flex items-center gap-3">
-            <a
-              href="#top"
-              aria-label="Om M. Doddamani home"
-              className="flex items-center gap-3 px-1"
-            >
+            <Link to="/" aria-label="Om M. Doddamani home" className="flex items-center gap-3 px-1">
               <span
                 aria-hidden="true"
                 className="grid h-8 w-8 place-items-center rounded-full border border-neutral-700 bg-neutral-900 text-[0.68rem] font-medium tracking-[-0.04em] text-white"
@@ -95,22 +93,27 @@ export function HeaderBar() {
               <span className="text-[0.9rem] font-medium tracking-[-0.025em] text-white">
                 Om M. Doddamani
               </span>
-            </a>
-            <StatusDot status="active" showLabel={false} className="hidden sm:inline-flex" />
+            </Link>
           </div>
 
           <nav
             aria-label="Primary navigation"
             className="hidden items-center gap-1.5 sm:flex md:gap-2.5"
           >
-            {inPageNav.map((n) => (
-              <a
-                key={n.href}
-                href={n.href}
-                className="rounded-full px-4 py-2 text-[0.85rem] tracking-[-0.01em] font-mono text-neutral-400 transition-colors duration-200 hover:text-white hover:bg-neutral-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/40"
+            {siteRoutes.map((n) => (
+              <Link
+                key={n.to}
+                to={n.to}
+                activeProps={{
+                  className: "text-white bg-neutral-900 border-neutral-700",
+                }}
+                inactiveProps={{
+                  className: "text-neutral-400 hover:text-white hover:bg-neutral-900/60",
+                }}
+                className="rounded-full border border-transparent px-3.5 py-1.5 text-[0.82rem] tracking-[-0.01em] font-mono transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/40"
               >
                 {n.label}
-              </a>
+              </Link>
             ))}
 
             <button
@@ -123,12 +126,12 @@ export function HeaderBar() {
               <Kbd>⌘K</Kbd>
             </button>
 
-            <a
-              href="#contact"
-              className="ml-2 rounded-full bg-white px-5 py-2 text-[0.85rem] tracking-[-0.01em] font-medium text-black transition-colors duration-200 hover:bg-neutral-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+            <Link
+              to="/contact"
+              className="ml-2 rounded-full bg-white px-4 py-1.5 text-[0.82rem] tracking-[-0.01em] font-medium text-black transition-colors duration-200 hover:bg-neutral-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
             >
               Get in touch
-            </a>
+            </Link>
           </nav>
 
           <div className="flex items-center gap-2 sm:hidden">
@@ -159,16 +162,22 @@ export function HeaderBar() {
               aria-label="Mobile navigation"
               className="absolute inset-x-0 top-[calc(100%+8px)] grid rounded-2xl border border-neutral-800 bg-neutral-950/95 p-3 text-white shadow-[0_16px_48px_-32px_rgba(0,0,0,0.9)] backdrop-blur-xl sm:hidden"
             >
-              {inPageNav.map((item, idx) => (
-                <a
+              {siteRoutes.map((item, idx) => (
+                <Link
                   ref={idx === 0 ? firstMobileLink : undefined}
-                  key={item.href}
-                  href={item.href}
+                  key={item.to}
+                  to={item.to}
                   onClick={() => setMenuOpen(false)}
-                  className="rounded-xl px-4 py-3 text-sm font-mono text-neutral-300 transition-colors hover:bg-neutral-900 hover:text-white"
+                  activeProps={{
+                    className: "bg-neutral-900 text-white font-medium",
+                  }}
+                  inactiveProps={{
+                    className: "text-neutral-300 hover:bg-neutral-900/60 hover:text-white",
+                  }}
+                  className="rounded-xl px-4 py-3 text-sm font-mono transition-colors"
                 >
                   {item.label}
-                </a>
+                </Link>
               ))}
             </nav>
           )}

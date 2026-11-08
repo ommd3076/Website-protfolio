@@ -1486,3 +1486,215 @@ ules/ and gents/openai.yaml.
   - `screenshots/rendered/route_home_mobile_first_fold.png`
   - `screenshots/rendered/qa_report.json`
 - Checks: `tsc --noEmit` (Exit 0), `npm run lint` (Exit 0), `npm run build` (Exit 0).
+
+
+---
+
+## [2026-11-08T13:28:00+05:30] - Source-of-Truth Documentation Alignment
+
+### 1. Scope & Reference Authority
+- Audited `portfolio-site` documentation suite (`AGENTS.md`, `docs/PRD.md`, `docs/DESIGN_SYSTEM.md`, `docs/ARCHITECTURE.md`, `docs/COMPONENT_REGISTRY.md`).
+- Confirmed sole visual/product references: strictly `contentarchitecture.dev`, `datacurve.ai`, and `ellipsus.com`.
+- Stale references to `saved-fieldnotes.html`, `ui_posts_last_30_days.md`, `paco.me`, `Linear`, and `image-1.png` formally superseded and re-designated as non-authoritative.
+- Stale guidance instructing future work to build redundant routes (`/work`, `/about`, `/approach`, `/future`, `/contact`) removed across all specification files.
+- Clarified that UI components and skills are implementation craft tools, not visual references or volume targets.
+- Single public route architecture confirmed: `/` (`src/routes/index.tsx`) with in-page anchor navigation (`#top`, `#work`, `#about`, `#contact`).
+- No app-code edits; no git actions performed.
+
+
+---
+
+## [2026-11-08T13:45:00+05:30] - Complete Source-of-Truth & Archival Labeling Audit
+
+### 1. Documentation Alignment & Archival Demarcation
+- Completed comprehensive audit of all 12 specification files in `portfolio-site/docs/` plus `AGENTS.md`.
+- Added explicit `[!WARNING]` and `[!IMPORTANT]` archival banners to `docs/CRITIQUE_BRIEFS.md` and `docs/EVENT_ARCHIVES_MANIFEST.md` designating the 106-site bookmark inventory, contact sheets, and early consultation briefs as superseded historical archives, not active design inputs.
+- Annotated `docs/DATABASE.md` marking Section 4 `BookmarkFieldnoteSchema` as `[SUPERSEDED / ARCHIVAL]`.
+- Updated `docs/SECURITY.md` Section 2 regex whitelist to cover URL search params and in-page anchor IDs (`#top`, `#work`, `#about`, `#contact`), removing `/work/$slug`.
+- Updated `docs/TESTING.md` Section 3 noting all 8 compiler errors were resolved (exit code 0) and obsolete routes removed.
+- Aligned `docs/STATE_MACHINE.md` Sections 2.B and 2.C as superseded archival multi-page models, establishing the single route `/` and sole visual references.
+- Updated `docs/COMPONENT_REGISTRY.md` and `docs/DESIGN_SYSTEM.md` unmounting superseded route references (`/work`, `/about`, `/approach`, `/future`, `/contact`) and anchoring public UI on `/`.
+- Confirmed zero active instructions remain directing future work to build redundant routes or consult outside references.
+- Zero app-code modifications; zero git operations executed; parent `OM` workspace untouched.
+
+
+---
+
+## [2026-11-08T19:25:00+05:30] - Single-Page Scope Reset Implementation & Live Verification
+
+### 1. Architectural Scope & Ground Truth
+- Implemented user scope reset strictly within `portfolio-site`: unified the interface into a single, focused public route at `/` (`src/routes/index.tsx`).
+- Grounded visual design exclusively in the three approved references:
+  1. `contentarchitecture.dev`: Monospace tracking metadata headers (`01 · ...`), hairline architectural project cards, technical tag chips, and repository links.
+  2. `datacurve.ai`: Live status pill (`StatusDot`), high-contrast expressive headline, and dual action pill button group (`Selected Work ↓`, `Authored Note ↓`, `Get in touch →`).
+  3. `ellipsus.com`: Atmospheric pure black `#000000` canvas, warm high-contrast serif typography, and literary cadence for authored writing.
+- Re-architected in-page section structure to the four minimal useful regions:
+  1. `#top`: Compact identity & intro (Om M Doddamani, 3rd year CSE @ VVCE Mysuru, founder of Cerenetics, local-first AI).
+  2. `#work`: Four verified project cards (PRISM, Deep RL, Cerenetics, Project EVA).
+  3. `#notes`: Authentic authored essay from `portfolio-mockup.html` (*"Sometimes the tool a problem forces us to invent outlasts the problem that called for it"*).
+  4. `#contact`: Direct communication channels (`ommd3076@gmail.com` with 1-click copy, GitHub, LinkedIn).
+
+### 2. File & Component Audit
+- Confirmed `src/routes/` topology: contains only `__root.tsx` and `index.tsx`. Zero deletions fabricated.
+- Updated `HeaderBar.tsx`, `CommandPalette.tsx`, and `Chrome.tsx` (`Footer`) to mirror the clean `#top`, `#work`, `#notes`, `#contact` section anchors.
+- Supported `#about` as an in-page anchor alias to `#notes` for backwards compatibility.
+
+### 3. Verification Suite Sign-Off
+- `npx tsc --noEmit`: Exit 0 (0 errors).
+- `npm run lint`: Exit 0 (0 errors, 13 pre-existing template warnings).
+- `npm run build`: Exit 0 (Client: 621ms, SSR: 454ms, Nitro: 382ms).
+- Live browser launched via `Start-Process "http://localhost:8081/"` and verified via Playwright CDP:
+  - Desktop horizontal overflow: 0px (`hasOverflow: false`).
+  - Mobile horizontal overflow: 0px (`hasOverflow: false`).
+  - Console errors: 0 (`consoleErrors: []`).
+  - All four section bounding boxes verified with positive clearance below sticky header.
+- No git actions (no staging, committing, or pushing).
+
+
+---
+
+## [2026-11-08T19:33:00+05:30] - Factuality & Primary-Source Claim Realignment
+
+### 1. Concrete Factuality Audits & Refinements
+- **Status Dot & Dialogue Badge Removal**: Completely removed all pulsing live `StatusDot` components and the synthetic "Available for dialogue" badge across `HeaderBar.tsx`, the hero announcement pill, and `#contact`. Replaced with static, factual communication channels and location metadata (`Mysuru, India · IST (UTC+5:30)`).
+- **PRISM Codename & Speculative Details Omitted**: Because the internal project codename "PRISM" and speculative memory/quantization benchmarks are not yet formally published primary sources, replaced with factual entry `Offline AI Research`: "Exploring private, offline AI systems and on-device execution. Accepted for a conference presentation. Formal paper citation, proceedings venue, and full author details are withheld pending formal conference release."
+- **Removed Unsubstantiated Claims**:
+  - Eliminated "without cloud dependence" from the intro copy in `src/routes/index.tsx`.
+  - Removed all synthetic status badge chips (`Active research study`, `Early-stage development`, `Completed retrospective`) in favor of clean factual category descriptors.
+- **Updated CommandPalette**: Realigned command palette entry from `PRISM: Local-First Model Inference` to `Offline AI: Private On-Device Systems`.
+
+### 2. Verification Suite Sign-Off
+- `npx tsc --noEmit`: Exit 0 (0 errors).
+- `npm run lint`: Exit 0 (0 errors, 13 pre-existing template warnings).
+- `npm run build`: Exit 0 (Client: 1.45s, SSR: 836ms, Nitro: 482ms).
+- Live browser preview refreshed at `http://localhost:8081/` via `Start-Process`.
+- Automated Playwright CDP factuality assertion:
+  - `dotCount`: 0.
+  - `hasAvailableText`: false.
+  - `hasCloudDep`: false.
+  - `hasPrism`: false.
+  - `desktopOverflow`: false.
+  - `mobileOverflow`: false.
+  - `consoleErrors`: 0.
+- Zero git staging, committing, or pushing performed.
+
+
+---
+
+## [2026-11-08T20:10:00+05:30] - Five-Route Implementation, Staged Work Hand-Off & Visual Verification
+
+### 1. Architectural Scope & Five-Route Topology
+- Implemented and verified the active five-route architecture across the portfolio:
+  1. **Home (`/`)**: Ultra-minimal centered identity anchor (`Om M. Doddamani` in narrow italic serif + compact verified bio). No project or domain framing, no marketing clutter.
+  2. **Work (`/work`)**: Staged narrative experience (Premotio-inspired strictly on `/work`):
+     - **Breadth Framing**: 4 authentic domains (Quantum ML Logistics, On-Device Multimodal AI, Autonomous Robotics / Multi-Agent Systems, Software Systems & Algorithmic Foundations).
+     - **Featured Stories with Interactive Docking**: Active domain tile untwists and docks beside its verified technical narrative.
+     - **Two-Way Reversible Hand-Off**: "Inspect in 27-Repo Index ↓" smooth scrolls to and highlights `#repo-<name>` in the public catalog; "↑ View Domain Story" on catalog cards smooth scrolls back to `#featured-stories` and selects the corresponding domain story.
+     - **Complete 27-Public-Repo Searchable Index**: All 27 verified public repositories on GitHub (`@ommd3076`) indexed with real-time text search, domain category filtering chips, and verbatim README facts. Zero private repository names.
+  3. **About (`/about`)**: Ethiack cue & Screenshot 1 (`image-1.png`):
+     - Bounded dark scanner frame (`#0a0a0c`) with hairline `+` crosshair corners.
+     - Authored 3-plane isometric layered systems lattice (`DeterministicPixelParticles`): slate-indigo base coordinates, violet state plane, cyan/titanium top struts.
+     - Single stable mutable target `perturbTarget.current` with `overwrite: "auto"` eliminating orphaned tweens during rapid pointer movements.
+     - No-idle-loop contract (stops drawing once particles settle) and unmount canvas dimension zeroing to release backing store memory.
+     - Concise verified biographical timeline (3rd year CSE @ VVCE Mysuru, founder @ Cerenetics).
+  4. **Notes (`/notes`)**: Grounded strictly in `ellipsus.com`:
+     - Warm literary editorial serif typography on dark `#000000` canvas, quiet margins, distraction-free reading cadence.
+     - Authentic essay on Newton, fluxions, calculus, instruments, and human capability.
+  5. **Contact (`/contact`)**: Grounded strictly in Screenshot 2 (`image-2.png`):
+     - Centered light ceramic card (`bg-[#fbfbfa] text-neutral-900`) floating on dark canvas.
+     - Restrained monogram fallback portrait slot (`OM`).
+     - Verified identity, location metadata (`Mysuru, India · IST (UTC+5:30)`), and single direct email action (`ommd3076@gmail.com`) with tactile copy button.
+
+### 2. Shared Shell Craft & Navigation Dock
+- Removed redundant top `HeaderBar` text links, search/⌘K triggers, and `Footer` route links from the shared shell (`src/routes/__root.tsx`), leaving `<Outlet />`, accessible skip link, and `NavigationDock`.
+- Replaced stock Lucide glyphs with custom geometric engineering SVG glyphs (`GlyphHome`, `GlyphWork`, `GlyphAbout`, `GlyphNotes`, `GlyphContact`).
+- Thin active hairline marker, 44px hit targets, zero scale-bounce choreography, quiet hover/focus tooltips.
+- Far-left icon-only rail on desktop (`fixed left-5 top-1/2 -translate-y-1/2`), compact bottom strip on mobile (`fixed bottom-5 left-1/2 -translate-x-1/2`).
+
+### 3. Governing Documentation Alignment
+- Aligned `AGENTS.md`, `docs/PRD.md`, `docs/ARCHITECTURE.md`, `docs/STATE_MACHINE.md`, `docs/DESIGN_SYSTEM.md`, `docs/COMPONENT_REGISTRY.md`, `docs/SECURITY.md`, and `docs/TESTING.md` with:
+  - Exactly five routes (`/`, `/work`, `/about`, `/notes`, `/contact`).
+  - Antigravity-only code ownership (Codex does not write code).
+  - Page-local reference boundaries (Premotio = Work only; Ethiack + screenshot 1 = About; screenshot 2 = Contact; ellipsus = Notes; contentarchitecture = Work IA; datacurve = technical/editorial presentation).
+
+### 4. Verification Suite Sign-Off
+- `npx.cmd tsc --noEmit`: Exit 0 (0 errors).
+- `npm.cmd run lint`: Exit 0 (0 errors, 13 pre-existing template warnings in unused files).
+- `npm.cmd run build`: Exit 0 (Client: 2.10s, SSR: 1.24s, Nitro: 572ms).
+- Automated Edge-driven headless verification script (`verify_five_routes.mjs`):
+  - Desktop (1440x900) across all 5 routes: 0 horizontal overflow, 0 console errors.
+  - Mobile (390x844) across all 5 routes: 0 horizontal overflow, 0 console errors.
+  - Scrolled reveals, two-way hand-off navigation, and reduced-motion static settled renders verified.
+  - 10 full-page screenshots captured and saved to brain artifact directory.
+- Zero git staging, committing, or pushing performed.
+
+
+---
+
+## [2026-11-08T20:30:00+05:30] - Gemini Audit Synthesis, Verbatim Repo Quotes & Live Browser Verification
+
+### 1. Grounded Primary-Source Work Presentation
+- **Verbatim Repository Quotes**: Replaced generalized artifact points with verbatim quoted excerpts and concrete evidence directly from each public repository's README:
+  - `silver-computing-machine`: Quoted official challenge scope for Quant-A-Maze 3.0 QML-01, decision-focused VQC with warm-start QAOA, and delay-risk dispatch constraints.
+  - `fluffy-couscous`: Quoted on-device MediaPipe Tasks Vision, Three.js WebGL canvas, React 19, and local in-browser execution with zero webcam video egress.
+  - `SIH-123`: Quoted Distributed Predictive Fleet Graph (SIH26123) for 10 simulated AMRs sharing trajectory intent across a local mesh without central dispatch.
+  - `atlas-journey-trip-planner`: Quoted Dijkstra's algorithm for shortest path, 0-1 Knapsack for itinerary budget constraint, and Heap Sort for attraction priority ranking.
+- **Speculative Terminology Removal**: Stripped "runtimes" and "localized runtimes" from hero headings and narrative copy across `work.tsx`, `about.tsx`, and `notes.tsx`.
+
+### 2. Live Interactive Hand-Off & Mobile Craft
+- Updated `useGSAP` in `src/routes/work.tsx`: Enforced linear single-column vertical stacking with `rotate: 0` on mobile (<768px) and transform/opacity-only transitions.
+- Hardened `handOffToIndex`: Automatically clears category filter and search input to guarantee target repository card is visible in the DOM before smooth scrolling.
+- Automated browser interaction test:
+  - Clicked "Inspect in 27-Repo Index ↓": Verified target element `#repo-silver-computing-machine` intersects viewport (`handoff_to_index_visible: true`).
+  - Clicked "↑ View Domain Story": Verified `#featured-stories` intersects viewport (`handoff_return_to_story_visible: true`).
+
+### 3. Verification Suite Sign-Off
+- `npx.cmd tsc --noEmit`: Exit 0 (0 errors).
+- `npm.cmd run lint`: Exit 0 (0 errors, 13 pre-existing template warnings in unused files).
+- `verify_five_routes.mjs` against live Vite dev server on `http://localhost:8081/`:
+  - Desktop (1440×900) across 5 routes: 0 horizontal overflow, 0 console errors.
+  - Mobile (390×844) across 5 routes: 0 horizontal overflow, 0 console errors.
+  - 10 fresh full-page screenshots captured and stored in brain artifact directory.
+- Zero git push actions performed.
+
+
+---
+
+## [2026-11-08T20:38:00+05:30] - Three-Act Work Sequence, Bespoke Spatial Storytelling & Denser About Pixel Matrix
+
+### 1. Architectural Realignment on Work (/work)
+- **Three-Act Continuous Narrative Sequence**:
+  - **Act 1: Breadth Framing**: High-signal, authentic introduction eliminating all filler labels ("VERIFIED ENGINEERING BREADTH", "SYSTEMS & RESEARCH RUNTIMES"). Features clear metrics strip: 4 Curated Domain Stories / 27 Public Repositories / 5 Categories / github.com/ommd3076.
+  - **Act 2: 4 Bespoke Evidence-Led Domain Stories**: Eliminated the generic tablist pill-switcher. All 4 domain stories are laid out in a continuous spatial architectural sequence:
+    1. Combinatorial Logistics (`silver-computing-machine`): Quoted verbatim from README without quantum claims or delay-risk buzzwords.
+    2. On-Device Computer Vision (`fluffy-couscous`): Quoted on-device MediaPipe Tasks Vision and Three.js WebGL without "zero webcam streaming" claims.
+    3. Distributed Robotics & Systems (`SIH-123`): Quoted Distributed Predictive Fleet Graph (SIH26123) for 10 simulated AMRs sharing trajectory intent over local Zenoh message plane.
+    4. Algorithms & Systems Foundations (`atlas-journey-trip-planner`): Quoted Dijkstra's algorithm, 0-1 Knapsack, and Heap Sort.
+  - **Scale Shift & Horizon**: Added a quiet horizontal scale-shift banner transitioning from the 4 case studies into the complete public archive with category breakdowns.
+  - **Act 3: Complete 27-Repository Public Archive**: Responsive 3-column grid with live search, category filtering chips, star counts, and reciprocal links back to stories.
+- **Two-Way Reversible Hand-Off**:
+  - Story 01 $\rightarrow$ Archive: Clicking "Inspect in Archive ↓" smooth-scrolls to `#repo-silver-computing-machine` and highlights it.
+  - Archive $\rightarrow$ Story 01: Clicking "↑ View Curated Story" inside `#repo-silver-computing-machine` smooth-scrolls back to `#story-01`.
+  - Both directions verified live in headless Microsoft Edge automation (`handoff_to_index_visible: true`, `handoff_return_to_story_visible: true`).
+
+### 2. Denser Authored Pixel Lattice on About (/about)
+- **Reworked Particle Architecture**:
+  - Replaced the sparse 30-particle glyph with a substantially larger, dense 180-pixel isometric layered matrix (width: 480px, height: 330px).
+  - 3 distinct spatial depth planes: Plane 0 (7×7 isometric base coordinate lattice in slate-indigo), Plane 1 (dense asymmetric core network in vibrant violet & amber priority nodes), and Plane 2 (upper focus crown in electric cyan & titanium white).
+  - Interconnecting hairline vector struts between focal vertices across planes.
+  - Removed all faux schematic labels and telemetry text (`ISOMETRIC LATTICE`, `COORDINATE FIELD: 7×7`).
+  - Single deterministic GSAP convergence timeline, settling cleanly to equilibrium with no continuous RAF loop.
+  - Bounded pointer perturbation with single mutable target and `overwrite: "auto"`.
+  - Instant static settled render under `prefers-reduced-motion: reduce`.
+  - Canvas dimension zeroing on unmount releasing backing GPU memory.
+
+### 3. Verification Suite Sign-Off
+- `npx.cmd tsc --noEmit`: Exit 0 (0 errors).
+- `npm.cmd run lint`: Exit 0 (0 errors).
+- `npm.cmd run build`: Exit 0 (Client: 2.04s, SSR: 1.14s, Nitro: 643ms).
+- Automated Edge CDP live browser run (`verify_five_routes.mjs`):
+  - Desktop (1440×900) across all 5 routes: 0 horizontal overflow, 0 console errors.
+  - Mobile (390×844) across all 5 routes: 0 horizontal overflow, 0 console errors.
+  - Interactive two-way hand-off: both directions tested and verified (`true`).
+  - 10 fresh full-page screenshots captured and saved to brain artifact directory.
+- Zero git push actions performed.

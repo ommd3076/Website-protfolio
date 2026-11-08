@@ -162,7 +162,10 @@ export type Experience = z.infer<typeof ExperienceSchema>;
 
 ---
 
-## 4. Bookmark Fieldnotes Contract (`BookmarkFieldnoteSchema`)
+## 4. Bookmark Fieldnotes Contract (`BookmarkFieldnoteSchema`) [SUPERSEDED / ARCHIVAL - Non-Authoritative]
+
+> [!NOTE]
+> Under the approved user scope reset, `saved-fieldnotes.html` is strictly superseded historical archive material, not an active database schema or design input. This contract is preserved solely for historical schema documentation.
 
 Structured directly after the verified 234-item dataset extracted from `saved-fieldnotes.html`:
 

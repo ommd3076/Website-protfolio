@@ -103,7 +103,7 @@ During the initial execution inspection of `portfolio-site`, running `npx.cmd ts
 | `src/routes/about.tsx`                      | 212, 216, 264, 290 | TS7022, TS2502, TS7006 | Circular type inference on `tabs` and implicit `any` parameter types.                                                          |
 | `src/routes/work.tsx`                       | 178                | TS2322                 | `string                                                                                                                        | undefined`not assignable to type`string`. |
 
-**Rule**: These pre-existing errors are documented here as known blockers. They must be addressed systematically before the application feature build phase begins, but must NOT be patched ad-hoc during the locked planning phase.
+**Status Note (Resolved)**: All 8 pre-existing compiler errors have been fully resolved (`npx tsc --noEmit` exits 0). All five active routes (`/`, `/work`, `/about`, `/notes`, `/contact`) and their associated components compile cleanly with zero TypeScript errors, zero lint errors, and successful SSR/client production builds.
 
 ### 3.1 Concrete Execution Plan for Compiler Error Resolution
 

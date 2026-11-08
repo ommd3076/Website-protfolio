@@ -13,8 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { CursorProvider } from "../components/site/cursor/GlobalCursor";
 import { SmoothScroll } from "../components/site/SmoothScroll";
-import { HeaderBar } from "../components/site/HeaderBar";
-import { Footer } from "../components/site/Chrome";
+import { NavigationDock } from "../components/site/NavigationDock";
 import { ReadingProgress } from "../components/editorial/ReadingProgress";
 
 function NotFoundComponent() {
@@ -81,10 +80,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Om M. Doddamani — Engineer, researcher, builder" },
+      { title: "Om M. Doddamani — VVCE Mysuru, Cerenetics" },
       {
         name: "description",
-        content: "Engineering, research, and ideas from Om M. Doddamani.",
+        content: "Computer Science and Engineering student at VVCE Mysuru and founder at Cerenetics.",
       },
       { name: "author", content: "Om M. Doddamani" },
       { property: "og:type", content: "website" },
@@ -123,6 +122,7 @@ function RootShell({ children }: { children: ReactNode }) {
     </html>
   );
 }
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
@@ -132,12 +132,11 @@ function RootComponent() {
         <CursorProvider>
           <ReadingProgress />
           <div className="flex min-h-screen flex-col">
-            <HeaderBar />
+            <NavigationDock />
             <main id="main-content" tabIndex={-1} className="flex-1">
-              {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+              {/* Nested routes render here. */}
               <Outlet />
             </main>
-            <Footer />
           </div>
         </CursorProvider>
       </SmoothScroll>

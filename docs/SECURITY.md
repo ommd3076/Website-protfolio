@@ -26,8 +26,8 @@ To eliminate the risk of accidental exposure of unverified research, private not
 
 To prevent path injection, file disclosure, or router exploitation:
 
-1. **Strict Slug Whitelist**:
-   - All URL parameters (`?project=...&node=...`, `/work/$slug`) must validate against the regex `^[a-z0-9]+(?:-[a-z0-9]+)*$`.
+1. **Strict Slug & Anchor Whitelist**:
+   - All URL parameters (`?category=...&q=...`) and in-page anchor identifiers (`#featured-stories`, `#repo-catalog`, `#repo-<name>`) must validate against the regex `^[a-z0-9]+(?:-[a-z0-9]+)*$`. The portfolio routes strictly follow the authorized five-route specification (`/`, `/work`, `/about`, `/notes`, `/contact`). Dynamic wildcard routes are rejected.
    - Input containing `../`, `./`, null bytes, slashes, or special characters is rejected immediately and redirected to the safe base route.
 2. **Static Asset Resolution**:
    - Image and SVG assets must resolve strictly from an approved, static whitelist within `@/assets/`. No dynamic filesystem path concatenation is permitted.

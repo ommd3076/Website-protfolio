@@ -1,5 +1,13 @@
 # Anti-Slop Guidelines & Anti-False-Positive Checklist
 
+> [!IMPORTANT]
+> **Authoritative References & Single-Route Standard**:
+>
+> 1. The **SOLE AUTHORITATIVE visual and product references** are strictly **`contentarchitecture.dev`**, **`datacurve.ai`**, and **`ellipsus.com`**.
+> 2. All prior visual references (`saved-fieldnotes.html`, `ui_posts_last_30_days.md`, `paco.me`, `Linear`, `image-1.png`, etc.) are superseded historical archives and non-authoritative.
+> 3. UI component libraries and skills are implementation tools, not visual references or volume targets.
+> 4. The site is structured as a **single focused public route (`/`)** with in-page anchor navigation (`#top`, `#work`, `#about`, `#contact`). No redundant routes exist.
+
 **Subject**: Standards for Genuine Quality, Banned AI Tropes, Reference Observation Integrity, and Verification Audits  
 **Status**: DRAFT / PLANNING PHASE (Gated)  
 **Last Updated**: 2026-11-08 (Post Gemini 1–4 & Grok 1–5 Consultations)  

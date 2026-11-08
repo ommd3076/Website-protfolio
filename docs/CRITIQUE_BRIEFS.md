@@ -1,12 +1,23 @@
 # Advisor Critique Briefs: Grok & Gemini Consultations
 
+> [!WARNING]
+> **SUPERSEDED ARCHIVAL HISTORY — NON-AUTHORITATIVE**:
+> This document records historical critique briefs prepared for early advisor consultations (Grok & Gemini) prior to the approved scope reset.
+> Under current binding directives:
+>
+> 1. The **SOLE AUTHORITATIVE visual and product references** are strictly **`contentarchitecture.dev`**, **`datacurve.ai`**, and **`ellipsus.com`**.
+> 2. All prior visual references discussed herein (`saved-fieldnotes.html`, `ui_posts_last_30_days.md`, `paco.me`, `Linear`, `ref_leerob.png`, `codex-clipboard-*.png`, and the 106-site bookmark archive) are **superseded archival history** and are **NOT active design inputs**.
+> 3. The portfolio is permanently structured as a **single focused public route (`/`)** with in-page anchor navigation (`#top`, `#work`, `#about`, `#contact`). All multi-page route plans (`/work`, `/about`, `/approach`, `/future`, `/contact`) are superseded.
+> 4. Component libraries and skills are implementation tools only, not visual references or volume targets.
+>    This file is retained solely as an immutable historical record of pre-reset discussions.
+
 **Date:** 2026-11-08  
 **Project:** Om M. Doddamani Personal Engineering Portfolio (`c:\ommd3076\Proejcts\OM\portfolio-site`)  
-**Context:** Prepared for user consultations with Grok and Gemini prior to feature execution. Incorporates visual evidence from 106 bookmarked sites (including 7 contact sheets), the 5 primary design references, the primary homepage visual anchor (`codex-clipboard-8bc00f75-f36a-4cea-8da9-85e4159a597a.png`), deep technical extraction from `saved-fieldnotes.html`, and curated UI patterns from `ui_posts_last_30_days.md`.
+**Context:** [ARCHIVAL RECORD] Prepared for user consultations with Grok and Gemini prior to feature execution. Incorporates historical visual evidence from the initial exploratory phase.
 
 ---
 
-## 1. Grok Critique Brief: Granular UI, GSAP Motion Choreography & State Reducer
+## 1. Grok Critique Brief: Granular UI, GSAP Motion Choreography & State Reducer [HISTORICAL / ARCHIVAL]
 
 ### 1.1 Objective & Creative Direction
 

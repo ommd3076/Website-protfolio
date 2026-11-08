@@ -1,6 +1,16 @@
 # Event Archives Reference Manifest: Authentic Visual Audit & Contact Sheet Inspection
 
-> **Audit Methodology**: All 106 bookmarks extracted from Brave Browser (`Default/Bookmarks` -> `Event Archives/CODING`) were captured via Playwright (Edge channel) and compiled into 7 high-resolution contact sheets (`screenshots/contact_sheets/sheet_1.png` to `sheet_7.png`). Every thumbnail was visually examined by the agent.
+> [!WARNING]
+> **SUPERSEDED ARCHIVAL AUDIT — NON-AUTHORITATIVE**:
+> This document records a historical inventory and audit of 106 browser bookmarks conducted during the early exploratory phase.
+> Under current binding directives:
+>
+> 1. The **SOLE AUTHORITATIVE visual and product references** for the portfolio are strictly **`contentarchitecture.dev`**, **`datacurve.ai`**, and **`ellipsus.com`**.
+> 2. This 106-site bookmark inventory is strictly **superseded historical documentation** and **NOT active design ground truth** or design input.
+> 3. Component skills and libraries are implementation tools only, not visual references or volume targets.
+> 4. The application is permanently unified on a **single focused public route (`/`)** with in-page section targets (`#top`, `#work`, `#about`, `#contact`).
+
+> **Historical Audit Methodology (Archival)**: All 106 bookmarks extracted from Brave Browser (`Default/Bookmarks` -> `Event Archives/CODING`) were captured via Playwright (Edge channel) and compiled into 7 high-resolution contact sheets (`screenshots/contact_sheets/sheet_1.png` to `sheet_7.png`). Every thumbnail was visually examined by the agent.
 > **Anti-Confirmation-Bias Classification**: In accordance with user directives, file size is **not** treated as visual evidence. Captures that returned Cloudflare challenge screens, Dribbble anti-bot login barriers, Cookiebot dialogs, or unpainted WebGL canvases are categorized strictly as `blocked` or `unverified canvas/shell`.
 
 ## Summary Breakdown

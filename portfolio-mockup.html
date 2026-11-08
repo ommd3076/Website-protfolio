@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fbfaf8" />
+    <title>Om M. Doddamani — Portfolio mockup</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --paper: #fbfaf8;
+        --ink: #20201e;
+        --muted: #74736e;
+        --rule: #e6e3de;
+        --accent: #8f6044;
+        --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+        --sans: Inter, "Helvetica Neue", Arial, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--sans);
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      a:hover {
+        color: var(--accent);
+      }
+      a:focus-visible,
+      summary:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 4px;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: min(100% - 36px, 920px);
+        margin: 0 auto;
+        padding: 18px 0;
+        border-bottom: 1px solid color-mix(in srgb, var(--rule), transparent 18%);
+        background: color-mix(in srgb, var(--paper), transparent 7%);
+        backdrop-filter: blur(12px);
+      }
+      .wordmark {
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: -0.025em;
+      }
+      nav {
+        display: flex;
+        gap: 23px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      nav a:hover {
+        color: var(--ink);
+      }
+
+      main {
+        width: min(100% - 36px, 760px);
+        margin: 0 auto;
+      }
+      .intro {
+        padding: 82px 0 67px;
+      }
+      .eyebrow,
+      .section-name {
+        margin: 0;
+        color: var(--muted);
+        font-size: 10px;
+        letter-spacing: 0.13em;
+        line-height: 1.5;
+        text-transform: uppercase;
+      }
+      h1 {
+        max-width: 650px;
+        margin: 18px 0 22px;
+        font-size: clamp(42px, 7.2vw, 66px);
+        font-weight: 500;
+        letter-spacing: -0.065em;
+        line-height: 0.99;
+        text-wrap: balance;
+      }
+      .bio {
+        max-width: 610px;
+        margin: 0;
+        color: #5e5d58;
+        font-size: 16px;
+        line-height: 1.75;
+        text-wrap: pretty;
+      }
+      .socials {
+        display: flex;
+        gap: 18px;
+        margin-top: 24px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .socials a,
+      .text-link {
+        text-decoration: underline;
+        text-decoration-color: var(--rule);
+        text-underline-offset: 4px;
+      }
+
+      section {
+        border-top: 1px solid var(--rule);
+        padding: 35px 0 40px;
+      }
+      .section-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 18px;
+      }
+      .section-hint {
+        margin: 0;
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .project {
+        border-top: 1px solid var(--rule);
+      }
+      .project:first-of-type {
+        border-top: 0;
+      }
+      .project summary {
+        display: grid;
+        grid-template-columns: 28px 1fr 18px;
+        gap: 12px;
+        align-items: start;
+        padding: 15px 0;
+        cursor: pointer;
+        list-style: none;
+      }
+      .project summary::-webkit-details-marker {
+        display: none;
+      }
+      .index {
+        padding-top: 2px;
+        color: var(--accent);
+        font-size: 10px;
+        font-variant-numeric: tabular-nums;
+      }
+      .project-type {
+        display: block;
+        color: var(--muted);
+        font-size: 10px;
+        line-height: 1.5;
+      }
+      .project-title {
+        display: block;
+        margin-top: 4px;
+        font-size: 16px;
+        letter-spacing: -0.025em;
+      }
+      .project-summary {
+        display: block;
+        margin-top: 5px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      .plus {
+        padding-top: 1px;
+        color: var(--muted);
+        font-size: 16px;
+        transition: transform 160ms ease-out;
+      }
+      details[open] .plus {
+        transform: rotate(45deg);
+      }
+      .project-detail {
+        margin: -2px 27px 16px 40px;
+        padding-left: 14px;
+        border-left: 1px solid var(--rule);
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.7;
+      }
+      .project-detail p {
+        margin: 0;
+      }
+      .project-detail a {
+        display: inline-block;
+        margin-top: 9px;
+        color: var(--ink);
+        font-size: 11px;
+        text-decoration: underline;
+        text-decoration-color: var(--rule);
+        text-underline-offset: 4px;
+      }
+      .work-note {
+        max-width: 590px;
+        margin: 17px 0 0 40px;
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.7;
+      }
+
+      .note-title {
+        max-width: 640px;
+        margin: 23px 0 18px;
+        font-family: var(--serif);
+        font-size: clamp(29px, 4.5vw, 42px);
+        font-weight: 400;
+        letter-spacing: -0.045em;
+        line-height: 1.13;
+      }
+      .prose {
+        max-width: 630px;
+        color: #65645e;
+        font-family: var(--serif);
+        font-size: 15px;
+        line-height: 1.85;
+      }
+      .prose p {
+        margin: 0 0 15px;
+      }
+      .caption {
+        margin: 18px 0 0;
+        color: var(--muted);
+        font-family: var(--sans);
+        font-size: 10px;
+      }
+      .now-grid {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        gap: 24px;
+      }
+      .now-copy {
+        max-width: 580px;
+        color: #65645e;
+        font-size: 13px;
+        line-height: 1.8;
+      }
+      .now-copy p {
+        margin: 0 0 13px;
+      }
+      footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin: 0 auto;
+        padding: 23px 0 34px;
+        border-top: 1px solid var(--rule);
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .footer-links {
+        display: flex;
+        gap: 16px;
+      }
+
+      @media (max-width: 560px) {
+        .topbar,
+        main {
+          width: min(100% - 30px, 760px);
+        }
+        .topbar {
+          padding: 15px 0;
+        }
+        .wordmark {
+          font-size: 12px;
+        }
+        nav {
+          gap: 13px;
+          font-size: 11px;
+        }
+        .intro {
+          padding: 65px 0 54px;
+        }
+        .bio {
+          font-size: 14px;
+        }
+        .section-head {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 6px;
+        }
+        .now-grid {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+        footer {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        *,
+        *::before,
+        *::after {
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="wordmark" href="#top">Om M. Doddamani</a>
+      <nav aria-label="Main navigation">
+        <a href="#building">Building</a>
+        <a href="#notes">Notes</a>
+        <a href="#now">Now</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <div class="intro">
+        <p class="eyebrow">Engineer · Researcher · Founder</p>
+        <h1>I learn how systems work by building them.</h1>
+        <p class="bio">
+          I’m drawn to the moment a complicated system starts to make sense: which parts matter,
+          what might fail, and what to try next. Years of building, experimenting, and getting
+          things wrong have shaped that technical intuition—and the adaptability to work across
+          unfamiliar tools and problems.
+        </p>
+        <div class="socials">
+          <a href="https://github.com/ommd3076" target="_blank" rel="noreferrer">GitHub ↗</a>
+          <a href="https://www.linkedin.com/in/om-m-doddamani/" target="_blank" rel="noreferrer"
+            >LinkedIn ↗</a
+          >
+        </div>
+      </div>
+
+      <section id="building">
+        <div class="section-head">
+          <h2 class="section-name">Building</h2>
+          <p class="section-hint">Selected work · open a project</p>
+        </div>
+        <details class="project">
+          <summary>
+            <span class="index">01</span
+            ><span
+              ><span class="project-type">Research · Offline AI</span
+              ><span class="project-title">PRISM</span
+              ><span class="project-summary">Exploring private, offline AI systems.</span></span
+            ><span class="plus" aria-hidden="true">+</span>
+          </summary>
+          <div class="project-detail">
+            <p>
+              Accepted for a conference presentation. The paper citation, venue, and my contribution
+              are being checked against the source before this becomes a full case study.
+            </p>
+            <a href="https://github.com/ommd3076" target="_blank" rel="noreferrer"
+              >Browse repositories ↗</a
+            >
+          </div>
+        </details>
+        <details class="project">
+          <summary>
+            <span class="index">02</span
+            ><span
+              ><span class="project-type">Research · Game systems</span
+              ><span class="project-title">Deep reinforcement learning</span
+              ><span class="project-summary"
+                >An experiment in applying reinforcement learning to game environments.</span
+              ></span
+            ><span class="plus" aria-hidden="true">+</span>
+          </summary>
+          <div class="project-detail">
+            <p>
+              Presented at IEEE AIEI. I’m gathering the paper, implementation, and experiment notes
+              so the question, method, and my role can be described precisely.
+            </p>
+            <a href="https://github.com/ommd3076" target="_blank" rel="noreferrer"
+              >Browse repositories ↗</a
+            >
+          </div>
+        </details>
+        <details class="project">
+          <summary>
+            <span class="index">03</span
+            ><span
+              ><span class="project-type">Founder · Applied AI</span
+              ><span class="project-title">Cerenetics</span
+              ><span class="project-summary"
+                >Building and learning at the intersection of software and real-world
+                workflows.</span
+              ></span
+            ><span class="plus" aria-hidden="true">+</span>
+          </summary>
+          <div class="project-detail">
+            <p>
+              This is company work. My own contribution will be distinguished from the team’s work
+              as specific projects are documented.
+            </p>
+            <a href="https://github.com/ommd3076" target="_blank" rel="noreferrer"
+              >Browse repositories ↗</a
+            >
+          </div>
+        </details>
+        <details class="project">
+          <summary>
+            <span class="index">04</span
+            ><span
+              ><span class="project-type">First hackathon · Office automation</span
+              ><span class="project-title">EVA</span
+              ><span class="project-summary"
+                >An early attempt to make office work easier through automation.</span
+              ></span
+            ><span class="plus" aria-hidden="true">+</span>
+          </summary>
+          <div class="project-detail">
+            <p>
+              It did not come together as intended. I keep it in the story because learning to
+              recognize a mismatch between an idea and what can be built is part of engineering too.
+            </p>
+            <a href="https://github.com/ommd3076" target="_blank" rel="noreferrer"
+              >Browse repositories ↗</a
+            >
+          </div>
+        </details>
+        <p class="work-note">
+          I’ve built more than I can fit here. I’m choosing what belongs by the question it
+          explored, what I learned, and what the evidence can support.
+        </p>
+      </section>
+
+      <section id="notes">
+        <div class="section-head">
+          <h2 class="section-name">Notes</h2>
+          <p class="section-hint">On tools and what they make possible</p>
+        </div>
+        <article>
+          <h2 class="note-title">
+            Sometimes the tool a problem forces us to invent outlasts the problem that called for
+            it.
+          </h2>
+          <div class="prose">
+            <p>
+              Newton’s questions about motion helped drive his work on fluxions, one of the
+              developments that formed calculus. Leibniz developed calculus independently and gave
+              it much of the notation we still use. A question in one field had pushed mathematics
+              toward a new way to describe change.
+            </p>
+            <p>
+              I keep coming back to that pattern. Better instruments can extend what people are able
+              to do: a more precise tool can give a surgeon greater control; better tools for
+              research can make new questions tractable. One advance can create room for the next.
+            </p>
+            <p>
+              That is the kind of engineering I care about—building the right instrument for a real
+              task, with the context and care needed for someone to use it well.
+            </p>
+          </div>
+          <p class="caption">A working idea, still taking shape.</p>
+        </article>
+      </section>
+
+      <section id="now">
+        <div class="now-grid">
+          <h2 class="section-name">Now</h2>
+          <div class="now-copy">
+            <p>
+              I’m a founder at Cerenetics, and a computer science student. The work I’m most drawn
+              to sits close to implementation, experiments, and architecture: learning a system by
+              tracing it, forming a model, then testing that model in code.
+            </p>
+            <p>
+              I care about the decisions around the build as much as the build itself—what to keep
+              simple, where precision matters, and when the next useful step is to change direction.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <span>Interested in thoughtful engineering and difficult problems.</span>
+        <div class="footer-links">
+          <a href="https://github.com/ommd3076" target="_blank" rel="noreferrer">GitHub ↗</a>
+          <a href="https://www.linkedin.com/in/om-m-doddamani/" target="_blank" rel="noreferrer"
+            >LinkedIn ↗</a
+          >
+        </div>
+      </footer>
+    </main>
+  </body>
+</html>

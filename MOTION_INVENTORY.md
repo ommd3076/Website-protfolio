@@ -3,11 +3,12 @@
 ## Current Implemented Effects
 
 ### 1. Opening Experience (Intro/Loader)
+
 - **Component**: `OpeningExperience.tsx`
 - **Purpose**: Cinematic brand introduction on first visit
 - **Trigger**: Page load (mounted in RootComponent)
 - **Technology**: GSAP Timeline + ScrollTrigger
-- **Properties**: 
+- **Properties**:
   - Dark screen background
   - Ambient particles (CSS radial gradients)
   - Animated gradient blob (3 radial gradients with blur)
@@ -28,6 +29,7 @@
 - **Decision**: KEEP with improvements (add proper fallback rendering)
 
 ### 2. Hero Load Sequence (useLoadSequence)
+
 - **Component**: `motion.ts` - `useLoadSequence`
 - **Purpose**: Cinematic hero entrance on Home page
 - **Trigger**: Page load (Hero component mounts)
@@ -52,12 +54,14 @@
 - **Decision**: KEEP with reduced-motion guard
 
 ### 3. Hero Dynamic Word Rotation
+
 - **Component**: `Hero.tsx` uses `DynamicText` (not found in codebase - appears missing)
 - **Status**: MISSING - Hero references `DynamicText` but component not found
 - **Purpose**: Rotating word in headline
 - **Risk**: HIGH - Missing component will cause runtime error
 
 ### 4. Ambient Gradient (Future Page)
+
 - **Component**: `AmbientGradient.tsx`
 - **Purpose**: Ambient animated gradient blobs on Future page
 - **Trigger**: Component mount
@@ -75,6 +79,7 @@
 - **Decision**: KEEP
 
 ### 4. CareneticsLogo Reveal
+
 - **Component**: `CareneticsLogo.tsx`
 - **Purpose**: Logo animation with multiple modes
 - **Modes**: static, reveal, reactive
@@ -87,6 +92,7 @@
 - **Decision**: KEEP
 
 ### 5. Navbar Entrance
+
 - **Component**: `HeaderBar.tsx`
 - **Purpose**: Navbar slide-down on page load
 - **Technology**: GSAP (fromTo y:-18, opacity:0 → 0,1)
@@ -99,6 +105,7 @@
 - **Decision**: KEEP
 
 ### 5. Nav Item Hover
+
 - **Component**: `HeaderBar.tsx`
 - **Purpose**: Nav item underline animation
 - **Technology**: CSS transitions (transform scaleX)
@@ -109,24 +116,28 @@
 - **Decision**: KEEP (CSS preferred)
 
 ### 6. Nav Contact Button
+
 - **Component**: `HeaderBar.tsx`
 - **Purpose**: CTA-style contact button in nav
 - **Technology**: CSS transitions (background, color, box-shadow)
 - **Decision**: KEEP
 
 ### 7. Mobile Menu
+
 - **Component**: `HeaderBar.tsx`
 - **Purpose**: Slide-down mobile navigation
 - **Technology**: CSS only (absolute positioning)
 - **Decision**: KEEP
 
 ### 8. BrandMarkSlot
+
 - **Component**: `BrandMarkSlot.tsx`
 - **Purpose**: Logo + wordmark in navbar/footer
 - **Technology**: CSS transitions (opacity)
 - **Decision**: KEEP
 
 ### 9. CTA (MagneticLink)
+
 - **Component**: `CTA.tsx` (MagneticLink)
 - **Purpose**: Primary CTA with magnetic pull, fill sweep, label/arrow choreography
 - **Technology**: GSAP (useMagnetic + custom enter/leave/press)
@@ -144,10 +155,11 @@
 - **Decision**: KEEP
 
 ### 9. useReveal (Section Reveals)
+
 - **Component**: `motion.ts` - `useReveal`
 - **Purpose**: Scroll-triggered section reveals
 - **Technology**: GSAP ScrollTrigger
-- **Properties**: 
+- **Properties**:
   - Grouped by `data-reveal-group`
   - Staggered y:60→0, opacity:0→1
   - Start: "top 85%"
@@ -157,6 +169,7 @@
 - **Decision**: KEEP
 
 ### 10. usePageIntro
+
 - **Component**: `motion.ts` - `usePageIntro`
 - **Purpose**: Page-level entrance choreography
 - **Technology**: GSAP Timeline
@@ -167,6 +180,7 @@
 - **Decision**: KEEP
 
 ### 11. Work Page Showcase (useShowcase)
+
 - **Component**: `work.tsx` - `useShowcase`
 - **Purpose**: Project grid scroll animations
 - **Technology**: GSAP ScrollTrigger
@@ -179,16 +193,18 @@
 - **Decision**: KEEP
 
 ### 12. Work Page Counters
+
 - **Component**: `Counters.tsx`
 - **Purpose**: Animated number counters
 - **Technology**: GSAP + ScrollTrigger
-- **Properties**: 
+- **Properties**:
   - Number tween (0→value)
   - Parent yPercent:30→0, opacity:0→1
 - **Trigger**: "top 88%", "top 90%"
 - **Decision**: KEEP
 
 ### 12. ServicesPanels (Approach)
+
 - **Component**: `ServicesPanels.tsx`
 - **Purpose**: Horizontal scroll-driven panel switching
 - **Technology**: GSAP ScrollTrigger + scrub
@@ -197,6 +213,7 @@
 - **Decision**: KEEP (functional scroll interaction)
 
 ### 13. TechDiagram (Approach)
+
 - **Component**: `TechDiagram.tsx`
 - **Purpose**: Interactive node diagram
 - **Technology**: GSAP + ScrollTrigger
@@ -208,6 +225,7 @@
 - **Decision**: KEEP (functional)
 
 ### 13. ProjectCard Slideshow
+
 - **Component**: `ProjectCard.tsx`
 - **Purpose**: Auto-advancing image slideshow (3 images)
 - **Technology**: CSS transitions (opacity) + GSAP (slide transition)
@@ -220,6 +238,7 @@
 - **Decision**: KEEP
 
 ### 14. ApproachStages
+
 - **Component**: `ApproachStages.tsx`
 - **Purpose**: Scroll-triggered stage cards with connecting line
 - **Technology**: GSAP ScrollTrigger + scrub
@@ -231,6 +250,7 @@
 - **Decision**: KEEP
 
 ### 15. ApproachPrinciples
+
 - **Component**: `ApproachPrinciples.tsx` (in ApproachStages.tsx)
 - **Purpose**: Principle cards with icon animation
 - **Technology**: GSAP ScrollTrigger
@@ -238,6 +258,7 @@
 - **Decision**: KEEP
 
 ### 15. About Page Tabs
+
 - **Component**: `about.tsx` - Tabs component
 - **Purpose**: Tabbed content with animated indicator
 - **Technology**: CSS transitions + useState
@@ -247,6 +268,7 @@
 - **Decision**: KEEP (CSS-based)
 
 ### 16. MediaRibbon
+
 - **Component**: `MediaRibbon.tsx`
 - **Purpose**: Horizontal scrolling project ribbon
 - **Technology**: GSAP ScrollTrigger + scrub
@@ -255,6 +277,7 @@
 - **Decision**: KEEP
 
 ### 17. Magnetic Pull (useMagnetic)
+
 - **Component**: `motion.ts` - `useMagnetic`
 - **Purpose**: Magnetic pull on CTA elements
 - **Technology**: GSAP quickTo
@@ -262,6 +285,7 @@
 - **Decision**: KEEP
 
 ### 17. Future Page Theses
+
 - **Component**: `FuturePage.tsx`
 - **Purpose**: Thesis cards with SVG path draw
 - **Technology**: GSAP ScrollTrigger
@@ -270,10 +294,12 @@
 - **Decision**: KEEP
 
 ### 18. Future Page AmbientGradient
+
 - **Component**: `FuturePage.tsx` uses `AmbientGradient`
 - **Decision**: See AmbientGradient above
 
 ### 18. Arc Draw (Hero)
+
 - **Component**: `Hero.tsx` uses `Arc`
 - **Purpose**: Arc path draw animation
 - **Technology**: GSAP (useLoadSequence)
@@ -285,21 +311,25 @@
 ## Missing / Broken Effects
 
 ### ❌ Missing: DynamicText Component
+
 - **Referenced in**: `Hero.tsx` (imported but not found)
 - **Impact**: Runtime error on Hero render
 - **Severity**: CRITICAL
 
 ### ❌ Potential Issue: OpeningExperience Blank Screen Risk
+
 - **Component**: `OpeningExperience.tsx`
 - **Issue**: If timeline fails or component unmounts early, `onComplete` may not fire, leaving black overlay
 - **Mitigation**: 7s failsafe exists but could be more robust
 
 ### ⚠️ Potential Issue: useLoadSequence Word Splitting
+
 - **Component**: `motion.ts` - `useLoadSequence`
 - **Issue**: `splitWords` creates DOM nodes, could cause layout shift
 - **Mitigation**: Restores text on cleanup
 
 ### ⚠️ Potential Issue: OpeningExperience Reduced-Motion
+
 - **Component**: `OpeningExperience.tsx`
 - **Issue**: Calls `onComplete()` immediately but doesn't set `isComplete=true` before return
 - **Fix**: Should set `setIsComplete(true)` before `onComplete()`
@@ -308,45 +338,45 @@
 
 ## Summary Statistics
 
-| Category | Count |
-|----------|-------|
-| Total Effects Identified | 18 |
-| GSAP-based | 12 |
-| CSS-only | 4 |
-| Mixed (CSS+GSAP) | 2 |
-| Critical Issues | 1 (Missing DynamicText) |
-| High Risk | 1 (OpeningExperience blank screen) |
-| Medium Risk | 2 (Word splitting, reduced-motion gap) |
-| Low Risk | 14 |
+| Category                 | Count                                  |
+| ------------------------ | -------------------------------------- |
+| Total Effects Identified | 18                                     |
+| GSAP-based               | 12                                     |
+| CSS-only                 | 4                                      |
+| Mixed (CSS+GSAP)         | 2                                      |
+| Critical Issues          | 1 (Missing DynamicText)                |
+| High Risk                | 1 (OpeningExperience blank screen)     |
+| Medium Risk              | 2 (Word splitting, reduced-motion gap) |
+| Low Risk                 | 14                                     |
 
 ---
 
 ## Decisions Summary
 
-| Effect | Decision |
-|--------|----------|
-| OpeningExperience | KEEP (with failsafe improvements) |
-| Hero Load Sequence | KEEP |
-| DynamicText | REPLACE (missing - implement or remove) |
-| Ambient Gradient | KEEP |
-| CareneticsLogo | KEEP |
-| Navbar Entrance | KEEP |
-| Nav Hover | KEEP (CSS) |
-| CTA MagneticLink | KEEP |
-| useReveal | KEEP |
-| usePageIntro | KEEP |
-| Work Showcase | KEEP |
-| Counters | KEEP |
-| ServicesPanels | KEEP |
-| TechDiagram | KEEP |
-| ProjectCard Slideshow | KEEP |
-| ApproachStages | KEEP |
-| ApproachPrinciples | KEEP |
-| About Tabs | KEEP (CSS) |
-| MediaRibbon | KEEP |
-| useMagnetic | KEEP |
-| Future Theses | KEEP |
-| Arc Draw | KEEP |
-| DynamicText (missing) | REPLACE (implement or remove reference) |
-| OpeningExperience failsafe | REPLACE (improve) |
-| useLoadSequence word splitting | REPLACE (simplify) |
+| Effect                         | Decision                                |
+| ------------------------------ | --------------------------------------- |
+| OpeningExperience              | KEEP (with failsafe improvements)       |
+| Hero Load Sequence             | KEEP                                    |
+| DynamicText                    | REPLACE (missing - implement or remove) |
+| Ambient Gradient               | KEEP                                    |
+| CareneticsLogo                 | KEEP                                    |
+| Navbar Entrance                | KEEP                                    |
+| Nav Hover                      | KEEP (CSS)                              |
+| CTA MagneticLink               | KEEP                                    |
+| useReveal                      | KEEP                                    |
+| usePageIntro                   | KEEP                                    |
+| Work Showcase                  | KEEP                                    |
+| Counters                       | KEEP                                    |
+| ServicesPanels                 | KEEP                                    |
+| TechDiagram                    | KEEP                                    |
+| ProjectCard Slideshow          | KEEP                                    |
+| ApproachStages                 | KEEP                                    |
+| ApproachPrinciples             | KEEP                                    |
+| About Tabs                     | KEEP (CSS)                              |
+| MediaRibbon                    | KEEP                                    |
+| useMagnetic                    | KEEP                                    |
+| Future Theses                  | KEEP                                    |
+| Arc Draw                       | KEEP                                    |
+| DynamicText (missing)          | REPLACE (implement or remove reference) |
+| OpeningExperience failsafe     | REPLACE (improve)                       |
+| useLoadSequence word splitting | REPLACE (simplify)                      |

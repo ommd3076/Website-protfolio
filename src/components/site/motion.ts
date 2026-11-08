@@ -19,6 +19,7 @@ export const EASE_CINEMA = "expo.out";
 // Spring helpers for GSAP
 export const spring = {
   // Critically damped spring (no overshoot) - Apple's default
+  default: { ease: "power3.out", duration: 0.4 },
   critical: { ease: "power3.out", duration: 0.4 },
   // Slight bounce for momentum interactions
   bounce: { ease: "power3.out", duration: 0.4 },

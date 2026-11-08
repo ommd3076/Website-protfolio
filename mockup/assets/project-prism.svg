@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" fill="none">
+  <rect width="1000" height="620" fill="#20201f"/>
+  <g stroke="#54514a" stroke-width="1">
+    <path d="M0 86.5H1000M0 173.5H1000M0 260.5H1000M0 347.5H1000M0 434.5H1000M0 521.5H1000"/>
+    <path d="M125.5 0V620M250.5 0V620M375.5 0V620M500.5 0V620M625.5 0V620M750.5 0V620M875.5 0V620"/>
+  </g>
+  <circle cx="500" cy="308" r="178" stroke="#797166" stroke-width="1.2"/>
+  <circle cx="500" cy="308" r="130" stroke="#9d8c75" stroke-opacity=".75"/>
+  <circle cx="500" cy="308" r="78" stroke="#c18b64" stroke-opacity=".9"/>
+  <path d="M258 432 468 147l63 87 208 246H258Z" stroke="#ddd6c9" stroke-width="1.4"/>
+  <path d="M468 147 552 379l187 101M531 234 385 480" stroke="#b7ab98" stroke-width="1.1"/>
+  <circle cx="468" cy="147" r="5" fill="#c18b64"/><circle cx="552" cy="379" r="4" fill="#d6c9b6"/><circle cx="385" cy="480" r="4" fill="#d6c9b6"/>
+  <text x="34" y="42" fill="#a4a19b" font-family="monospace" font-size="12" letter-spacing="2">PRISM / SYSTEM MAP / CONCEPT ART</text>
+  <text x="34" y="586" fill="#6d6a65" font-family="monospace" font-size="10" letter-spacing="1.5">ILLUSTRATIVE GRAPHIC — NOT A PAPER FIGURE</text>
+</svg>

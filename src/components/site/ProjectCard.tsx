@@ -10,7 +10,7 @@ interface ProjectCardProps {
   year: string;
   sector: string;
   images: string[];
-  outcome?: string;
+  outcome?: string | undefined;
   discipline: string;
   href: string;
 }

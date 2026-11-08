@@ -7,7 +7,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -15,7 +15,6 @@ import { CursorProvider } from "../components/site/cursor/GlobalCursor";
 import { SmoothScroll } from "../components/site/SmoothScroll";
 import { HeaderBar } from "../components/site/HeaderBar";
 import { Footer } from "../components/site/Chrome";
-import { OpeningExperience } from "../components/site/OpeningExperience";
 
 function NotFoundComponent() {
   return (
@@ -80,12 +79,13 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
-      { title: "Cerenetics — AI-native company" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { title: "Om M. Doddamani — Engineer, researcher, builder" },
       {
         name: "description",
-        content: "Cerenetics builds AI-native digital systems and launch infrastructure.",
+        content: "Engineering, research, and ideas from Om M. Doddamani.",
       },
-      { name: "author", content: "Cerenetics" },
+      { name: "author", content: "Om M. Doddamani" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -105,11 +105,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body className="bg-black text-foreground antialiased min-h-screen selection:bg-white/20 selection:text-white">
         <a
           href="#main-content"
           className="fixed left-4 top-4 z-[200] -translate-y-20 rounded-full bg-foreground px-5 py-3 text-sm text-background transition-transform focus:translate-y-0"
@@ -124,7 +124,6 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const [showOpening, setShowOpening] = useState(true);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -137,7 +136,6 @@ function RootComponent() {
               <Outlet />
             </main>
             <Footer />
-            {showOpening && <OpeningExperience onComplete={() => setShowOpening(false)} />}
           </div>
         </CursorProvider>
       </SmoothScroll>

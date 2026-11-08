@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import gsap from "gsap";
-import { BrandMarkSlot } from "./BrandMarkSlot";
 import { prefersReduced } from "./motion";
 
 const nav = [
-  { to: "/work", label: "Work" },
-  { to: "/approach", label: "Approach" },
-  { to: "/future", label: "Future" },
+  { to: "/", hash: "work", label: "Work" },
+  { to: "/", hash: "ideas", label: "Ideas" },
+  { to: "/", hash: "about", label: "About" },
 ];
 
 export function HeaderBar() {
@@ -67,7 +66,15 @@ export function HeaderBar() {
           } as React.CSSProperties
         }
       >
-        <BrandMarkSlot compact />
+        <Link to="/" aria-label="Om M. Doddamani home" className="flex items-center gap-3 px-1">
+          <span
+            aria-hidden="true"
+            className="grid h-8 w-8 place-items-center rounded-full border border-border text-[0.68rem] font-medium tracking-[-0.04em]"
+          >
+            OM
+          </span>
+          <span className="text-[0.9rem] font-medium tracking-[-0.025em]">Om M. Doddamani</span>
+        </Link>
 
         <nav
           aria-label="Primary navigation"
@@ -75,8 +82,9 @@ export function HeaderBar() {
         >
           {nav.map((n) => (
             <Link
-              key={n.to}
+              key={`${n.to}#${n.hash ?? n.label}`}
               to={n.to}
+              hash={n.hash}
               data-cursor="pointer"
               activeProps={{ "data-active": "true" }}
               className="group relative rounded-full px-5 py-2 text-[0.85rem] tracking-[-0.01em] font-medium opacity-70 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:opacity-100 hover:bg-accent-soft hover:text-accent-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 data-[active=true]:opacity-100 data-[active=true]:bg-accent-soft data-[active=true]:text-accent-deep"
@@ -111,11 +119,12 @@ export function HeaderBar() {
             aria-label="Mobile navigation"
             className="absolute inset-x-0 top-[calc(100%+8px)] grid rounded-2xl border border-border bg-background/95 p-3 text-foreground shadow-[0_16px_48px_-32px_rgba(20,22,26,0.55)] backdrop-blur-xl sm:hidden"
           >
-            {[...nav, { to: "/contact", label: "Contact" }].map((item) => (
+            {[...nav, { to: "/", hash: "contact", label: "Contact" }].map((item) => (
               <Link
                 ref={item.to === "/work" ? firstMobileLink : undefined}
-                key={item.to}
+                key={`${item.to}#${item.hash ?? item.label}`}
                 to={item.to}
+                hash={item.hash}
                 data-cursor="pointer"
                 activeProps={{ "data-active": "true" }}
                 onClick={() => setMenuOpen(false)}

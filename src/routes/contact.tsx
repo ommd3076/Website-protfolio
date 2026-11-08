@@ -2,10 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useRef } from "react";
 import { Section } from "../components/site/Chrome";
 import { MagneticLink } from "../components/site/CTA";
-import { useReveal } from "../components/site/motion";
-const title = "Contact — Cerenetics";
+import { useReveal, usePageIntro } from "../components/site/motion";
+
+const title = "Contact — Om M Doddamani";
 const description =
-  "Start a conversation with Cerenetics about AI-native digital systems, structure, or a launch that needs to land properly.";
+  "Connect with Om M Doddamani for technical discussions, systems engineering collaboration, and research inquiries.";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -22,39 +23,91 @@ export const Route = createFileRoute("/contact")({
 function ContactPage() {
   const scope = useRef<HTMLDivElement>(null);
   useReveal(scope);
+  usePageIntro(scope);
 
   return (
     <div ref={scope}>
-      <Section>
-        <div className="grid gap-16 md:grid-cols-12" data-reveal-group>
-          <div className="md:col-span-5">
-            <p className="eyebrow reveal">Contact</p>
-            <h1 className="reveal mt-7 text-[2.2rem] leading-[1.1] tracking-[-0.03em] md:text-[3.2rem]">
-              Tell us what you are trying to make understood.
-            </h1>
-            <p className="reveal mt-8 max-w-sm text-sm leading-relaxed text-muted-foreground">
-              A paragraph is enough to start. We reply to everything within two working days.
+      <Section className="pb-16 pt-24 md:pt-36">
+        <div className="grid gap-12 md:grid-cols-12" data-reveal-group>
+          <div className="md:col-span-6">
+            <p data-page-intro className="eyebrow">
+              Contact
             </p>
-            <div className="reveal mt-10 space-y-1 text-sm">
+            <h1
+              data-page-intro
+              className="mt-6 text-[2.4rem] leading-[1.08] tracking-[-0.035em] md:text-[3.8rem]"
+            >
+              Start a conversation.
+            </h1>
+            <p
+              data-page-intro
+              className="mt-6 max-w-md text-sm leading-relaxed text-muted-foreground"
+            >
+              I welcome discussions on private offline AI, reinforcement learning, systems
+              architecture, and founder engineering. Whether you have a research inquiry, a
+              technical question, or an interesting engineering problem, feel free to reach out.
+            </p>
+            <div className="mt-8 space-y-2 text-sm font-mono">
               <a
-                href="mailto:studio@cerenetics.com"
-                className="block transition-colors duration-300 hover:text-accent-deep"
+                href="mailto:ommd3076@gmail.com"
+                className="block text-foreground transition-colors hover:text-white"
               >
-                studio@cerenetics.com
+                ommd3076@gmail.com ↗
               </a>
-              <p className="text-muted-foreground">Remote · European hours</p>
+              <p className="text-muted-foreground text-xs">
+                Based in Mysuru, Karnataka, India (IST / UTC+5:30)
+              </p>
             </div>
           </div>
 
-          <div className="reveal self-end border-t border-border pt-8 md:col-span-5 md:col-start-8">
-            <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-              Include the problem, what needs to ship, and any timing already in motion. No formal
-              brief is required.
-            </p>
-            <div className="reveal mt-8 flex justify-end">
-              <MagneticLink to="mailto:studio@cerenetics.com?subject=Project%20enquiry">
-                Write to the studio
-              </MagneticLink>
+          <div className="border-t border-white/10 pt-8 md:col-span-6 md:border-t-0 md:border-l md:pl-12">
+            <h2 className="text-sm font-mono uppercase tracking-wider text-muted-foreground mb-6">
+              Verified Public Channels
+            </h2>
+            <div className="space-y-4">
+              <div className="rounded-xl border border-white/10 bg-white/[0.02] p-5">
+                <span className="text-xs text-muted-foreground font-mono">CODE REPOSITORIES</span>
+                <p className="mt-1 font-medium text-foreground">GitHub</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Personal codebases, research implementations, and verified experiments.
+                </p>
+                <div className="mt-4">
+                  <a
+                    href="https://github.com/ommd3076"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs text-foreground font-mono hover:underline"
+                  >
+                    github.com/ommd3076 ↗
+                  </a>
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-white/10 bg-white/[0.02] p-5">
+                <span className="text-xs text-muted-foreground font-mono">
+                  PROFESSIONAL PROFILE
+                </span>
+                <p className="mt-1 font-medium text-foreground">LinkedIn</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Founder background, academic updates from VVCE Mysuru, and network connections.
+                </p>
+                <div className="mt-4">
+                  <a
+                    href="https://www.linkedin.com/in/om-m-doddamani/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs text-foreground font-mono hover:underline"
+                  >
+                    linkedin.com/in/om-m-doddamani ↗
+                  </a>
+                </div>
+              </div>
+
+              <div className="pt-4 flex justify-end">
+                <MagneticLink to="mailto:ommd3076@gmail.com?subject=Engineering%20Inquiry">
+                  Send an Email
+                </MagneticLink>
+              </div>
             </div>
           </div>
         </div>

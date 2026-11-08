@@ -28,7 +28,7 @@ export function DynamicText({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [displayWord, setDisplayWord] = useState(WORDS[0]);
-  const intervalRef = useRef<number>();
+  const intervalRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     if (prefersReduced()) return;

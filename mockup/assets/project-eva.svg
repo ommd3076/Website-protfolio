@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" fill="none">
+  <rect width="1000" height="620" fill="#20201f"/>
+  <rect x="185" y="102" width="630" height="416" rx="4" stroke="#55524c"/>
+  <rect x="228" y="143" width="242" height="134" stroke="#827969"/>
+  <rect x="500" y="143" width="272" height="36" stroke="#55524c"/>
+  <rect x="500" y="196" width="207" height="16" fill="#55524c"/>
+  <rect x="500" y="225" width="248" height="10" fill="#3f3d39"/>
+  <rect x="500" y="247" width="211" height="10" fill="#3f3d39"/>
+  <rect x="228" y="303" width="544" height="54" stroke="#55524c"/>
+  <rect x="228" y="383" width="257" height="91" stroke="#55524c"/>
+  <rect x="513" y="383" width="259" height="91" stroke="#55524c"/>
+  <path d="M267 238c25-31 52-48 83-51 37-4 63 18 89 48" stroke="#c18b64" stroke-width="1.5"/>
+  <circle cx="353" cy="201" r="7" fill="#c18b64"/>
+  <text x="34" y="42" fill="#a4a19b" font-family="monospace" font-size="12" letter-spacing="2">EVA / EARLY AUTOMATION IDEA</text>
+  <text x="34" y="586" fill="#6d6a65" font-family="monospace" font-size="10" letter-spacing="1.5">INTERFACE SKETCH — NOT A SHIPPED PRODUCT</text>
+</svg>

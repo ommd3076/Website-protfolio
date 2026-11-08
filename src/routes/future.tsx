@@ -2,12 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useRef } from "react";
 import { Section } from "../components/site/Chrome";
 import { MagneticLink } from "../components/site/CTA";
-import { AmbientGradient } from "../components/site/AmbientGradient";
-import { useReveal } from "../components/site/motion";
+import { usePageIntro, useReveal } from "../components/site/motion";
 
-const title = "Future — Cerenetics";
+const title = "Research Horizons — Om M Doddamani";
 const description =
-  "Cerenetics is heading toward deeptech, healthcare and medtech: AI-native systems for organisations where clarity carries real consequence.";
+  "Research directions in resource-constrained offline AI, reinforcement learning policy optimization, and hybrid architectures.";
 
 export const Route = createFileRoute("/future")({
   head: () => ({
@@ -21,90 +20,115 @@ export const Route = createFileRoute("/future")({
   component: FuturePage,
 });
 
-const theses = [
-  [
-    "Clarity becomes clinical",
-    "The next decade of health and medtech will be decided partly by whether people understand what they are being offered. That is an interface problem as much as a science one.",
-  ],
-  [
-    "AI-native by construction",
-    "We are building delivery around models rather than bolting them on — research, structure, content and QA already run through our own workflows.",
-  ],
-  [
-    "Deeptech needs translation",
-    "Hard technology is routinely undersold by its own communication. We intend to be the layer that makes it legible to buyers, regulators and patients.",
-  ],
-  [
-    "Longer horizons",
-    "Launch is not the finish line. We are shaping engagements that keep attention on a system for the year after it ships.",
-  ],
+const researchTheses = [
+  {
+    title: "Resource-Constrained & Offline Intelligence",
+    problem:
+      "Modern AI systems are heavily tethered to multi-tenant cloud clusters, presenting severe privacy, latency, and operational vulnerabilities.",
+    direction:
+      "Investigating private on-device execution (as explored in PRISM) where models operate within strict memory budgets without external data egress.",
+  },
+  {
+    title: "Policy Optimization in Complex State Spaces",
+    problem:
+      "Reinforcement learning algorithms frequently suffer from sample inefficiency and unstable convergence when state spaces become high-dimensional.",
+    direction:
+      "Studying policy gradient dynamics and reward formulation in complex simulated environments (as presented at IEEE AIEI).",
+  },
+  {
+    title: "Hybrid Architectures: Neural Meets Symbolic",
+    problem:
+      "Pure neural networks excel at perceptual synthesis but fail at formal verification, deterministic boundaries, and arithmetic precision.",
+    direction:
+      "Combining neural pattern recognition with classical mathematical optimization and deterministic state harnesses to ensure reliable software behavior.",
+  },
+  {
+    title: "Quantum Machine Learning Exploration",
+    problem:
+      "Classical compute faces exponential scaling walls in certain combinatorial optimization and high-dimensional physics simulations.",
+    direction:
+      "Investigating how quantum algorithmic principles, state superpositions, and variational circuits can provide novel optimization formulations.",
+  },
 ];
 
 function FuturePage() {
   const scope = useRef<HTMLDivElement>(null);
   useReveal(scope);
+  usePageIntro(scope);
 
   return (
     <div ref={scope}>
-      <section className="relative overflow-hidden px-6 pb-24 pt-28 md:px-12 md:pb-32 md:pt-40">
-        <AmbientGradient tone="bright" />
-        {/* Field-like U form, static composition only */}
-        <svg
-          aria-hidden
-          viewBox="0 0 1200 400"
-          className="pointer-events-none absolute inset-x-0 bottom-[-6%] mx-auto h-[420px] w-[110%] text-accent-soft/60"
-        >
-          <path
-            d="M60 0 C60 320 360 380 600 380 C840 380 1140 320 1140 0"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1"
-          />
-          <path
-            d="M180 0 C180 260 380 310 600 310 C820 310 1020 260 1020 0"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1"
-            opacity="0.55"
-          />
-        </svg>
-
-        <div className="relative mx-auto max-w-[1360px]" data-reveal-group>
-          <p className="eyebrow reveal">Future</p>
-          <h1 className="reveal mt-8 max-w-[19ch] text-[2.7rem] leading-[1.0] tracking-[-0.04em] md:text-[4.6rem]">
-            Toward deeptech, healthcare and medtech.
-          </h1>
-          <p className="reveal mt-10 max-w-[48ch] text-[1rem] leading-[1.7] text-muted-foreground">
-            Cerenetics starts where we are strongest — AI-native digital systems and launch
-            infrastructure — and moves deliberately toward the sectors where being understood has
-            consequences.
+      <Section className="pb-12 pt-24 md:pt-36">
+        <div className="grid gap-8 md:grid-cols-12" data-reveal-group>
+          <div className="md:col-span-8">
+            <p data-page-intro className="eyebrow">
+              Research Horizons
+            </p>
+            <h1
+              data-page-intro
+              className="mt-6 max-w-[18ch] text-[2.5rem] leading-[1.05] tracking-[-0.035em] md:text-[4rem]"
+            >
+              Emerging directions in AI systems & optimization.
+            </h1>
+          </div>
+          <p
+            data-page-intro
+            className="self-end text-sm leading-relaxed text-muted-foreground md:col-span-4"
+          >
+            Areas of active inquiry: resource-constrained offline execution, reinforcement learning
+            policy optimization, hybrid reasoning architectures, and quantum computing paradigms.
           </p>
-        </div>
-      </section>
-
-      <Section className="pt-4">
-        <div className="grid gap-x-20 gap-y-20 md:grid-cols-2" data-reveal-group>
-          {theses.map(([t, d]) => (
-            <div key={t} className="reveal">
-              <h2 className="max-w-[18ch] text-[1.7rem] leading-[1.12] tracking-[-0.03em] md:text-[2.2rem]">
-                {t}
-              </h2>
-              <p className="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground">{d}</p>
-            </div>
-          ))}
         </div>
       </Section>
 
-      <section className="relative overflow-hidden border-t border-border bg-mineral px-6 py-28 md:px-12 md:py-36">
-        <div className="relative mx-auto max-w-[1000px] text-center" data-reveal-group>
-          <h2 className="reveal text-[2rem] leading-[1.08] tracking-[-0.04em] md:text-[3.4rem]">
-            Ambitious, on purpose. Overclaimed, never.
+      {/* Theses Grid */}
+      <Section className="py-12 md:py-20">
+        <div className="mx-auto max-w-4xl" data-reveal-group>
+          <p className="eyebrow reveal">Active Inquiries</p>
+          <h2 className="reveal mt-4 text-[1.75rem] leading-[1.15] tracking-[-0.03em] md:text-[2.2rem]">
+            Four architectural horizons
           </h2>
-          <div className="reveal mt-11 flex justify-center">
-            <MagneticLink to="/contact">Start a conversation</MagneticLink>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            {researchTheses.map((t) => (
+              <article
+                key={t.title}
+                className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 md:p-8 space-y-4"
+              >
+                <h3 className="text-lg font-medium text-foreground tracking-tight">{t.title}</h3>
+                <div>
+                  <span className="font-mono text-[0.65rem] uppercase tracking-wider text-muted-foreground/80">
+                    The Challenge
+                  </span>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{t.problem}</p>
+                </div>
+                <div>
+                  <span className="font-mono text-[0.65rem] uppercase tracking-wider text-white/70">
+                    Inquiry Direction
+                  </span>
+                  <p className="mt-1 text-xs leading-relaxed text-foreground/90">{t.direction}</p>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
-      </section>
+      </Section>
+
+      <Section className="border-t border-white/10 py-12">
+        <div className="grid gap-6 md:grid-cols-12 md:items-center" data-reveal-group>
+          <div className="md:col-span-8">
+            <h2 className="text-xl font-medium tracking-tight text-foreground">
+              Interested in discussing research?
+            </h2>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Open to academic exchanges, paper preprints, and systems engineering collaboration.
+            </p>
+          </div>
+          <div className="md:col-span-4 flex justify-end">
+            <MagneticLink to="/contact">Reach Out</MagneticLink>
+          </div>
+        </div>
+      </Section>
     </div>
   );
 }

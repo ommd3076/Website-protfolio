@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { prefersReduced } from "./motion";
-import { CereneticsLogo } from "../brand/CareneticsLogo";
+import { CereneticsLogo, type CareneticsLogoRef } from "../brand/CareneticsLogo";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -14,7 +14,7 @@ export function OpeningExperience({ onComplete }: { onComplete: () => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const particlesRef = useRef<HTMLDivElement>(null);
   const blobRef = useRef<HTMLDivElement>(null);
-  const logoRef = useRef<{ playReveal: () => void; svgElement: SVGSVGElement | null }>(null);
+  const logoRef = useRef<CareneticsLogoRef>(null);
   const lightRayRef = useRef<HTMLDivElement>(null);
   const maskRef = useRef<HTMLDivElement>(null);
   const [isComplete, setIsComplete] = useState(false);

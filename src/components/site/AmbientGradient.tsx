@@ -19,7 +19,8 @@ const PATHS = [
   { x: 12, y: 8, duration: 22 },
   { x: -10, y: 7, duration: 27 },
   { x: 8, y: -9, duration: 31 },
-];
+  { x: -6, y: -8, duration: 25 },
+] as const;
 
 /**
  * A restrained ambient field for the Future page's single radiant moment.
@@ -48,7 +49,7 @@ export function AmbientGradient({
       aria-hidden
       className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}
     >
-      <style jsx>{`
+      <style>{`
         @keyframes ambient-drift-1 {
           0% {
             transform: translate(0, 0);
@@ -82,6 +83,17 @@ export function AmbientGradient({
             transform: translate(0, 0);
           }
         }
+        @keyframes ambient-drift-4 {
+          0% {
+            transform: translate(0, 0);
+          }
+          50% {
+            transform: translate(-6%, -8%);
+          }
+          100% {
+            transform: translate(0, 0);
+          }
+        }
       `}</style>
       {colors.map((c, i) => (
         <span
@@ -97,7 +109,7 @@ export function AmbientGradient({
             opacity: (0.9 - i * 0.09) * intensity,
             filter: "blur(56px)",
             willChange: "transform",
-            animation: `ambient-drift-${i + 1} ${PATHS[i].duration}s ease-in-out infinite alternate`,
+            animation: `ambient-drift-${i + 1} ${PATHS[i % PATHS.length]?.duration ?? 22}s ease-in-out infinite alternate`,
           }}
         />
       ))}
